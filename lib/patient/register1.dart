@@ -24,7 +24,7 @@ class _Login extends State<Login> {
     //验证Form表单
     if (loginForm.validate()) {
       loginForm.save();
-      print('phonenumber: ' + phoneNumber + ' password: ' + password);
+      print('phonenumber: ' + phoneNumber + ' password: ' + password + ' vercode:' + verificationCode);
     }
   }
 
@@ -86,7 +86,7 @@ class _Login extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Form表单示例',
+      title: '用户注册',
       home: new Scaffold(
         appBar: AppBar(
           title: Text(
@@ -249,12 +249,15 @@ class _Login extends State<Login> {
 //                                  border: OutlineInputBorder(
 //                                      borderSide: BorderSide.none),
 
-                                  labelText: '请输入您的手机号',
+                                  labelText: '请输入验证码',
                                   labelStyle: new TextStyle(
                                       fontSize: 15.0,
                                       color: Color.fromARGB(255, 93, 93, 93)),
                                   border: InputBorder.none,
                                 ),
+                                onChanged: (value){
+                                  verificationCode = value;
+                                }
                               ),
                             ),
                           ),
