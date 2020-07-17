@@ -7,10 +7,49 @@ void main(){
   ));
 }
 
+class WidgetBulld{
+  Expanded create(String text, IconData icondata)
+  {
+    return Expanded(
+      child: new Container(
+          child: Column(
 
+
+              children: <Widget>[
+                new Stack(
+                    children: <Widget>[
+                      SizedBox(
+                          height: 82,
+                          width: 82,
+                          child:Card(
+                            elevation: 15.0, //阴影
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                                side: BorderSide(width: 1.0)),
+                          )
+                      ),
+                      new Container(
+//                                                alignment: Alignment.center,
+                          padding: EdgeInsets.all(10),
+                          child: Icon(icondata,size: 60,color: Colors.black,)
+                      )
+                    ]
+                ),
+                new Container(
+                    child:Text(text,style: TextStyle(fontSize: 18),)
+                )
+              ]
+          )
+      ),
+    );
+  }
+}
 
 
 class MainPage extends StatelessWidget{
+  //实例化
+  WidgetBulld widgetbuild = new WidgetBulld();
+
   @override
   Widget build(BuildContext context) {
     //背景蓝框及第一个功能选择条
@@ -160,105 +199,9 @@ class MainPage extends StatelessWidget{
                       padding: EdgeInsets.all(15),
                       child: Column(
                           children: <Widget>[
-                            new Expanded(
-                              child: new Container(
-                                  child: Column(
-
-
-                                      children: <Widget>[
-                                        new Stack(
-                                            children: <Widget>[
-                                              SizedBox(
-                                                  height: 82,
-                                                  width: 82,
-                                                  child:Card(
-                                                    elevation: 15.0, //阴影
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                                                        side: BorderSide(width: 1.0)),
-                                                  )
-                                              ),
-                                              new Container(
-//                                                alignment: Alignment.center,
-                                                  padding: EdgeInsets.all(10),
-                                                  child: Icon(Icons.receipt,size: 60,color: Colors.black,)
-                                              )
-                                            ]
-                                        ),
-                                        new Container(
-                                            child:Text('体检报告',style: TextStyle(fontSize: 18),)
-                                        )
-                                      ]
-
-                                  )
-                              ),
-                            ),
-                            new Expanded(
-                              child: new Container(
-                                  child: Column(
-
-
-                                      children: <Widget>[
-                                        new Stack(
-                                            children: <Widget>[
-                                              SizedBox(
-                                                  height: 82,
-                                                  width: 82,
-                                                  child:Card(
-                                                    elevation: 15.0, //阴影
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                                                        side: BorderSide(width: 1.0)),
-                                                  )
-                                              ),
-                                              new Container(
-//                                                alignment: Alignment.center,
-                                                  padding: EdgeInsets.all(10),
-                                                  child: Icon(Icons.pageview,size: 60,color: Colors.black,)
-                                              )
-                                            ]
-                                        ),
-                                        new Container(
-                                            child:Text('病症照片',style: TextStyle(fontSize: 18),)
-                                        )
-                                      ]
-
-                                  )
-                              ),
-                            ),
-                            new Expanded(
-                              child: new Container(
-                                  child: Column(
-
-
-                                      children: <Widget>[
-                                        new Stack(
-                                            children: <Widget>[
-                                              SizedBox(
-                                                  height: 82,
-                                                  width: 82,
-                                                  child:Card(
-                                                    elevation: 15.0, //阴影
-                                                    shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                                                        side: BorderSide(width: 1.0)),
-                                                  )
-                                              ),
-                                              new Container(
-//                                                alignment: Alignment.center,
-                                                  padding: EdgeInsets.all(10),
-                                                  child: Icon(Icons.perm_media,size: 60,color: Colors.black,)
-                                              )
-                                            ]
-                                        ),
-                                        new Container(
-                                            child:Text('影像检查',style: TextStyle(fontSize: 18),)
-                                        )
-                                      ]
-
-                                  )
-                              ),
-                            )
+                            widgetbuild.create("体检报告", Icons.receipt),
+                            widgetbuild.create("病症照片", Icons.pageview),
+                            widgetbuild.create("影像检查", Icons.perm_media),
                           ]
                       )
                   ),
@@ -266,104 +209,9 @@ class MainPage extends StatelessWidget{
                     padding: EdgeInsets.all(13),
                     child: Column(
                         children: <Widget>[
-                          new Expanded(
-                            child: new Container(
-                                child: Column(
-
-                                    children: <Widget>[
-                                      new Stack(
-                                          children: <Widget>[
-                                            SizedBox(
-                                                height: 82,
-                                                width: 82,
-                                                child:Card(
-                                                  elevation: 15.0, //阴影
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                                                      side: BorderSide(width: 1.0)),
-                                                )
-                                            ),
-                                            new Container(
-//                                                alignment: Alignment.center,
-                                                padding: EdgeInsets.all(10),
-                                                child: Icon(Icons.assignment,size: 60,color: Colors.black,)
-                                            )
-                                          ]
-                                      ),
-                                      new Container(
-                                          child:Text('门诊病历',style: TextStyle(fontSize: 18),)
-                                      )
-                                    ]
-
-                                )
-                            ),
-                          ),
-                          new Expanded(
-                            child: new Container(
-                                child: Column(
-
-
-                                    children: <Widget>[
-                                      new Stack(
-                                          children: <Widget>[
-                                            SizedBox(
-                                                height: 82,
-                                                width: 82,
-                                                child:Card(
-                                                  elevation: 15.0, //阴影
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                                                      side: BorderSide(width: 1.0)),
-                                                )
-                                            ),
-                                            new Container(
-//                                                alignment: Alignment.center,
-                                                padding: EdgeInsets.all(10),
-                                                child: Icon(Icons.account_balance_wallet,size: 60,color: Colors.black,)
-                                            )
-                                          ]
-                                      ),
-                                      new Container(
-                                          child:Text('门诊记录',style: TextStyle(fontSize: 18),)
-                                      )
-                                    ]
-
-                                )
-                            ),
-                          ),
-                          new Expanded(
-                            child: new Container(
-                                child: Column(
-
-
-                                    children: <Widget>[
-                                      new Stack(
-                                          children: <Widget>[
-                                            SizedBox(
-                                                height: 82,
-                                                width: 82,
-                                                child:Card(
-                                                  elevation: 15.0, //阴影
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                                                      side: BorderSide(width: 1.0)),
-                                                )
-                                            ),
-                                            new Container(
-//                                                alignment: Alignment.center,
-                                                padding: EdgeInsets.all(10),
-                                                child: Icon(Icons.edit,size: 60,color: Colors.black,)
-                                            )
-                                          ]
-                                      ),
-                                      new Container(
-                                          child:Text('侵入型器械检查',style: TextStyle(fontSize: 18),)
-                                      )
-                                    ]
-
-                                )
-                            ),
-                          )
+                          widgetbuild.create("门诊病历", Icons.assignment),
+                          widgetbuild.create("门诊记录", Icons.account_balance_wallet),
+                          widgetbuild.create("侵入型器械检查", Icons.edit),
                         ]
                     ),
                   ),
@@ -371,105 +219,9 @@ class MainPage extends StatelessWidget{
                     padding: EdgeInsets.all(12),
                     child: Column(
                         children: <Widget>[
-                          new Expanded(
-                            child: new Container(
-                                child: Column(
-
-
-                                    children: <Widget>[
-                                      new Stack(
-                                          children: <Widget>[
-                                            SizedBox(
-                                                height: 82,
-                                                width: 82,
-                                                child:Card(
-                                                  elevation: 15.0, //阴影
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                                                      side: BorderSide(width: 1.0)),
-                                                )
-                                            ),
-                                            new Container(
-//                                                alignment: Alignment.center,
-                                                padding: EdgeInsets.all(10),
-                                                child: Icon(Icons.redeem,size: 60,color: Colors.black,)
-                                            )
-                                          ]
-                                      ),
-                                      new Container(
-                                          child:Text('住院病历',style: TextStyle(fontSize: 18),)
-                                      )
-                                    ]
-
-                                )
-                            ),
-                          ),
-                          new Expanded(
-                            child: new Container(
-                                child: Column(
-
-
-                                    children: <Widget>[
-                                      new Stack(
-                                          children: <Widget>[
-                                            SizedBox(
-                                                height: 82,
-                                                width: 82,
-                                                child:Card(
-                                                  elevation: 15.0, //阴影
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                                                      side: BorderSide(width: 1.0)),
-                                                )
-                                            ),
-                                            new Container(
-//                                                alignment: Alignment.center,
-                                                padding: EdgeInsets.all(10),
-                                                child: Icon(Icons.flare,size: 60,color: Colors.black,)
-                                            )
-                                          ]
-                                      ),
-                                      new Container(
-                                          child:Text('化验检查',style: TextStyle(fontSize: 18),)
-                                      )
-                                    ]
-
-                                )
-                            ),
-                          ),
-                          new Expanded(
-                            child: new Container(
-                                child: Column(
-
-
-                                    children: <Widget>[
-                                      new Stack(
-                                          children: <Widget>[
-                                            SizedBox(
-                                                height: 82,
-                                                width: 82,
-                                                child:Card(
-                                                  elevation: 15.0, //阴影
-                                                  shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                                                      side: BorderSide(width: 1.0)),
-                                                )
-                                            ),
-                                            new Container(
-//                                                alignment: Alignment.center,
-                                                padding: EdgeInsets.all(10),
-                                                child: Icon(Icons.opacity,size: 60,color: Colors.black,)
-                                            )
-                                          ]
-                                      ),
-                                      new Container(
-                                          child:Text('病理学检查',style: TextStyle(fontSize: 18),)
-                                      )
-                                    ]
-
-                                )
-                            ),
-                          )
+                          widgetbuild.create("住院病历", Icons.redeem),
+                          widgetbuild.create("化验检查", Icons.flare),
+                          widgetbuild.create("病理学检查", Icons.opacity),
                         ]
                     ),
                   )
