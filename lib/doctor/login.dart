@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(Login());
 
@@ -16,13 +18,24 @@ class _Login extends State<Login> {
   String password;
   bool isShowPassWord = false;
 
-  void login(){
+  void login() async{
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
     if(loginForm.validate()){
-      loginForm.save();
-      print('userName: ' + userName + ' password: ' + password);
+      print(userName);
+      print(password);
+      Map<String, dynamic> map = {
+        'name' : userName, 'password' : password
+      };
+      var bodymap = Map();
+      bodymap['name']=userName;
+      bodymap['password']=password;
+      var url = "http://101.133.228.14:8081/config?";
+      http.post(url, body: bodymap).then((response) {
+        print("post方式->status: ${response.statusCode}");
+        print("post方式->body: ${response.body}");
+      });
     }
   }
 
@@ -41,7 +54,7 @@ class _Login extends State<Login> {
           centerTitle: true,
           backgroundColor: Colors.white,
         ),
-        body: new Column(
+        body: new ListView(
           children: <Widget>[
             new Container(
                 padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
@@ -93,7 +106,7 @@ class _Login extends State<Login> {
                           // ),
                         ),
                         keyboardType: TextInputType.phone,
-                        onSaved: (value) {
+                        onChanged: (value) {
                           userName = value;
                         },
                         validator: (phone) {
@@ -129,7 +142,7 @@ class _Login extends State<Login> {
                             )
                         ),
                         obscureText: !isShowPassWord,
-                        onSaved: (value) {
+                        onChanged: (value) {
                           password = value;
                         },
                       ),
