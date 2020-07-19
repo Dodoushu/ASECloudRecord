@@ -1,7 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+import 'package:helloworld/http_service.dart';
 
 void main() => runApp(Login());
 
@@ -32,9 +33,9 @@ class _Login extends State<Login> {
       bodymap['name']=userName;
       bodymap['password']=password;
       var url = "http://101.133.228.14:8081/config?";
-      http.post(url, body: bodymap).then((response) {
-        print("post方式->status: ${response.statusCode}");
-        print("post方式->body: ${response.body}");
+      var formData = {'params':001};
+      await request(url,FormData: formData).then((value) {
+        print('成功');
       });
     }
   }
