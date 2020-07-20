@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'BottomNavigationBar.dart';
 void main() {
   runApp(new MaterialApp(
     title: '患者主功能页',
@@ -8,12 +8,12 @@ void main() {
 }
 
 class WidgetBulld {
+
   Expanded create(String text, IconData icondata) {
     return Expanded(
       child: new Container(
           child: Column(children: <Widget>[
-        new Stack(children: <Widget>[
-          SizedBox(
+          new SizedBox(
               height: 82,
               width: 82,
               child: Card(
@@ -21,20 +21,16 @@ class WidgetBulld {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(100.0)),
                     side: BorderSide(width: 1.0)),
+                child:new Container(
+                    alignment: Alignment.center,
+                    child: Icon(
+                      icondata,
+                      size: 50,
+                      color: Colors.black,
+                    ))
               )),
           new Container(
-//                                                alignment: Alignment.center,
-              padding: EdgeInsets.all(10),
-              child: Icon(
-                icondata,
-                size: 60,
-                color: Colors.black,
-              ))
-        ]),
-        new Container(
-            child: Text(
-          text,
-          style: TextStyle(fontSize: 18),
+              child: Text(text, style: TextStyle(fontSize: 18),
         ))
       ])),
     );
@@ -44,7 +40,7 @@ class WidgetBulld {
 class MainPage extends StatelessWidget {
   //实例化
   WidgetBulld widgetbuild = new WidgetBulld();
-
+  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
   @override
   Widget build(BuildContext context) {
     //背景蓝框及第一个功能选择条
@@ -175,14 +171,14 @@ class MainPage extends StatelessWidget {
                 side: BorderSide(width: 1.0)),
             child: Row(children: <Widget>[
               new Container(
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(18),
                   child: Column(children: <Widget>[
                     widgetbuild.create("体检报告", Icons.receipt),
                     widgetbuild.create("病症照片", Icons.pageview),
                     widgetbuild.create("影像检查", Icons.perm_media),
                   ])),
               new Container(
-                padding: EdgeInsets.all(13),
+                padding: EdgeInsets.all(18),
                 child: Column(children: <Widget>[
                   widgetbuild.create("门诊病历", Icons.assignment),
                   widgetbuild.create("门诊记录", Icons.account_balance_wallet),
@@ -190,7 +186,7 @@ class MainPage extends StatelessWidget {
                 ]),
               ),
               new Container(
-                padding: EdgeInsets.all(12),
+                padding: EdgeInsets.all(18),
                 child: Column(children: <Widget>[
                   widgetbuild.create("住院病历", Icons.redeem),
                   widgetbuild.create("化验检查", Icons.flare),
@@ -210,33 +206,11 @@ class MainPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
-      body: new Column(
-        children: <Widget>[stack, ChooseModel],
+      body: new ListView(
+        children:<Widget>[stack, ChooseModel]
       ),
-      bottomNavigationBar: BottomNavigationBar(items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-            icon: Icon(
-              Icons.search,
-              color: Colors.black,
-              size: 40,
-            ),
-            title: Text(
-              '查询',
-              style: TextStyle(fontSize: 22),
-            )),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.pages, color: Colors.black, size: 40),
-            title: Text(
-              '主页',
-              style: TextStyle(fontSize: 22),
-            )),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle, color: Colors.black, size: 40),
-            title: Text(
-              '我的',
-              style: TextStyle(fontSize: 22),
-            ))
-      ]),
+
+      bottomNavigationBar: Bottom_NavigationBar.Create(),
     );
   }
 }
