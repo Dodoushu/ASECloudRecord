@@ -107,7 +107,7 @@ class _Login extends State<Login> {
               height: 90,
               child: Center(
                   child: new Text(
-                '云病历患者端登录LOGO',
+                '用户注册',
                 style: TextStyle(color: Colors.white, fontSize: 30.0),
               )),
             ),
