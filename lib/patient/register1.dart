@@ -96,7 +96,7 @@ class _Login extends State<Login> {
           centerTitle: true,
           backgroundColor: Colors.white,
         ),
-        body: new Column(
+        body: new ListView(
           children: <Widget>[
             new Container(
               padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
@@ -177,7 +177,7 @@ class _Login extends State<Login> {
                               onPressed: showPassWord,
                             )),
                         obscureText: !isShowPassWord,
-                        onSaved: (value) {
+                        onChanged: (value) {
                           password = value;
                         },
                       ),
@@ -195,18 +195,25 @@ class _Login extends State<Login> {
                                 fontSize: 15.0,
                                 color: Color.fromARGB(255, 93, 93, 93)),
                             border: InputBorder.none,
-                            suffixIcon: new IconButton(
-                              icon: new Icon(
-                                isShowPassWord
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Color.fromARGB(255, 126, 126, 126),
-                              ),
-                              onPressed: showPassWord,
-                            )),
+//                            suffixIcon: new IconButton(
+//                              icon: new Icon(
+//                                isShowPassWord
+//                                    ? Icons.visibility
+//                                    : Icons.visibility_off,
+//                                color: Color.fromARGB(255, 126, 126, 126),
+//                              ),
+//                              onPressed: showPassWord,
+//                            )
+                        ),
                         obscureText: !isShowPassWord,
-                        onSaved: (value) {
-                          password = value;
+                        validator: (value) {
+                          if (password!=null&&value != password) {
+                            return '请确认两次密码输入相同';
+                          }
+                          return null;
+                        },
+                        onChanged: (value) {
+                          password2 = value;
                         },
                       ),
                     ),
