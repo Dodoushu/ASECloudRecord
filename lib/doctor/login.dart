@@ -24,18 +24,21 @@ class _Login extends State<Login> {
     var loginForm = loginKey.currentState;
     //验证Form表单
     if(loginForm.validate()){
-      print(userName);
-      print(password);
-      Map<String, dynamic> map = {
-        'name' : userName, 'password' : password
-      };
+//      print(userName);
+//      print(password);
       var bodymap = Map();
-      bodymap['name']=userName;
-      bodymap['password']=password;
-      var url = "http://101.133.228.14:8081/config?";
-      var formData = {'params':001};
+      bodymap['phone_num']=userName;
+      bodymap['pass_word']=password;
+      bodymap['ver_code']='123456';
+      var url = "http://101.133.228.14:8081/sign_in_c?";
+      var formData = bodymap;
       await request(url,FormData: formData).then((value) {
-        print('成功');
+          print('response:' + value.toString());
+
+//        print('the response is:');
+//        print(value);
+//        var data = json.decode(value.toString());
+//        print(data.toString());
       });
     }
   }
