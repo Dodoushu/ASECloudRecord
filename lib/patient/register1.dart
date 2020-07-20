@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:helloworld/http_service.dart';
 
 void main() => runApp(Login());
 
@@ -18,13 +19,27 @@ class _Login extends State<Login> {
   String verificationCode;
   bool isShowPassWord = false;
 
-  void login() {
+  void login() async{
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
-    if (loginForm.validate()) {
-      loginForm.save();
-      print('phonenumber: ' + phoneNumber + ' password: ' + password + ' vercode:' + verificationCode);
+    if(loginForm.validate()){
+//      print(userName);
+//      print(password);
+      var bodymap = Map();
+      bodymap['phone_num']=phoneNumber;
+      bodymap['pass_word']=password;
+      bodymap['ver_code']='123456';
+      var url = "http://101.133.228.14:8081/sign_in_c?";
+      var formData = bodymap;
+      await request(url,FormData: formData).then((value) {
+        print('response:' + value.toString());
+
+//        print('the response is:');
+//        print(value);
+//        var data = json.decode(value.toString());
+//        print(data.toString());
+      });
     }
   }
 
@@ -177,7 +192,7 @@ class _Login extends State<Login> {
                               onPressed: showPassWord,
                             )),
                         obscureText: !isShowPassWord,
-                        onChanged: (value) {
+                        onSaved: (value) {
                           password = value;
                         },
                       ),
@@ -212,7 +227,7 @@ class _Login extends State<Login> {
                           }
                           return null;
                         },
-                        onChanged: (value) {
+                        onSaved: (value) {
                           password2 = value;
                         },
                       ),

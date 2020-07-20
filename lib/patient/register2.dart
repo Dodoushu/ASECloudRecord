@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helloworld/http_service.dart';
 
 void main() => runApp(register2());
 
@@ -8,6 +9,7 @@ class register2 extends StatefulWidget {
 }
 
 class _register2 extends State<register2> {
+  GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
   String name;
   String sex;
   String nation;
@@ -40,6 +42,29 @@ class _register2 extends State<register2> {
     if (ICENumber <= 3) {
       setState(() {
         ICENumber++;
+      });
+    }
+  }
+
+  void summit() async{
+    var loginForm = loginKey.currentState;
+    //验证Form表单
+    if(loginForm.validate()){
+//      print(userName);
+//      print(password);
+      var bodymap = Map();
+      bodymap['phone_num']=name;
+      bodymap['pass_word']=sex;
+      bodymap['ver_code']='123456';
+      var url = "http://101.133.228.14:8081/sign_in_c?";
+      var formData = bodymap;
+      await request(url,FormData: formData).then((value) {
+        print('response:' + value.toString());
+
+//        print('the response is:');
+//        print(value);
+//        var data = json.decode(value.toString());
+//        print(data.toString());
       });
     }
   }
