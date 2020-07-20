@@ -75,7 +75,7 @@ class Setting extends StatelessWidget{
     Widget ensure = new Container(
       height: 60.0,
       width: 10,
-        padding: EdgeInsets.only(top: 10,left: 40,right: 40),
+        margin: EdgeInsets.only(top: 10,left: 40,right: 40),
         child: new RaisedButton(
           color: Colors.blue,
           shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(25.0)),
