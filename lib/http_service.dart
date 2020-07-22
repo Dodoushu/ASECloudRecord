@@ -17,7 +17,7 @@ Future request(url, {FormData}) async {
       print('http成功');
       return response;
     } else {
-      throw Exception('http失败');
+      throw Exception('网络异常');
     }
   } catch (e) {
     return print(e);

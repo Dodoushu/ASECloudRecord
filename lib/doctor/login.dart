@@ -33,7 +33,7 @@ class _Login extends State<Login> {
       var url = "http://101.133.228.14:8081/sign_in_c?";
       var formData = bodymap;
       await request(url,FormData: formData).then((value) {
-          print('response:' + value.toString());
+          print('response:' + json.decode(value.toString()));
 
 //        print('the response is:');
 //        print(value);

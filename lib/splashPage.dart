@@ -28,6 +28,9 @@
 
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:helloworld/sharedPrefrences.dart';
+import 'package:helloworld/http_service.dart';
+import 'dart:convert';
 
 import 'package:helloworld/select.dart';
 //import 'package:flutter_demo/view/HomePage.dart';
@@ -42,6 +45,7 @@ class SplashPage extends StatefulWidget{
 
 class _SplashPage extends State<SplashPage>{
 
+  //flag
   bool isStartHomePage = false;
 
   @override
@@ -49,7 +53,7 @@ class _SplashPage extends State<SplashPage>{
     // TODO: implement build
     return new GestureDetector(
 //      onTap: goToHomePage,//设置页面点击事件
-      child: Image.asset("images/splashLogo.jpg",fit: BoxFit.cover,),//此处fit: BoxFit.cover用于拉伸图片,使图片铺满全屏
+      child: Image.asset("images/splashLogo.png",fit: BoxFit.cover,),//此处fit: BoxFit.cover用于拉伸图片,使图片铺满全屏
     );
 }
 
@@ -68,7 +72,36 @@ void countDown() {
 }
 
 void goToHomePage(){
-  //如果页面还未跳转过则跳转页面
+  Future<bool> result = SharedPreferenceUtil.containsKey('token').then((value) {
+    if(value==false){
+      isStartHomePage = true;
+      Navigator.pushNamedAndRemoveUntil(context, '/select', (Route<dynamic> rout)=>false);
+    }else{
+      String token;
+      Future<bool> result = SharedPreferenceUtil.getString('token').then((value) {
+        token = value;
+        var bodymap = Map();
+        bodymap['token']=token;
+        String url;
+        var result;
+        request(url,FormData: bodymap).then((value) {
+          result = json.decode(value.toString());
+        });
+        if(true){//token有效
+          isStartHomePage = true;
+          //根据返回身份信息进入医生端或患者端的主页
+        }else{//若token无效，则移除token，进入身份选择界面
+          isStartHomePage = true;
+          //移除token
+          Future<bool> deleteKey = SharedPreferenceUtil.remove('token');
+          Navigator.pushNamedAndRemoveUntil(context, '/select', (Route<dynamic> rout)=>false);
+        }
+      });
+    }
+  });
+
+
+  //如果页面还未跳转过则跳转至选择页面
   if(!isStartHomePage){
     //跳转至身份选择页面 且销毁当前页面
 //      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context)=>new select()), (Route<dynamic> rout)=>false);
