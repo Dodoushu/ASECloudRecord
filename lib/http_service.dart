@@ -8,7 +8,6 @@ Future request(url, {FormData}) async {
     Response response;
     Dio dio = Dio();
     dio.options.contentType = 'application/json';
-
     //
     // FormData是数据体，默认放在post中的body里
     response = await dio.post(url, data: FormData);
