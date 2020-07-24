@@ -8,7 +8,7 @@ class File_Method{
     var name = file.path.substring(file.path.lastIndexOf('/')+1,file.path.length);
     String filePath = file.path;
     MultipartFile multipartFile = await MultipartFile.fromFile(filePath,filename: name);
-    return MultipartFile;
+    return multipartFile;
 //    var postData = FormData.fromMap({
 //      'image':await MultipartFile.fromFile(file.path,filename: name)
 //    });
