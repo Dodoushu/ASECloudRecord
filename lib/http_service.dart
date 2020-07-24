@@ -3,11 +3,11 @@ import 'dart:math';
 import 'package:dio/dio.dart';
 import 'dart:async';
 
-Future request(url, {FormData}) async {
+Future request(url, {FormData, String contentType = 'application/json'}) async {
   try {
     Response response;
     Dio dio = Dio();
-    dio.options.contentType = 'application/json';
+    dio.options.contentType = contentType;
     //
     // FormData是数据体，默认放在post中的body里
     response = await dio.post(url, data: FormData);

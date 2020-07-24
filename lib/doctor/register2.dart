@@ -46,7 +46,7 @@ class _register2 extends State<register2> {
     map['pro_certificates '] = zhi_cheng;    //医师职称证书
     FormData formData = FormData.fromMap(map);
 
-    request(url,FormData: formData).then((value)
+    request(url,FormData: formData,contentType: 'multipart/form-data').then((value)
     {
       print('response:' + json.decode(value.toString()));
     });
