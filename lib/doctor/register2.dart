@@ -1,5 +1,9 @@
+import 'dart:convert';
+import 'dart:html';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:helloworld/File_Method.dart';
+import 'package:helloworld/http_service.dart';
 void main() =>runApp(new register2());
 
 class register2 extends StatefulWidget{
@@ -8,11 +12,45 @@ class register2 extends StatefulWidget{
 }
 
 class _register2 extends State<register2> {
-  File_Method file_method = new File_Method();
+
+  var url = '';
   String name;
   String IdCardNumber;
+  String Specialty;
+  String Introduction;
+  String SocialWork;
 
+  MultipartFile ID_Photo;
+  MultipartFile IDCard_1;
+  MultipartFile IDCard_2;
+  MultipartFile zi_ge_zheng;
+  MultipartFile zhi_ye_zheng;
+  MultipartFile zhi_cheng;
 
+  File_Method file_method = new File_Method();
+
+  void CreateForm_POST(){
+
+    var map = Map();
+    map['name'] = name;
+    map['IdCardNumber'] = IdCardNumber;
+    map['Specialty'] = Specialty;
+    map['Introduction'] = Introduction;
+    map['SocialWork'] = SocialWork;
+
+    map['ID_Photo'] = ID_Photo;  //证件照
+    map['IDCard_1'] = IDCard_1;  //身份证正面照
+    map['IDCard_2'] = IDCard_2;   //身份证反面照
+    map['certification'] = zi_ge_zheng;   //医师资格证
+    map['practice_license'] = zhi_ye_zheng;   //医师执业证
+    map['pro_certificates '] = zhi_cheng;    //医师职称证书
+    FormData formData = FormData.fromMap(map);
+
+    request(url,FormData: formData).then((value)
+    {
+      print('response:' + json.decode(value.toString()));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +111,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 30),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: file_method.img_upload(),
+                          onPressed: ID_Photo = file_method.file_pick(),
                           color: Colors.blue,
                           child:new Text(
                               '上传照片',
@@ -90,7 +128,7 @@ class _register2 extends State<register2> {
                 ),
                 new Row(
                   children: <Widget>[
-                    Text('身份证正反面照片:', style:TextStyle(
+                    Text('身份证正面照片:', style:TextStyle(
                       fontSize: 20,
                       color: Color.fromARGB(255, 93, 93, 93),
                     ),
@@ -99,7 +137,7 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 30),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: file_method.img_upload(),
+                          onPressed: IDCard_1 = file_method.file_pick(),
                           color: Colors.blue,
                           child:new Text(
                               '上传照片',
@@ -114,6 +152,32 @@ class _register2 extends State<register2> {
                     ),
                   ],
                 ),
+            new Row(
+              children: <Widget>[
+                Text('身份证反面照片:', style:TextStyle(
+                  fontSize: 20,
+                  color: Color.fromARGB(255, 93, 93, 93),
+                ),
+                ),
+                new Container(
+                    margin: EdgeInsets.only(left: 30),
+                    child:RaisedButton(
+                      elevation: 0,
+                      onPressed: IDCard_2 = file_method.file_pick(),
+                      color: Colors.blue,
+                      child:new Text(
+                          '上传照片',
+                          style:TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          )
+                      ),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(40.0)),
+                    )
+                ),
+              ],
+            ),
 
                 new Row(
                   children: <Widget>[
@@ -126,7 +190,7 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 30),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: file_method.img_upload(),
+                          onPressed: zi_ge_zheng = file_method.file_pick(),
                           color: Colors.blue,
                           child:new Text(
                               '上传照片',
@@ -152,7 +216,7 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 30),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: file_method.img_upload(),
+                          onPressed: zhi_ye_zheng = file_method.file_pick(),
                           color: Colors.blue,
                           child:new Text(
                               '上传照片',
@@ -178,7 +242,7 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 30),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: file_method.img_upload(),
+                          onPressed: zhi_cheng = file_method.file_pick(),
                           color: Colors.blue,
                           child:new Text(
                               '上传照片',
@@ -227,6 +291,7 @@ class _register2 extends State<register2> {
           ),
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(40.0)),
+          onPressed: CreateForm_POST,
         ),
       ),
     );

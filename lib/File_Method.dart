@@ -3,14 +3,17 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 class File_Method{
-    img_upload() async {
+    file_pick() async {
     File file = await FilePicker.getFile(type: FileType.image,);
     var name = file.path.substring(file.path.lastIndexOf('/')+1,file.path.length);
-    var postData = FormData.fromMap({
-      'image':await MultipartFile.fromFile(file.path,filename: name)
-    });
-    var response = await Dio().post("",data: postData,onSendProgress: (int sent, int total){
-      print("$sent $total");
-    },);
+    String filePath = file.path;
+    MultipartFile multipartFile = await MultipartFile.fromFile(filePath,filename: name);
+    return MultipartFile;
+//    var postData = FormData.fromMap({
+//      'image':await MultipartFile.fromFile(file.path,filename: name)
+//    });
+//    var response = await Dio().post("",data: postData,onSendProgress: (int sent, int total){
+//      print("$sent $total");
+//    },);
   }
 }
