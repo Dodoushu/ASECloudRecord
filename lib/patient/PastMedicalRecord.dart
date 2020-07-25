@@ -28,19 +28,16 @@ class WidgetBulld{
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(Radius.circular(100.0)),
                                 side: BorderSide(width: 1.0)),
+                              child: new Center(
+                                  child: Icon(icondata,size: 45,color: Colors.black,)
+                              )
                           )
                       ),
-                      new Container(
-//                                                alignment: Alignment.center,
-                          padding: EdgeInsets.all(11),
-                          child: Icon(icondata,size: 45,color: Colors.black,)
-                      )
                     ]
                 ),
                 new Container(
                     child:Text(
                         text,
-                        //多次尝试后，发现若允许文字多行显示，文字无法对齐，参考相似的app，选择省略文字来达到对齐的效果
                         textAlign: TextAlign.center,//overflow:TextOverflow.ellipsis,
                         style:TextStyle(fontSize: 16)
                         ))

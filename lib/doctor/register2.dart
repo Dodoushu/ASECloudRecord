@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:helloworld/File_Method.dart';
@@ -51,6 +50,13 @@ class _register2 extends State<register2> {
       print('response:' + json.decode(value.toString()));
     });
   }
+
+  ID_Photopick() async{await file_method.file_pick().then((value){ID_Photo = value;});}     //异步函数返回的也是一个future，需要async、await的配合提取
+  IDCard_1pick() async{await file_method.file_pick().then((value){IDCard_1 = value;});}
+  IDCard_2pick() async{await file_method.file_pick().then((value){IDCard_2 = value;});}
+  zi_ge_zhengpick() async{await file_method.file_pick().then((value){zi_ge_zheng = value;});}
+  zhi_ye_zhengpick() async{await file_method.file_pick().then((value){zhi_ye_zheng = value;});}
+  zhi_chengpick() async{await file_method.file_pick().then((value){zhi_cheng = value;});}
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +117,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 30),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: ID_Photo = file_method.file_pick(),
+                          onPressed: ID_Photopick,
                           color: Colors.blue,
                           child:new Text(
                               '上传照片',
@@ -137,7 +143,7 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 30),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: IDCard_1 = file_method.file_pick(),
+                          onPressed: IDCard_1pick,
                           color: Colors.blue,
                           child:new Text(
                               '上传照片',
@@ -163,7 +169,7 @@ class _register2 extends State<register2> {
                     margin: EdgeInsets.only(left: 30),
                     child:RaisedButton(
                       elevation: 0,
-                      onPressed: IDCard_2 = file_method.file_pick(),
+                      onPressed: IDCard_2pick,
                       color: Colors.blue,
                       child:new Text(
                           '上传照片',
@@ -190,7 +196,7 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 30),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: zi_ge_zheng = file_method.file_pick(),
+                          onPressed: zi_ge_zhengpick,
                           color: Colors.blue,
                           child:new Text(
                               '上传照片',
@@ -216,7 +222,7 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 30),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: zhi_ye_zheng = file_method.file_pick(),
+                          onPressed: zhi_ye_zhengpick,
                           color: Colors.blue,
                           child:new Text(
                               '上传照片',
@@ -242,7 +248,7 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 30),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: zhi_cheng = file_method.file_pick(),
+                          onPressed: zhi_chengpick,
                           color: Colors.blue,
                           child:new Text(
                               '上传照片',
