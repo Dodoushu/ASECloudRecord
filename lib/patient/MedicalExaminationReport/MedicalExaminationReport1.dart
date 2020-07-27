@@ -20,7 +20,7 @@ class _ReportPage extends State<ReportPage> {
           Text('日期：2020-06-09',style: TextStyle(fontSize: 20),),
           Container(
             margin: EdgeInsets.only(left: 200),
-              child:Icon(Icons.arrow_forward_ios,size: 15,),
+              child:Icon(Icons.arrow_forward_ios,size: 15),
           )
         ],
       ),
@@ -83,7 +83,7 @@ class _ReportPage extends State<ReportPage> {
       ),
     )
   );
-  
+
   Widget FileUpload = new GestureDetector(
       onTap: (){
         //上传图片
