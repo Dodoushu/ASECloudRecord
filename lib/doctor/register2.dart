@@ -51,7 +51,13 @@ class _register2 extends State<register2> {
     });
   }
 
-  ID_Photopick() async{await file_method.file_pick().then((value){ID_Photo = value;});}     //异步函数返回的也是一个future，需要async、await的配合提取
+  ID_Photopick() async{
+    await file_method.file_pick().then((value)
+    {ID_Photo = value;});
+    int FileSize = await ID_Photo.length;
+    if(FileSize > 1024)  //用length得到文件大小，太大了就给提示（界面上弹窗提示信息），同时清理变量ID_photo
+    {print("文件过大\n");ID_Photo = null;}
+  }     //异步函数返回的也是一个future，需要async、await的配合提取
   IDCard_1pick() async{await file_method.file_pick().then((value){IDCard_1 = value;});}
   IDCard_2pick() async{await file_method.file_pick().then((value){IDCard_2 = value;});}
   zi_ge_zhengpick() async{await file_method.file_pick().then((value){zi_ge_zheng = value;});}
