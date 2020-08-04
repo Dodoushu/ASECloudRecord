@@ -27,7 +27,9 @@ class _register2 extends State<register2> {
   MultipartFile zhi_cheng;
 
   File_Method file_method = new File_Method();
+  
 
+  //上传表单
   void CreateForm_POST(){
 
     var map = Map();
@@ -52,11 +54,13 @@ class _register2 extends State<register2> {
   }
 
   ID_Photopick() async{
-    await file_method.file_pick().then((value)
-    {ID_Photo = value;});
+    await file_method.file_pick().then((value) {ID_Photo = value;});
+
     int FileSize = await ID_Photo.length;
-    if(FileSize > 1024)  //用length得到文件大小，太大了就给提示（界面上弹窗提示信息），同时清理变量ID_photo
-    {print("文件过大\n");ID_Photo = null;}
+    if(FileSize > 1024){                     //用length得到文件大小，太大了就给提示（界面上弹窗提示信息），同时清理变量ID_photo
+      //弹窗提醒文件过大
+      ID_Photo = null;
+    }
   }     //异步函数返回的也是一个future，需要async、await的配合提取
   IDCard_1pick() async{await file_method.file_pick().then((value){IDCard_1 = value;});}
   IDCard_2pick() async{await file_method.file_pick().then((value){IDCard_2 = value;});}
