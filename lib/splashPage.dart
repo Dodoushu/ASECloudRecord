@@ -105,7 +105,7 @@ void goToHomePage(){
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => doctorMain.MainPage()), (route) => false);
             };
           //token不合法
-          }else{
+          }if(result['user_type']==3){
             SharedPreferenceUtil.remove('token');
             isStartHomePage = true;
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => select()), (route) => false);
