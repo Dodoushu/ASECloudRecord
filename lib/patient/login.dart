@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:helloworld/http_service.dart';
+import 'package:helloworld/sharedPrefrences.dart';
+import 'MainFunctionPage.dart';
 
-void main() => runApp(Login());
+void main() => runApp(new MaterialApp(home: new Login()));
 
 
 class Login extends StatefulWidget {
@@ -22,18 +25,32 @@ class _Login extends State<Login> {
     var loginForm = loginKey.currentState;
     //验证Form表单
     if(loginForm.validate()){
-      print(userName);
-      print(password);
-      Map<String, dynamic> map = {
-        'name' : userName, 'password' : password
-      };
       var bodymap = Map();
-      bodymap['name']=userName;
-      bodymap['password']=password;
-      var url = "http://101.133.228.14:8081/config?";
-      http.post(url, body: bodymap).then((response) {
-        print("post方式->status: ${response.statusCode}");
-        print("post方式->body: ${response.body}");
+      bodymap['phone_num']=userName;
+      bodymap['pass_word']=password;
+      bodymap['token']=null;
+      var url = "http://101.133.228.14:8082/sign";
+      var formData = bodymap;
+      print(formData);
+      await request(url,FormData: formData).then((value) {
+        print('response:' + value.toString());
+        Map data = json.decode(value.toString());
+        print(data['token']);
+        Future<bool> result = SharedPreferenceUtil.setString('token', data['token']).then((value){
+          bool temp = value;
+          if(value==true){
+            print('登陆成功');
+//            Navigator.pushNamedAndRemoveUntil(context, '/patient/MainFunctionPage', (Route<dynamic> rout)=>false);  //命名路由
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+          }else{
+            print('登陆失败');
+          };
+        });
+
+//        print('the response is:');
+//        print(value);
+//        var data = json.decode(value.toString());
+//        print(data.toString());
       });
     }
   }
@@ -45,9 +62,7 @@ class _Login extends State<Login> {
   }
   @override
   Widget build(BuildContext context){
-    return new MaterialApp(
-      title: 'Form表单示例',
-      home: new Scaffold(
+    return new Scaffold(
         appBar: AppBar(
           title: Text('登录',style: TextStyle(color: Colors.black),),
           centerTitle: true,
@@ -199,7 +214,7 @@ class _Login extends State<Login> {
             )
           ],
         ),
-      ),
-    );
+      );
+
   }
 }

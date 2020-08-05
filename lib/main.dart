@@ -3,6 +3,7 @@ import 'splashPage.dart';
 import 'select.dart';
 import 'doctor/login.dart' as doctorLogin;
 import 'patient/login.dart' as patientLogin;
+import 'patient/MainFunctionPage.dart' as patientMain;
 
 void main() => runApp(new MyApp());
 
@@ -15,7 +16,8 @@ class MyApp extends StatelessWidget {
         routes: <String,WidgetBuilder>{//配置路径
           '/select':(BuildContext context)  => new select(),
           '/patientLogin':(BuildContext context) => new doctorLogin.Login(),
-          '/doctorLogin':(BuildContext context) => new patientLogin.Login()
+          '/doctorLogin':(BuildContext context) => new patientLogin.Login(),
+          '/patient/MainFunctionPage':(BuildContext context) => new patientMain.MainPage(),
         },
         theme: new ThemeData(
           // This is the theme of your application.

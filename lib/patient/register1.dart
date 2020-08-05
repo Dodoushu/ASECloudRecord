@@ -1,7 +1,11 @@
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:helloworld/http_service.dart';
+import 'dart:convert';
+import 'register2.dart';
+import 'package:helloworld/sharedPrefrences.dart';
 
 void main() => runApp(Login());
 
@@ -29,16 +33,26 @@ class _Login extends State<Login> {
       var bodymap = Map();
       bodymap['phone_num']=phoneNumber;
       bodymap['pass_word']=password;
-      bodymap['ver_code']='123456';
-      var url = "http://101.133.228.14:8081/sign_in_c?";
+      bodymap['ver_code']='111111';
+      bodymap['user_type']='0';
+      var url = "http://101.133.228.14:8082/register";
       var formData = bodymap;
+      print(formData);
       await request(url,FormData: formData).then((value) {
-        print('response:' + value.toString());
 
-//        print('the response is:');
-//        print(value);
-//        var data = json.decode(value.toString());
-//        print(data.toString());
+        var data = json.decode(value.toString());
+        if(data['result']==1){
+          Future result = SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value){
+            if(value==true){
+              print('手机号码已保存');
+            }else{
+              print('手机号码保存失败');
+            }
+          });
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
+        }else{
+          print('注册失败，请检查手机号码或验证码');
+        }
       });
     }
   }
@@ -158,7 +172,7 @@ class _Login extends State<Login> {
                           // ),
                         ),
                         keyboardType: TextInputType.phone,
-                        onSaved: (value) {
+                        onChanged: (value) {
                           phoneNumber = value;
                         },
                         validator: (phone) {
@@ -192,7 +206,7 @@ class _Login extends State<Login> {
                               onPressed: showPassWord,
                             )),
                         obscureText: !isShowPassWord,
-                        onSaved: (value) {
+                        onChanged: (value) {
                           password = value;
                         },
                       ),
@@ -227,7 +241,7 @@ class _Login extends State<Login> {
                           }
                           return null;
                         },
-                        onSaved: (value) {
+                        onChanged: (value) {
                           password2 = value;
                         },
                       ),

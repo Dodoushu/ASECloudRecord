@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:helloworld/http_service.dart';
+import 'package:helloworld/sharedPrefrences.dart';
+import 'dart:convert';
+import 'MainFunctionPage.dart';
 
-void main() => runApp(register2());
+void main() => runApp(MaterialApp(home: register2(),));
 
 class register2 extends StatefulWidget {
   @override
@@ -19,10 +22,15 @@ class _register2 extends State<register2> {
   int formerResidenceNumber;
   int ICENumber;
 
+  String mailAddress;
+  String address;
+
   String FR1;
   String FR2;
-  String ICE1;
-  String ICE2;
+  String ICE1name;
+  String ICE1phone;
+  String ICE2name;
+  String ICE2phone;
 
   void frplus() {
     if (formerResidenceNumber == null) {
@@ -47,26 +55,39 @@ class _register2 extends State<register2> {
   }
 
   void summit() async{
-    var loginForm = loginKey.currentState;
-    //验证Form表单
-    if(loginForm.validate()){
-//      print(userName);
-//      print(password);
-      var bodymap = Map();
-      bodymap['phone_num']=name;
-      bodymap['pass_word']=sex;
-      bodymap['ver_code']='123456';
-      var url = "http://101.133.228.14:8081/sign_in_c?";
-      var formData = bodymap;
-      await request(url,FormData: formData).then((value) {
-        print('response:' + value.toString());
-
-//        print('the response is:');
-//        print(value);
-//        var data = json.decode(value.toString());
-//        print(data.toString());
-      });
-    }
+//    print(name);
+//    var loginForm = loginKey.currentState;
+//    //验证Form表单
+//    if(loginForm.validate()){
+//      print(name);
+//    }
+    var bodymap = Map();
+    bodymap['name']=name;
+    bodymap['sex']=sex;
+    bodymap['race']=nation;
+    bodymap['birthplace']=birthplace;
+    bodymap['id_num']=ID;
+    bodymap['postal_addr']=mailAddress;
+    bodymap['now_addr']=address;
+    bodymap['pre_addr']=FR1;
+    bodymap['formerResidence2']=FR2;
+    bodymap['emerge']={'name':ICE1name,'phone_num':ICE1phone}.toString();
+    bodymap['emerge1']={'name':ICE2name,'phone_num':ICE2phone}.toString();
+    String phoneNum;
+    SharedPreferenceUtil.getString('phoneNum').then((value) => {phoneNum = value});
+    bodymap['phone_num']=phoneNum;
+    print(bodymap);
+    var url = "http://101.133.228.14:8081/patient";
+    var formData = bodymap;
+    await request(url,FormData: formData).then((value) {
+        var data = json.decode(value.toString());
+        if(data['token']!=null){
+          SharedPreferenceUtil.setString('token', data['token']);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+        }else{
+          print('登陆失败');
+        }
+    });
   }
 
   @override
@@ -201,7 +222,7 @@ class _register2 extends State<register2> {
                   ),
                   maxLines: 5,
                   onChanged: (value) {
-                    name = value;
+                    mailAddress = value;
                   },
                 ),
                 Divider(
@@ -216,7 +237,7 @@ class _register2 extends State<register2> {
                   ),
                   maxLines: 5,
                   onChanged: (value) {
-                    sex = value;
+                    address = value;
                   },
                 ),
                 Divider(
@@ -293,13 +314,13 @@ class _register2 extends State<register2> {
             ),
             TextField(
               decoration: new InputDecoration(
-                labelText: '请输入您的紧急联系人1',
+                labelText: '请输入您的紧急联系人1姓名',
                 labelStyle: new TextStyle(
                     fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
                 border: InputBorder.none,
               ),
               onChanged: (value) {
-                ICE1 = value;
+                ICE1name = value;
               },
             ),
             Divider(
@@ -307,17 +328,42 @@ class _register2 extends State<register2> {
             ),
             TextField(
               decoration: new InputDecoration(
-                labelText: '请输入您的紧急联系人2',
+                labelText: '请输入您的紧急联系人1电话',
                 labelStyle: new TextStyle(
                     fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
                 border: InputBorder.none,
               ),
               onChanged: (value) {
-                ICE2 = value;
+                ICE1phone = value;
               },
             ),
             Divider(
               thickness: 2,
+            ),
+            TextField(
+              decoration: new InputDecoration(
+                labelText: '请输入您的紧急联系人2姓名',
+                labelStyle: new TextStyle(
+                    fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                border: InputBorder.none,
+              ),
+              onChanged: (value) {
+                ICE2name = value;
+              },
+            ),
+            Divider(
+              thickness: 2,
+            ),
+            TextField(
+              decoration: new InputDecoration(
+                labelText: '请输入您的紧急联系人2电话',
+                labelStyle: new TextStyle(
+                    fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                border: InputBorder.none,
+              ),
+              onChanged: (value) {
+                ICE2phone = value;
+              },
             ),
           ],
         ),
@@ -331,7 +377,7 @@ class _register2 extends State<register2> {
       child: new SizedBox.expand(
         child: new RaisedButton(
           elevation: 0,
-          onPressed: frplus,
+          onPressed: summit,
           color: Colors.blue,
           child: new Text(
             '确定',
@@ -344,9 +390,7 @@ class _register2 extends State<register2> {
       ),
     );
 
-    return MaterialApp(
-      title: '用户注册',
-      home: Scaffold(
+    return Scaffold(
           appBar: AppBar(
             title: Text(
               '用户注册',
@@ -378,7 +422,7 @@ class _register2 extends State<register2> {
                 ),
               )
             ],
-          )),
-    );
+          ));
+
   }
 }

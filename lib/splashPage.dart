@@ -31,6 +31,9 @@ import 'dart:async';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'package:helloworld/http_service.dart';
 import 'dart:convert';
+import 'select.dart';
+import 'patient/MainFunctionPage.dart' as patientMain;
+import 'doctor/MainFunctionPage.dart' as doctorMain;
 
 import 'package:helloworld/select.dart';
 //import 'package:flutter_demo/view/HomePage.dart';
@@ -80,33 +83,44 @@ void goToHomePage(){
       String token;
       Future<bool> result = SharedPreferenceUtil.getString('token').then((value) {
         token = value;
+        String phoneNum;
+        SharedPreferenceUtil.getString('phoneNum').then((value){
+          phoneNum = value;
+        });
         var bodymap = Map();
+        bodymap['phone_num']=phoneNum;
         bodymap['token']=token;
-        String url;
+        String url = 'http://101.133.228.14:8082/token';
         var result;
         request(url,FormData: bodymap).then((value) {
           result = json.decode(value.toString());
+
+          //token合法
+          if(result['result']==1){
+            if(result['user_type']==0){
+              isStartHomePage = true;
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => patientMain.MainPage()), (route) => false);
+            }if(result['user_type']==1){
+              isStartHomePage = true;
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => doctorMain.MainPage()), (route) => false);
+            };
+          //token不合法
+          }else{
+            SharedPreferenceUtil.remove('token');
+            isStartHomePage = true;
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => select()), (route) => false);
+          }
         });
-        if(true){//token有效
-          isStartHomePage = true;
-          //根据返回身份信息进入医生端或患者端的主页
-        }else{//若token无效，则移除token，进入身份选择界面
-          isStartHomePage = true;
-          //移除token
-          Future<bool> deleteKey = SharedPreferenceUtil.remove('token');
-          Navigator.pushNamedAndRemoveUntil(context, '/select', (Route<dynamic> rout)=>false);
-        }
       });
     }
   });
-
 
   //如果页面还未跳转过则跳转至选择页面
   if(!isStartHomePage){
     //跳转至身份选择页面 且销毁当前页面
 //      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context)=>new select()), (Route<dynamic> rout)=>false);
-    Navigator.pushNamedAndRemoveUntil(context, '/select', (Route<dynamic> rout)=>false);
     isStartHomePage=true;
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => select()), (route) => false);
   }
 }
 }
