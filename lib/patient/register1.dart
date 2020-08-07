@@ -7,7 +7,14 @@ import 'dart:convert';
 import 'register2.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 
-void main() => runApp(Login());
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(home: Login());
+  }
+}
 
 class Login extends StatefulWidget {
   @override
@@ -24,6 +31,9 @@ class _Login extends State<Login> {
   bool isShowPassWord = false;
 
   void login() async{
+    //test
+    Navigator.push(context, MaterialPageRoute(builder: (context) => register2()));
+//    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
@@ -35,23 +45,25 @@ class _Login extends State<Login> {
       bodymap['pass_word']=password;
       bodymap['ver_code']='111111';
       bodymap['user_type']='0';
-      var url = "http://101.133.228.14:8082/register";
+      var url = "http://101.133.228.14:8081/register";
       var formData = bodymap;
       print(formData);
       await request(url,FormData: formData).then((value) {
 
         var data = json.decode(value.toString());
-        if(data['result']==1){
-          Future result = SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value){
-            if(value==true){
-              print('手机号码已保存');
-            }else{
-              print('手机号码保存失败');
-            }
-          });
+        print(data['result']);
+        if(data['result']=='1'){
+//          Future result = SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value){
+//            if(value==true){
+//              print('手机号码已保存');
+//            }else{
+//              print('手机号码保存失败');
+//            }
+//          });
+//          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
         }else{
-          print('注册失败，请检查手机号码或验证码');
+          print('注册失败，账号已存在');
         }
       });
     }
@@ -114,9 +126,7 @@ class _Login extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: '用户注册',
-      home: new Scaffold(
+    return new Scaffold(
         appBar: AppBar(
           title: Text(
             '用户注册',
@@ -384,7 +394,7 @@ class _Login extends State<Login> {
             )
           ],
         ),
-      ),
-    );
+      );
+
   }
 }
