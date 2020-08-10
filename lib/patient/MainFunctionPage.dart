@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'BottomNavigationBar.dart';
 import 'PastMedicalRecord.dart';
 
-
 void main() {
   runApp(new MaterialApp(
     title: '患者主功能页',
@@ -11,29 +10,29 @@ void main() {
 }
 
 class WidgetBulld {
-
   Expanded create(String text, IconData icondata) {
     return Expanded(
       child: new Container(
           child: Column(children: <Widget>[
-          new SizedBox(
-              height: 82,
-              width: 82,
-              child: Card(
+        new SizedBox(
+            height: 82,
+            width: 82,
+            child: Card(
                 elevation: 15.0, //阴影
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(100.0)),
                     side: BorderSide(width: 1.0)),
-                child:new Container(
+                child: new Container(
                     alignment: Alignment.center,
                     child: Icon(
                       icondata,
                       size: 50,
                       color: Colors.black,
-                    ))
-              )),
-          new Container(
-              child: Text(text, style: TextStyle(fontSize: 18),
+                    )))),
+        new Container(
+            child: Text(
+          text,
+          style: TextStyle(fontSize: 18),
         ))
       ])),
     );
@@ -43,7 +42,9 @@ class WidgetBulld {
 class MainPage extends StatelessWidget {
   //实例化
   WidgetBulld widgetbuild = new WidgetBulld();
-  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
+  BottomNavigationBarClass Bottom_NavigationBar =
+      new BottomNavigationBarClass();
+
   @override
   Widget build(BuildContext context) {
     //背景蓝框及第一个功能选择条
@@ -108,23 +109,36 @@ class MainPage extends StatelessWidget {
                                                 Radius.circular(100.0)),
                                             side: BorderSide(width: 1.0)),
                                       )),
-                                  new Container(
+                                  InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PastRecord()));
+                                      },
+                                      child: new Container(
 //                                                alignment: Alignment.center,
-                                      padding: EdgeInsets.all(10),
-                                      child: Icon(
-                                        Icons.assignment_ind,
-                                        size: 60,
-                                        color: Colors.black,
-                                      ))
+                                          padding: EdgeInsets.all(10),
+                                          child: Icon(
+                                            Icons.assignment_ind,
+                                            size: 60,
+                                            color: Colors.black,
+                                          )))
                                 ]),
-                                new InkWell(onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PastRecord()));
-                                },
-                                    child:Container(
-                                    child: Text(
-                                  '既往病史填写',
-                                  style: TextStyle(fontSize: 18),
-                                )))
+                                new InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  PastRecord()));
+                                    },
+                                    child: Container(
+                                        child: Text(
+                                      '既往病史填写',
+                                      style: TextStyle(fontSize: 18),
+                                    )))
                               ])),
                             ),
                             new Expanded(
@@ -168,7 +182,7 @@ class MainPage extends StatelessWidget {
         height: 415,
         width: 390,
         child: Container(
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(7.5),
           child: Card(
             elevation: 15.0, //阴影
             //设置圆角和边框
@@ -177,14 +191,14 @@ class MainPage extends StatelessWidget {
                 side: BorderSide(width: 1.0)),
             child: Row(children: <Widget>[
               new Container(
-                  padding: EdgeInsets.all(18),
+                  padding: EdgeInsets.all(15),
                   child: Column(children: <Widget>[
                     widgetbuild.create("体检报告", Icons.receipt),
                     widgetbuild.create("病症照片", Icons.pageview),
                     widgetbuild.create("影像检查", Icons.perm_media),
                   ])),
               new Container(
-                padding: EdgeInsets.all(18),
+                padding: EdgeInsets.all(15),
                 child: Column(children: <Widget>[
                   widgetbuild.create("门诊病历", Icons.assignment),
                   widgetbuild.create("门诊记录", Icons.account_balance_wallet),
@@ -192,7 +206,7 @@ class MainPage extends StatelessWidget {
                 ]),
               ),
               new Container(
-                padding: EdgeInsets.all(18),
+                padding: EdgeInsets.all(15),
                 child: Column(children: <Widget>[
                   widgetbuild.create("住院病历", Icons.redeem),
                   widgetbuild.create("化验检查", Icons.flare),
@@ -212,10 +226,7 @@ class MainPage extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.white,
       ),
-      body: new ListView(
-        children:<Widget>[stack, ChooseModel]
-      ),
-
+      body: new ListView(children: <Widget>[stack, ChooseModel]),
       bottomNavigationBar: Bottom_NavigationBar.Create(),
     );
   }
