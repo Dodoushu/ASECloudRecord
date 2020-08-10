@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'BottomNavigationBar.dart';
+import 'PastMedicalRecord.dart';
 
 
 void main() {
@@ -116,11 +117,14 @@ class MainPage extends StatelessWidget {
                                         color: Colors.black,
                                       ))
                                 ]),
-                                new Container(
+                                new InkWell(onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => PastRecord()));
+                                },
+                                    child:Container(
                                     child: Text(
                                   '既往病史填写',
                                   style: TextStyle(fontSize: 18),
-                                ))
+                                )))
                               ])),
                             ),
                             new Expanded(

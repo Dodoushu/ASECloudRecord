@@ -1,0 +1,69 @@
+import 'package:flutter/material.dart';
+import 'package:helloworld/http_service.dart';
+import 'package:helloworld/sharedPrefrences.dart';
+import 'dart:convert';
+
+void main() => runApp(MaterialApp(
+      home: pastMedicalRecordEdit(),
+    ));
+
+class pastMedicalRecordEdit extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    String text;
+    return new Scaffold(
+      //顶栏
+      appBar: new AppBar(
+        title:
+            Text('既往病史', style: TextStyle(color: Colors.white, fontSize: 25)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: new Icon(
+          Icons.arrow_back_ios,
+          size: 25,
+        ),
+      ),
+      body: new ListView(
+        children: <Widget>[
+          Container(
+            child: TextField(
+              decoration: new InputDecoration(
+                labelText: '请输入您的病史描述',
+                labelStyle: new TextStyle(
+                    fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                border: InputBorder.none,
+              ),
+              maxLines: 5,
+              onChanged: (value) {
+                text = value;
+              },
+            ),
+          ),
+          //new Divider(),
+          new Container(
+//      padding: EdgeInsets.only(left: 10,right: 10,bottom: 0),
+            height: 50.0,
+            margin: EdgeInsets.only(top: 0.0, bottom: 30, left: 30, right: 30),
+            child: new SizedBox.expand(
+              child: new RaisedButton(
+                elevation: 0,
+                onPressed: () {
+                  Navigator.pop(context,text);
+                },
+                color: Colors.blue,
+                child: new Text(
+                  '确定',
+                  style: TextStyle(
+                      fontSize: 14.0,
+                      color: Color.fromARGB(255, 255, 255, 255)),
+                ),
+                shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(40.0)),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
