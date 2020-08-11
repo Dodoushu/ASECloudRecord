@@ -5,6 +5,8 @@ import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'MainFunctionPage.dart';
 import 'register1.dart' as reg1;
+import 'package:helloworld/showAlertDialogClass.dart';
+import 'register2.dart';
 
 void main() => runApp(new MaterialApp(home: new Login()));
 
@@ -21,6 +23,15 @@ class _Login extends State<Login> {
   bool isShowPassWord = false;
 
   void login() async {
+
+
+//    //演示时去掉验证功能
+//    Navigator.pushAndRemoveUntil(
+//        context,
+//        MaterialPageRoute(builder: (context) => MainPage()),
+//            (route) => false);
+
+
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
@@ -28,20 +39,30 @@ class _Login extends State<Login> {
       var bodymap = Map();
       bodymap['phone_num'] = userName;
       bodymap['pass_word'] = password;
-      bodymap['token'] = null;
-      var url = "http://101.133.228.14:8081/sign";
+//      bodymap['token'] = null;
+      var url = "http://39.100.100.198:8082/sign";
       var formData = bodymap;
       print(formData);
       await request(url, FormData: formData).then((value) {
         print('response:' + value.toString());
         Map data = json.decode(value.toString());
         print(data['token']);
+        if(data['name']==null){
+          showAlertDialog(context,
+              titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => register2()),
+                  (route) => false);
+        }
+        SharedPreferenceUtil.setString('name', data['name']);
         Future<bool> result =
             SharedPreferenceUtil.setString('token', data['token'])
                 .then((value) {
           bool temp = value;
           if (value != null) {
             print('登陆成功');
+            SharedPreferenceUtil.setString('phoneNum', userName.toString());
 //            Navigator.pushNamedAndRemoveUntil(context, '/patient/MainFunctionPage', (Route<dynamic> rout)=>false);  //命名路由
             Navigator.pushAndRemoveUntil(
                 context,

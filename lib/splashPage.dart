@@ -90,7 +90,7 @@ void goToHomePage(){
         var bodymap = Map();
         bodymap['phone_num']=phoneNum;
         bodymap['token']=token;
-        String url = 'http://101.133.228.14:8082/token';
+        String url = 'http://39.100.100.198:8082/token';
         var result;
         request(url,FormData: bodymap).then((value) {
           result = json.decode(value.toString());
@@ -105,7 +105,7 @@ void goToHomePage(){
               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => doctorMain.MainPage()), (route) => false);
             };
           //token不合法
-          }if(result['user_type']==3){
+          }else{
             SharedPreferenceUtil.remove('token');
             isStartHomePage = true;
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => select()), (route) => false);

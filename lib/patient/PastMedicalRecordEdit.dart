@@ -26,17 +26,35 @@ class pastMedicalRecordEdit extends StatelessWidget {
       body: new ListView(
         children: <Widget>[
           Container(
-            child: TextField(
-              decoration: new InputDecoration(
-                labelText: '请输入您的病史描述',
-                labelStyle: new TextStyle(
-                    fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
-                border: InputBorder.none,
+            padding:EdgeInsets.all(10),
+            child:Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                '病史描述',
+                style: TextStyle(fontSize: 25),
+              )
+            ],
+          ),),
+          Divider(
+            thickness: 1,
+          ),
+          Card(
+            margin: EdgeInsets.all(10),
+            child: Container(
+              padding:EdgeInsets.only(top: 10,bottom: 10,left: 10,right: 10),
+              child: TextField(
+                decoration: new InputDecoration(
+                  labelText: '请输入您的病史描述',
+                  labelStyle: new TextStyle(
+                      fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                  border: InputBorder.none,
+                ),
+                maxLines: 5,
+                onChanged: (value) {
+                  text = value;
+                },
               ),
-              maxLines: 5,
-              onChanged: (value) {
-                text = value;
-              },
             ),
           ),
           //new Divider(),
@@ -48,7 +66,7 @@ class pastMedicalRecordEdit extends StatelessWidget {
               child: new RaisedButton(
                 elevation: 0,
                 onPressed: () {
-                  Navigator.pop(context,text);
+                  Navigator.pop(context, text);
                 },
                 color: Colors.blue,
                 child: new Text(

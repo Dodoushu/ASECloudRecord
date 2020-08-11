@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helloworld/sharedPrefrences.dart';
 import 'BottomNavigationBar.dart';
 import 'PastMedicalRecord.dart';
 
@@ -47,6 +48,10 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String name;
+    SharedPreferenceUtil.getString('name').then((value) {
+      name = value;
+    });
     //背景蓝框及第一个功能选择条
     Widget stack = new Stack(alignment: Alignment.topCenter, children: <Widget>[
       //蓝框
@@ -65,7 +70,7 @@ class MainPage extends StatelessWidget {
             children: <Widget>[
               new Container(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Text('******* 先生/女士，您好',
+                  child: Text(name+'，您好',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 25,

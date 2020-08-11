@@ -62,22 +62,26 @@ class _register2 extends State<register2> {
 //      print(name);
 //    }
     var bodymap = Map();
-    bodymap['name']=name;
-    bodymap['sex']=sex;
-    bodymap['race']=nation;
-    bodymap['birthplace']=birthplace;
-    bodymap['id_num']=ID;
-    bodymap['postal_addr']=mailAddress;
-    bodymap['now_addr']=address;
-    bodymap['pre_addr']=FR1;
-    bodymap['formerResidence2']=FR2;
-    bodymap['emerge']={'name':ICE1name,'phone_num':ICE1phone}.toString();
-    bodymap['emerge1']={'name':ICE2name,'phone_num':ICE2phone}.toString();
+    var bodymap2 = Map();
+    var patient = Map();
+    patient['name']=name;
+    SharedPreferenceUtil.setString("name", name);
+    patient['sex']=int.parse(sex);
+    patient['race']=nation;
+    patient['birthplace']=birthplace;
+    patient['id_num']=ID;
+    patient['postal_addr']=mailAddress;
+    patient['now_addr']=address;
+    patient['pre_addr1']=FR1;
+    bodymap2['formerResidence2']=FR2;
+    patient['emerge']={'name':ICE1name,'phone_num':ICE1phone}.toString();
+    bodymap2['emerge1']={'name':ICE2name,'phone_num':ICE2phone}.toString();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) => {phoneNum = value});
-    bodymap['phone_num']=phoneNum;
+    patient['phone_num']=phoneNum;
+    bodymap['patient']=patient;
     print(bodymap);
-    var url = "http://101.133.228.14:8081/patient";
+    var url = "http://39.100.100.198:8082/patient";
     var formData = bodymap;
     await request(url,FormData: formData).then((value) {
         var data = json.decode(value.toString());
@@ -85,7 +89,7 @@ class _register2 extends State<register2> {
           SharedPreferenceUtil.setString('token', data['token']);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
         }else{
-          print('登陆失败');
+          print('信息录入失败');
         }
     });
   }
@@ -134,6 +138,7 @@ class _register2 extends State<register2> {
                     border: InputBorder.none,
                   ),
                   onChanged: (value) {
+
                     sex = value;
                   },
                 ),

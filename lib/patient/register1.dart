@@ -45,7 +45,7 @@ class _Login extends State<Login> {
       bodymap['pass_word']=password;
       bodymap['ver_code']='111111';
       bodymap['user_type']='0';
-      var url = "http://101.133.228.14:8081/register";
+      var url = "http://39.100.100.198:8082/register";
       var formData = bodymap;
       print(formData);
       await request(url,FormData: formData).then((value) {
@@ -53,13 +53,7 @@ class _Login extends State<Login> {
         var data = json.decode(value.toString());
         print(data['result']);
         if(data['result']=='1'){
-//          Future result = SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value){
-//            if(value==true){
-//              print('手机号码已保存');
-//            }else{
-//              print('手机号码保存失败');
-//            }
-//          });
+          SharedPreferenceUtil.setString('phoneNum', phoneNumber);
 //          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
         }else{
