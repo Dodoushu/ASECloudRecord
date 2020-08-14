@@ -16,7 +16,7 @@ class File_Method{
     });
     name = file.path.substring(file.path.lastIndexOf('/')+1,file.path.length);
     filePath = file.path;
-    zipEncode();
+//    zipEncode();
     Create_multiFlie();
 //    var postData = FormData.fromMap({
 //      'image':await MultipartFile.fromFile(file.path,filename: name)
@@ -25,20 +25,15 @@ class File_Method{
 //      print("$sent $total");
 //    },);
 
-  }
-    Create_multiFlie() async {
+}
+Create_multiFlie() async {
 
-        await MultipartFile.fromFile(filePath,filename: name).then((value) {
-            multipartFile = value;
-        }
-        );
-        return multipartFile;
+    await MultipartFile.fromFile(filePath,filename: name).then((value) {
+        multipartFile = value;
     }
+    );
+    return multipartFile;
+}
 
-    void zipEncode() async{
-        var encoder = ZipFileEncoder();
-        encoder.create(filePath);   //这是将要创建压缩文件的位置，  我就写了文件的原位置，因为是在本地创建，在上传完成后要删除
-        encoder.addFile(file);         //还有一个addDirector的方法，可以直接压一整个文件夹
-        encoder.close();                //结束
-    }
+
 }

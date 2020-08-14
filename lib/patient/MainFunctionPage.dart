@@ -70,7 +70,7 @@ class MainPage extends StatelessWidget {
             children: <Widget>[
               new Container(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Text(name+'，您好',
+                  child: Text(name.toString()+'，您好',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 25,

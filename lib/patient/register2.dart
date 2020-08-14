@@ -3,6 +3,7 @@ import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
 import 'MainFunctionPage.dart';
+import 'package:helloworld/showAlertDialogClass.dart';
 
 void main() => runApp(MaterialApp(home: register2(),));
 
@@ -89,7 +90,7 @@ class _register2 extends State<register2> {
           SharedPreferenceUtil.setString('token', data['token']);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
         }else{
-          print('信息录入失败');
+          showAlertDialog(context,titleText: 'failed',contentText: '录入信息失败，请重试');
         }
     });
   }

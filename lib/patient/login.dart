@@ -44,9 +44,14 @@ class _Login extends State<Login> {
       var formData = bodymap;
       print(formData);
       await request(url, FormData: formData).then((value) {
+
+        if(value==null){
+          showAlertDialog(context,
+              titleText: '登陆失败', contentText: '请检查账号密码');
+        }
         print('response:' + value.toString());
         Map data = json.decode(value.toString());
-        print(data['token']);
+
         if(data['name']==null){
           showAlertDialog(context,
               titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
@@ -69,18 +74,19 @@ class _Login extends State<Login> {
                 MaterialPageRoute(builder: (context) => MainPage()),
                 (route) => false);
           } else {
-            print('登陆失败');
+            showAlertDialog(context,
+                titleText: '写入信息失败', contentText: '请尝试重新登陆');
           }
           ;
         });
-
+      });
+    }
+  }
 //        print('the response is:');
 //        print(value);
 //        var data = json.decode(value.toString());
 //        print(data.toString());
-      });
-    }
-  }
+
 
   void showPassWord() {
     setState(() {

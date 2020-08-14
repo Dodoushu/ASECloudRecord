@@ -31,8 +31,17 @@ class _Login extends State<Login> {
   bool isShowPassWord = false;
 
   void login() async{
-    //test
-    Navigator.push(context, MaterialPageRoute(builder: (context) => register2()));
+
+
+//
+//
+//    //test
+//    Navigator.push(context, MaterialPageRoute(builder: (context) => register2()));
+
+
+
+
+
 //    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
     //读取当前的Form状态
     var loginForm = loginKey.currentState;

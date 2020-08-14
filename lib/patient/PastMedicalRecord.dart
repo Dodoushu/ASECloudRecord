@@ -5,6 +5,7 @@ import 'PastMedicalRecordEdit.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'package:helloworld/patient/login.dart';
+import 'package:helloworld/showAlertDialogClass.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -31,7 +32,7 @@ class WidgetBulld {
                   new Stack(children: <Widget>[
                     SizedBox(
                         height: 67,
-                        width: 70,
+                        width: 67,
                         child: Card(
                             shape: RoundedRectangleBorder(
                                 borderRadius:
@@ -69,7 +70,9 @@ class PastRecord extends StatelessWidget {
       String disease_info;
       String token;
       SharedPreferenceUtil.containsKey('token').then((value) {
+
         if(value==false){Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login()), (route) => false);}
+
       });
       SharedPreferenceUtil.getString('phoneNum').then((value){
         phone_num = value;
@@ -88,7 +91,14 @@ class PastRecord extends StatelessWidget {
       patientDiseaseInfo['disease_type'] = disease_type;
       patientDiseaseInfo['disease_info'] = disease_info;
       await request(url, FormData: bodymap).then((value){
-
+        Map data = json.decode(value.toString());
+        if(data['result']==1){
+          showAlertDialog(context,
+              titleText: 'success', contentText: '上传成功');
+        }else{
+          showAlertDialog(context,
+              titleText: 'failed', contentText: '上传失败');
+        }
       });
     }
     return new Scaffold(
