@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:helloworld/File_Method.dart';
+import 'PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
+
 void main() =>runApp(new register2());
 
 class register2 extends StatefulWidget{
@@ -12,40 +13,34 @@ class register2 extends StatefulWidget{
 
 class _register2 extends State<register2> {
 
-  var url = '39.100.100.198:8082/file/upload';
-  String name;
-  String IdCardNumber;
-  String Specialty;
-  String Introduction;
-  String SocialWork;
+  var url = 'http://39.100.100.198:8082/file/upload';
 
-  MultipartFile ID_Photo;
-  MultipartFile IDCard_1;
-  MultipartFile IDCard_2;
-  MultipartFile zi_ge_zheng;
-  MultipartFile zhi_ye_zheng;
-  MultipartFile zhi_cheng;
 
-  File_Method file_method = new File_Method();
+  String filePath;
 
+  MultipartFile pickedFile;
+
+  void pickFile() async{
+    getSingleImagePath().then((value) => filePath=value);
+    pickedFile = await MultipartFile.fromFile(filePath);
+  }
 
   //上传表单
   void CreateForm_POST(){
 
-    var map = Map();
-    map['phone_num'] = 66779;
-    map['file'] = ID_Photo;
+    print(pickedFile);
+    var map = Map<String, dynamic>();
+    map['phone_num'] = '66779';
+    map['file'] = pickedFile;
     map['picture_type']=3;
 
-//    FormData formData = FormData.fromMap(map);
-
+    FormData formData = FormData.fromMap(map);
+//
     request(url,FormData: map,contentType: 'multipart/form-data').then((value)
     {
       print('response:' + json.decode(value.toString()));
     });
   }
-
-  ID_Photopick() async{await file_method.file_pick().then((value) {ID_Photo = value;});}
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +64,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 30),
                       child:RaisedButton(
                         elevation: 0,
-                        onPressed: ID_Photopick,
+                        onPressed: pickFile,
                         color: Colors.blue,
                         child:new Text(
                             '上传照片',
