@@ -1,8 +1,9 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
+
+
 
 void main() =>runApp(new register2());
 
@@ -13,9 +14,7 @@ class register2 extends StatefulWidget{
 
 class _register2 extends State<register2> {
 
-  var url = 'http://39.100.100.198:8082/file/upload';
-
-
+  String url = 'http://39.100.100.198:8082/file/upload';
   String filePath;
 
   MultipartFile pickedFile;
@@ -26,19 +25,19 @@ class _register2 extends State<register2> {
   }
 
   //上传表单
-  void CreateForm_POST(){
+  void CreateForm_POST() async{
 
     print(pickedFile);
-    var map = Map<String, dynamic>();
-    map['phone_num'] = '66779';
-    map['file'] = pickedFile;
-    map['picture_type']=3;
 
-    FormData formData = FormData.fromMap(map);
-//
-    request(url,FormData: map,contentType: 'multipart/form-data').then((value)
+    FormData formdata = FormData.fromMap({
+      'phone_num':'66779',
+      'picture_type':3,
+      "file": await MultipartFile.fromFile(filePath)
+    });
+
+    request(url,FormData: formdata,contentType: 'multipart/form-data').then((value)
     {
-      print('response:' + json.decode(value.toString()));
+      print(value);
     });
   }
 
