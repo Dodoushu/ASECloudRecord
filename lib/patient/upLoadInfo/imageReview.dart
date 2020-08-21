@@ -10,15 +10,15 @@ import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
 void main() => runApp(MaterialApp(
-  home: register2(),
+  home: ImageReview(),
 ));
 
-class register2 extends StatefulWidget {
+class ImageReview extends StatefulWidget {
   @override
-  State createState() => new _register2();
+  State createState() => new _ImageReview();
 }
 
-class _register2 extends State<register2> {
+class _ImageReview extends State<ImageReview> {
   GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
 
   DateTime date = DateTime.now();

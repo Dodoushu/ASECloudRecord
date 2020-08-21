@@ -3,6 +3,16 @@ import 'package:helloworld/sharedPrefrences.dart';
 import 'BottomNavigationBar.dart';
 import 'PastMedicalRecord.dart';
 
+import 'upLoadInfo/hospitalizedRecord.dart';
+import 'upLoadInfo/imageReview.dart';
+import 'upLoadInfo/InvasiveReview.dart';
+import 'upLoadInfo/LaboratoryExaminationPicture.dart';
+import 'upLoadInfo/MedicalReport.dart';
+import 'upLoadInfo/OutpatientMedical.dart';
+import 'upLoadInfo/OutpatientVisitRecords.dart';
+import 'upLoadInfo/pathology.dart';
+import 'upLoadInfo/selfPortraitOfDisease.dart';
+
 void main() {
   runApp(new MaterialApp(
     title: '患者主功能页',
@@ -11,9 +21,9 @@ void main() {
 }
 
 class WidgetBulld {
-  Expanded create(String text, IconData icondata) {
-    return Expanded(
-      child: new Container(
+  Container create(String text, IconData icondata) {
+    return
+      new Container(
           child: Column(children: <Widget>[
         new SizedBox(
             height: 82,
@@ -35,8 +45,8 @@ class WidgetBulld {
           text,
           style: TextStyle(fontSize: 18),
         ))
-      ])),
-    );
+      ]));
+
   }
 }
 
@@ -85,7 +95,7 @@ class MainPage extends StatelessWidget {
                     ),
                   )),
               SizedBox(
-                height: 150,
+                height: 140,
                 width: 600,
                 child: Card(
                     elevation: 15.0, //阴影
@@ -133,11 +143,7 @@ class MainPage extends StatelessWidget {
                                 ]),
                                 new InkWell(
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  PastRecord()));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => PastRecord()));
                                     },
                                     child: Container(
                                         child: Text(
@@ -184,7 +190,7 @@ class MainPage extends StatelessWidget {
     ]);
     //跳转界面选择
     Widget ChooseModel = SizedBox(
-        height: 415,
+        height: 370,
         width: 390,
         child: Container(
           padding: const EdgeInsets.all(7.5),
@@ -194,28 +200,48 @@ class MainPage extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(28.0)),
                 side: BorderSide(width: 1.0)),
-            child: Row(children: <Widget>[
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
               new Container(
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(11),
                   child: Column(children: <Widget>[
-                    widgetbuild.create("体检报告", Icons.receipt),
-                    widgetbuild.create("病症照片", Icons.pageview),
-                    widgetbuild.create("影像检查", Icons.perm_media),
+                    InkWell(child:widgetbuild.create("体检报告", Icons.receipt),onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => medicalReport()));
+                    },),
+                    InkWell(child:widgetbuild.create("病症照片", Icons.pageview),onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => SelfPortraitOfDisease()));
+                    },),
+                    InkWell(child:widgetbuild.create("影像检查", Icons.perm_media),onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ImageReview()));
+                    },),
                   ])),
               new Container(
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.all(10),
                 child: Column(children: <Widget>[
-                  widgetbuild.create("门诊病历", Icons.assignment),
-                  widgetbuild.create("门诊记录", Icons.account_balance_wallet),
-                  widgetbuild.create("侵入型器械检查", Icons.edit),
+                  InkWell(child:widgetbuild.create("门诊病历", Icons.assignment),onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => outpatientMedical()));
+                  },),
+                  InkWell(child:widgetbuild.create("门诊记录", Icons.account_balance_wallet),onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => outpatientVisitRecords()));
+                  },),
+                  InkWell(child:widgetbuild.create("侵入型器械检查", Icons.edit),onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => invasiveReview()));
+                  },),
                 ]),
               ),
               new Container(
-                padding: EdgeInsets.all(15),
+                padding: EdgeInsets.all(10),
                 child: Column(children: <Widget>[
-                  widgetbuild.create("住院病历", Icons.redeem),
-                  widgetbuild.create("化验检查", Icons.flare),
-                  widgetbuild.create("病理学检查", Icons.opacity),
+                  InkWell(child:widgetbuild.create("住院病历", Icons.redeem),onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HospitalizedRecord()));
+                  },),
+                  InkWell(child:widgetbuild.create("化验检查", Icons.flare),onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => laboratoryExaminationPicture()));
+                  },),
+                  InkWell(child:widgetbuild.create("病理学检查", Icons.opacity),onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Pathology()));
+                  },)
                 ]),
               )
             ]),
@@ -233,6 +259,7 @@ class MainPage extends StatelessWidget {
       ),
       body: new ListView(children: <Widget>[stack, ChooseModel]),
       bottomNavigationBar: Bottom_NavigationBar.Create(),
+
     );
   }
 }

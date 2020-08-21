@@ -9,24 +9,25 @@ import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
 void main() => runApp(MaterialApp(
-  home: register2(),
+  home: HospitalizedRecord(),
 ));
 
-class register2 extends StatefulWidget {
+class HospitalizedRecord extends StatefulWidget {
   @override
-  State createState() => new _register2();
+  State createState() => new _HospitalizedRecord();
 }
 
-class _register2 extends State<register2> {
+class _HospitalizedRecord extends State<HospitalizedRecord> {
   GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
 
-  DateTime date = DateTime.now();
+  DateTime startDate = DateTime.now();
+  DateTime EndDate = DateTime.now();
   String hospital;
   String office;
   String doctorname;
   String recordcontent;
 
-  Future<void> _selectDate() async //异步
+  Future<void> _selectstartDate() async //异步
       {
     final DateTime selectdate = await showDatePicker(
       //等待异步处理的结果
@@ -40,7 +41,25 @@ class _register2 extends State<register2> {
 
     setState(() {
       //点击DatePicker的OK
-      date = selectdate;
+      startDate = selectdate;
+    });
+  }
+
+  Future<void> _selectendDate() async //异步
+      {
+    final DateTime selectdate = await showDatePicker(
+      //等待异步处理的结果
+      //等待返回
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+    );
+    if (selectdate == null) return; //点击DatePicker的cancel
+
+    setState(() {
+      //点击DatePicker的OK
+      EndDate = selectdate;
     });
   }
 
@@ -87,17 +106,37 @@ class _register2 extends State<register2> {
         child: Column(
           children: <Widget>[
             InkWell(
-              onTap: _selectDate,
+              onTap: _selectstartDate,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    '体检日期:',
+                    '开始日期:',
                     style: TextStyle(fontSize: 19),
                   ),
                   Text(
 //                  date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString(),
-                    DateFormat.yMd().format(date),
+                    DateFormat.yMd().format(startDate),
+                    style: TextStyle(fontSize: 19),
+                  ),
+                ],
+              ),
+            ),
+            Divider(
+              thickness: 2,
+            ),
+            InkWell(
+              onTap: _selectendDate,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    '结束日期:',
+                    style: TextStyle(fontSize: 19),
+                  ),
+                  Text(
+//                  date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString(),
+                    DateFormat.yMd().format(EndDate),
                     style: TextStyle(fontSize: 19),
                   ),
                 ],

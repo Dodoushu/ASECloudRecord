@@ -10,15 +10,15 @@ import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
 void main() => runApp(MaterialApp(
-  home: register2(),
+  home: invasiveReview(),
 ));
 
-class register2 extends StatefulWidget {
+class invasiveReview extends StatefulWidget {
   @override
-  State createState() => new _register2();
+  State createState() => new _invasiveReview();
 }
 
-class _register2 extends State<register2> {
+class _invasiveReview extends State<invasiveReview> {
   GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
 
   DateTime date = DateTime.now();
@@ -27,7 +27,7 @@ class _register2 extends State<register2> {
   String filespath;
   String laboratoryType;
   List selectedFiles = [];
-  String lebalContent = '请输入检查类目';
+  String lebalContent = '请选择检查类目';
   Map labelmap = {
     '1':'胃镜检查',
     '2':'肠镜检查',
@@ -201,13 +201,13 @@ class _register2 extends State<register2> {
                 ),
                 new DropdownButton(
                   items: getListData(),
-                  hint:new Text('选择检查类目'),//当没有默认值的时候可以设置的提示
-                  value: value,//下拉菜单选择完之后显示给用户的值
-                  onChanged: (T){//下拉菜单item点击之后的回调
+                  hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
+                  onChanged: (value){//下拉菜单item点击之后的回调
                     laboratoryType = value;
-//                setState(() {
-//                  value=T;
-//                });
+                    print(laboratoryType);
+                    setState(() {
+                      lebalContent = labelmap[value];
+                    });
                   },
                   elevation: 24,//设置阴影的高度
                   style: new TextStyle(//设置文本框里面文字的样式

@@ -10,15 +10,15 @@ import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
 void main() => runApp(MaterialApp(
-  home: register2(),
+  home: laboratoryExaminationPicture(),
 ));
 
-class register2 extends StatefulWidget {
+class laboratoryExaminationPicture extends StatefulWidget {
   @override
-  State createState() => new _register2();
+  State createState() => new _laboratoryExaminationPicture();
 }
 
-class _register2 extends State<register2> {
+class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> {
   GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
 
   DateTime date = DateTime.now();
@@ -85,7 +85,6 @@ class _register2 extends State<register2> {
     return items;
   }
 
-  var value;
 
 /*  _LearnDropdownButton(){
     value=getListData()[0].value;
@@ -202,7 +201,6 @@ class _register2 extends State<register2> {
                 new DropdownButton(
                   items: getListData(),
                   hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
-                  value: value,//下拉菜单选择完之后显示给用户的值
                   onChanged: (value){//下拉菜单item点击之后的回调
                     laboratoryType = value;
                     print(laboratoryType);

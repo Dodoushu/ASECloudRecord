@@ -9,15 +9,15 @@ import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
 void main() => runApp(MaterialApp(
-  home: register2(),
+  home: outpatientVisitRecords(),
 ));
 
-class register2 extends StatefulWidget {
+class outpatientVisitRecords extends StatefulWidget {
   @override
-  State createState() => new _register2();
+  State createState() => new _outpatientVisitRecords();
 }
 
-class _register2 extends State<register2> {
+class _outpatientVisitRecords extends State<outpatientVisitRecords> {
   GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
 
   DateTime date = DateTime.now();
