@@ -196,7 +196,7 @@ class _ImageReview extends State<ImageReview> {
                 new DropdownButton(
                   items: getListData(),
                   hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
-                  value: value,//下拉菜单选择完之后显示给用户的值
+//                  value: value,//下拉菜单选择完之后显示给用户的值
                   onChanged: (value){//下拉菜单item点击之后的回调
                     laboratoryType = value;
                     print(laboratoryType);
@@ -311,7 +311,7 @@ class _ImageReview extends State<ImageReview> {
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
-          backgroundColor: Colors.white,
+//          backgroundColor: Colors.white,
         ),
         body: ListView(
           children: <Widget>[

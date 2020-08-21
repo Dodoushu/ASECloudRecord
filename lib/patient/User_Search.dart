@@ -113,7 +113,7 @@ class SearchPage extends StatelessWidget{
               style:TextStyle(color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+//        backgroundColor: Colors.blue,
         leading: Icon(Icons.arrow_back_ios,size: 25,),
       ),
       body:new ListView(

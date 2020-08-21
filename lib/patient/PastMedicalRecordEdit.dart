@@ -17,7 +17,7 @@ class pastMedicalRecordEdit extends StatelessWidget {
         title:
             Text('既往病史', style: TextStyle(color: Colors.white, fontSize: 25)),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+//        backgroundColor: Colors.blue,
         leading: new Icon(
           Icons.arrow_back_ios,
           size: 25,

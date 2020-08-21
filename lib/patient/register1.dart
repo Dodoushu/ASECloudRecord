@@ -136,7 +136,7 @@ class _Login extends State<Login> {
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
-          backgroundColor: Colors.white,
+//          backgroundColor: Colors.white,
         ),
         body: new ListView(
           children: <Widget>[

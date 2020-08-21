@@ -242,12 +242,16 @@ class _medicalReport extends State<medicalReport> {
 
     return Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Colors.black, //修改颜色
+          ),
           title: Text(
             '健康体检记录',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
-          backgroundColor: Colors.white,
+//          backgroundColor: Colors.white,
+
         ),
         body: ListView(
           children: <Widget>[

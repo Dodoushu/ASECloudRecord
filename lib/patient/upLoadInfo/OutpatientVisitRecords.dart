@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
+import 'hospitalizedRecord.dart';
 
 void main() => runApp(MaterialApp(
   home: outpatientVisitRecords(),
@@ -26,6 +27,66 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
   String doctorname;
   String recordcontent;
   String conclusion;
+  String examItem;
+  String drugMethod;
+  String nonDrugMethod;
+  String lebalContent = '请选择科室';
+
+
+  List<DropdownMenuItem> getListData(){
+    List<DropdownMenuItem> items=new List();
+    DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
+      child:new Text('皮肤科'),
+      value: '皮肤科',
+    );
+    items.add(dropdownMenuItem1);
+    DropdownMenuItem dropdownMenuItem2=new DropdownMenuItem(
+      child:new Text('内科'),
+      value: '内科',
+    );
+    items.add(dropdownMenuItem2);
+    DropdownMenuItem dropdownMenuItem3=new DropdownMenuItem(
+      child:new Text('外科'),
+      value: '外科',
+    );
+    items.add(dropdownMenuItem3);
+    DropdownMenuItem dropdownMenuItem4=new DropdownMenuItem(
+      child:new Text('妇产科'),
+      value: '妇产科',
+    );
+    items.add(dropdownMenuItem4);
+    DropdownMenuItem dropdownMenuItem5=new DropdownMenuItem(
+      child:new Text('男科'),
+      value: '男科',
+    );
+    items.add(dropdownMenuItem5);
+    DropdownMenuItem dropdownMenuItem6=new DropdownMenuItem(
+      child:new Text('儿科'),
+      value: '儿科',
+    );
+    items.add(dropdownMenuItem6);
+    DropdownMenuItem dropdownMenuItem7=new DropdownMenuItem(
+      child:new Text('五官科'),
+      value: '五官科',
+    );
+    items.add(dropdownMenuItem7);
+    DropdownMenuItem dropdownMenuItem8=new DropdownMenuItem(
+      child:new Text('肿瘤科'),
+      value: '肿瘤科',
+    );
+    items.add(dropdownMenuItem8);
+    DropdownMenuItem dropdownMenuItem9=new DropdownMenuItem(
+      child:new Text('中医科'),
+      value: '中医科',
+    );
+    items.add(dropdownMenuItem9);
+    DropdownMenuItem dropdownMenuItem10=new DropdownMenuItem(
+      child:new Text('传染科'),
+      value: '传染科',
+    );
+    items.add(dropdownMenuItem10);
+    return items;
+  }
 
   Future<void> _selectDate() async //异步
       {
@@ -109,17 +170,33 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
             ),
             Column(
               children: <Widget>[
-                TextField(
-                  decoration: new InputDecoration(
-                    labelText: '请输入就诊科室',
-                    labelStyle: new TextStyle(
-                        fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    office = value;
-                  },
+            Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  '就诊科室:',
+                  style: TextStyle(fontSize: 19),
                 ),
+                new DropdownButton(
+                  items: getListData(),
+                  hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
+//                  value: value,//下拉菜单选择完之后显示给用户的值
+                  onChanged: (value){//下拉菜单item点击之后的回调
+                    office = value;
+                    setState(() {
+                      lebalContent = value;
+                    });
+                  },
+                  elevation: 24,//设置阴影的高度
+                  style: new TextStyle(//设置文本框里面文字的样式
+                      color: Colors.black,
+                      fontSize: 15
+                  ),
+//              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
+                  iconSize: 50.0,//设置三角标icon的大小
+                ),
+              ],
+            ),
                 Divider(
                   thickness: 2,
                 ),
@@ -178,6 +255,105 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
                     conclusion = value;
                   },
                 ),
+                Divider(
+                  thickness: 2,
+                ),
+                TextField(
+                  decoration: new InputDecoration(
+                    labelText: '请输入检查项目',
+                    labelStyle: new TextStyle(
+                        fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                    border: InputBorder.none,
+                  ),
+                  maxLines: 4,
+                  onChanged: (value) {
+                    examItem = value;
+                  },
+                ),
+                Divider(
+                  thickness: 2,
+                ),
+                InkWell(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => HospitalizedRecord()));
+                  },
+                  child:Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        '住院治疗',
+                        style: TextStyle(fontSize: 19),
+                      ),
+                      Icon(Icons.arrow_forward_ios,size: 19,color: Colors.black,),
+                    ],
+                ),),
+                Divider(
+                  thickness: 2,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '门诊治疗:',
+                      style: TextStyle(fontSize: 19),
+                    )
+                  ],
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 10,right: 10),
+                  child: Column(
+                    children: <Widget>[
+                      Container(height: 10,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            '非药物治疗方案:',
+                            style: TextStyle(fontSize: 16),
+                          )
+                        ],
+                      ),
+                      TextField(
+                        decoration: new InputDecoration(
+                          labelText: '请输入非药物治疗方案',
+                          labelStyle: new TextStyle(
+                              fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(),
+                          ),
+                        ),
+                        maxLines: 4,
+                        onChanged: (value) {
+                          nonDrugMethod = value;
+                        },
+                      ),
+                      Container(height: 10,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            '药物治疗方案:',
+                            style: TextStyle(fontSize: 16),
+                          )
+                        ],
+                      ),
+                      TextField(
+                        decoration: new InputDecoration(
+                          labelText: '请输入用药方案',
+                          labelStyle: new TextStyle(
+                              fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(),
+                          ),
+                        ),
+                        maxLines: 4,
+                        onChanged: (value) {
+                          drugMethod = value;
+                        },
+                      ),
+                    ],
+                  ),
+                )
               ],
             )
           ],
@@ -217,7 +393,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
-          backgroundColor: Colors.white,
+//          backgroundColor: Colors.white,
         ),
         body: ListView(
           children: <Widget>[

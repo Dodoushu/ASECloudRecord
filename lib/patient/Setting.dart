@@ -96,7 +96,7 @@ class Setting extends StatelessWidget{
       appBar: new AppBar(
         title: Text('设置',style: TextStyle(color: Colors.white),),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+//        backgroundColor: Colors.blue,
         leading: new Icon(Icons.arrow_back_ios,size: 25,),
       ),
       body: new ListView(

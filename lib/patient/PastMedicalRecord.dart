@@ -24,8 +24,8 @@ class WidgetBulld {
     this.disease = diseasenum;
   }
 
-  Expanded create(String text, IconData icondata) {
-    return Expanded(
+  Container create(String text, IconData icondata) {
+    return Container(
         child: new Container(
                 padding: EdgeInsets.only(top: 20),
                 child: Column(children: <Widget>[
@@ -107,7 +107,7 @@ class PastRecord extends StatelessWidget {
           title:
               Text('既往病史', style: TextStyle(color: Colors.white, fontSize: 25)),
           centerTitle: true,
-          backgroundColor: Colors.blue,
+//          backgroundColor: Colors.blue,
           leading: new Icon(
             Icons.arrow_back_ios,
             size: 25,

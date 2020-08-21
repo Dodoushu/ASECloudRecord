@@ -268,7 +268,7 @@ class Personal_Info extends StatelessWidget {
         appBar: new AppBar(
           title: Text('个人信息',style: TextStyle(color: Colors.white),),
           centerTitle: true,
-          backgroundColor: Colors.blue,
+//          backgroundColor: Colors.blue,
           leading: new Icon(Icons.arrow_back_ios,size: 25,),
         ),
         body: new ListView(

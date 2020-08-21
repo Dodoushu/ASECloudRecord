@@ -26,6 +26,63 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
   String office;
   String doctorname;
   String recordcontent;
+  String lebalContent = '请选择科室';
+
+
+  List<DropdownMenuItem> getListData(){
+    List<DropdownMenuItem> items=new List();
+    DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
+      child:new Text('皮肤科'),
+      value: '皮肤科',
+    );
+    items.add(dropdownMenuItem1);
+    DropdownMenuItem dropdownMenuItem2=new DropdownMenuItem(
+      child:new Text('内科'),
+      value: '内科',
+    );
+    items.add(dropdownMenuItem2);
+    DropdownMenuItem dropdownMenuItem3=new DropdownMenuItem(
+      child:new Text('外科'),
+      value: '外科',
+    );
+    items.add(dropdownMenuItem3);
+    DropdownMenuItem dropdownMenuItem4=new DropdownMenuItem(
+      child:new Text('妇产科'),
+      value: '妇产科',
+    );
+    items.add(dropdownMenuItem4);
+    DropdownMenuItem dropdownMenuItem5=new DropdownMenuItem(
+      child:new Text('男科'),
+      value: '男科',
+    );
+    items.add(dropdownMenuItem5);
+    DropdownMenuItem dropdownMenuItem6=new DropdownMenuItem(
+      child:new Text('儿科'),
+      value: '儿科',
+    );
+    items.add(dropdownMenuItem6);
+    DropdownMenuItem dropdownMenuItem7=new DropdownMenuItem(
+      child:new Text('五官科'),
+      value: '五官科',
+    );
+    items.add(dropdownMenuItem7);
+    DropdownMenuItem dropdownMenuItem8=new DropdownMenuItem(
+      child:new Text('肿瘤科'),
+      value: '肿瘤科',
+    );
+    items.add(dropdownMenuItem8);
+    DropdownMenuItem dropdownMenuItem9=new DropdownMenuItem(
+      child:new Text('中医科'),
+      value: '中医科',
+    );
+    items.add(dropdownMenuItem9);
+    DropdownMenuItem dropdownMenuItem10=new DropdownMenuItem(
+      child:new Text('传染科'),
+      value: '传染科',
+    );
+    items.add(dropdownMenuItem10);
+    return items;
+  }
 
   Future<void> _selectstartDate() async //异步
       {
@@ -147,16 +204,32 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
             ),
             Column(
               children: <Widget>[
-                TextField(
-                  decoration: new InputDecoration(
-                    labelText: '请输入就诊科室',
-                    labelStyle: new TextStyle(
-                        fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    office = value;
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '就诊科室:',
+                      style: TextStyle(fontSize: 19),
+                    ),
+                    new DropdownButton(
+                      items: getListData(),
+                      hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
+//                  value: value,//下拉菜单选择完之后显示给用户的值
+                      onChanged: (value){//下拉菜单item点击之后的回调
+                        office = value;
+                        setState(() {
+                          lebalContent = value;
+                        });
+                      },
+                      elevation: 24,//设置阴影的高度
+                      style: new TextStyle(//设置文本框里面文字的样式
+                          color: Colors.black,
+                          fontSize: 15
+                      ),
+//              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
+                      iconSize: 50.0,//设置三角标icon的大小
+                    ),
+                  ],
                 ),
                 Divider(
                   thickness: 2,
@@ -240,7 +313,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
-          backgroundColor: Colors.white,
+//          backgroundColor: Colors.white,
         ),
         body: ListView(
           children: <Widget>[

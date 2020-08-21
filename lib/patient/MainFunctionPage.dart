@@ -95,7 +95,7 @@ class MainPage extends StatelessWidget {
                     ),
                   )),
               SizedBox(
-                height: 140,
+                height: 160,
                 width: 600,
                 child: Card(
                     elevation: 15.0, //阴影
@@ -190,7 +190,7 @@ class MainPage extends StatelessWidget {
     ]);
     //跳转界面选择
     Widget ChooseModel = SizedBox(
-        height: 370,
+        height: 400,
         width: 390,
         child: Container(
           padding: const EdgeInsets.all(7.5),
@@ -250,12 +250,15 @@ class MainPage extends StatelessWidget {
 
     return new Scaffold(
       appBar: new AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black, //修改颜色
+        ),
         title: Text(
           '主页',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
-        backgroundColor: Colors.white,
+//        backgroundColor: Colors.white,
       ),
       body: new ListView(children: <Widget>[stack, ChooseModel]),
       bottomNavigationBar: Bottom_NavigationBar.Create(),
