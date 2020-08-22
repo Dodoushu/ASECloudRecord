@@ -92,15 +92,19 @@ class PastRecord extends StatelessWidget {
       patientDiseaseInfo['disease_info'] = disease_info;
       await request(url, FormData: bodymap).then((value){
         Map data = json.decode(value.toString());
-        if(data['result']==1){
+        if(data['status_code']==1){
           showAlertDialog(context,
               titleText: 'success', contentText: '上传成功');
-        }else{
+        }else if(data['status_code']==0){
           showAlertDialog(context,
               titleText: 'failed', contentText: '上传失败');
+        }else{
+          showAlertDialog(context,
+              titleText: 'failed', contentText: '未知错误');
         }
       });
     }
+
     return new Scaffold(
         //顶栏
         appBar: new AppBar(

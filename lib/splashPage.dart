@@ -86,30 +86,35 @@ void goToHomePage(){
         String phoneNum;
         SharedPreferenceUtil.getString('phoneNum').then((value){
           phoneNum = value;
-        });
-        var bodymap = Map();
-        bodymap['phone_num']=phoneNum;
-        bodymap['token']=token;
-        String url = 'http://39.100.100.198:8082/token';
-        var result;
-        request(url,FormData: bodymap).then((value) {
-          result = json.decode(value.toString());
+          var sign = Map();
+          sign['phone_num']=phoneNum;
+          var bodymap = Map();
+          bodymap['token']=token;
+          bodymap['sign']=sign;
+          String url = 'http://39.100.100.198:8082/token';
+          var result;
+          request(url,FormData: bodymap).then((value) {
+            result = json.decode(value.toString());
 
-          //token合法
-          if(result['result']==1){
-            if(result['user_type']==0){
-              isStartHomePage = true;
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => patientMain.MainPage()), (route) => false);
-            }if(result['user_type']==1){
-              isStartHomePage = true;
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => doctorMain.MainPage()), (route) => false);
-            };
-          //token不合法
-          }else{
-            SharedPreferenceUtil.remove('token');
-            isStartHomePage = true;
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => select()), (route) => false);
-          }
+            //token不合法
+            if(result['status_code']==1){
+              SharedPreferenceUtil.remove('token').then((value){
+                isStartHomePage = true;
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => select()), (route) => false);
+              });
+            }
+
+            //token合法
+            if(result['status_code']==0){
+              if(result['patient']==1){
+                isStartHomePage = true;
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => patientMain.MainPage()), (route) => false);
+              }if(result['patient']==0){
+                isStartHomePage = true;
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => doctorMain.MainPage()), (route) => false);
+              };
+            }
+          });
         });
       });
     }

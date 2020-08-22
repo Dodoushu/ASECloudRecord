@@ -6,6 +6,7 @@ import 'package:helloworld/http_service.dart';
 import 'dart:convert';
 import 'register2.dart';
 import 'package:helloworld/sharedPrefrences.dart';
+import 'package:helloworld/showAlertDialogClass.dart';
 
 void main() => runApp(MyApp());
 
@@ -60,13 +61,15 @@ class _Login extends State<Login> {
       await request(url,FormData: formData).then((value) {
 
         var data = json.decode(value.toString());
-        print(data['result']);
-        if(data['result']=='1'){
+
+        if(data['state_code']=='1'){
           SharedPreferenceUtil.setString('phoneNum', phoneNumber);
-//          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
+          showAlertDialog(context, titleText: '注册成功', contentText: '点击确定填写个人信息');
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
+        }else if(data['state_code']=='1'){
+          showAlertDialog(context, titleText: '注册失败', contentText: '账号已存在');
         }else{
-          print('注册失败，账号已存在');
+          showAlertDialog(context, titleText: '注册失败', contentText: '未知错误');
         }
       });
     }

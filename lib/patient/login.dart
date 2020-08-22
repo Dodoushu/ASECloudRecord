@@ -23,70 +23,59 @@ class _Login extends State<Login> {
   bool isShowPassWord = false;
 
   void login() async {
-
-
 //    //演示时去掉验证功能
 //    Navigator.pushAndRemoveUntil(
 //        context,
 //        MaterialPageRoute(builder: (context) => MainPage()),
 //            (route) => false);
 
-
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
     if (loginForm.validate()) {
+      var sign = Map();
+      sign['phone_num'] = userName;
+      sign['pass_word'] = password;
       var bodymap = Map();
-      bodymap['phone_num'] = userName;
-      bodymap['pass_word'] = password;
-//      bodymap['token'] = null;
+      bodymap['sign'] = sign;
       var url = "http://39.100.100.198:8082/sign";
       var formData = bodymap;
       print(formData);
       await request(url, FormData: formData).then((value) {
-
-        if(value==null){
-          showAlertDialog(context,
-              titleText: '登陆失败', contentText: '请检查账号密码');
-        }
         print('response:' + value.toString());
         Map data = json.decode(value.toString());
 
-        if(data['name']==null){
+        if (data['status_code'] == 4) {
           showAlertDialog(context,
               titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => register2()),
-                  (route) => false);
+              (route) => false);
+        }else if (data['status_code'] == 0) {
+          SharedPreferenceUtil.setString('phoneNum', userName.toString()).then((value) {
+            SharedPreferenceUtil.setString('name', data['name']).then((value) {
+              SharedPreferenceUtil.setString('token', data['token']).then((value) {
+                showAlertDialog(context, titleText: '', contentText: '登陆成功');
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+              });
+            });
+          });
+        }else if (data['status_code'] == 1||data['status_code'] == 2){
+          showAlertDialog(context,
+              titleText: '登陆失败', contentText: '请检查账号密码');
+        }else{
+          showAlertDialog(context,
+              titleText: '登陆失败', contentText: '未知错误');
         }
-        SharedPreferenceUtil.setString('name', data['name']);
-        Future<bool> result =
-            SharedPreferenceUtil.setString('token', data['token'])
-                .then((value) {
-          bool temp = value;
-          if (value != null) {
-            print('登陆成功');
-            SharedPreferenceUtil.setString('phoneNum', userName.toString());
-//            Navigator.pushNamedAndRemoveUntil(context, '/patient/MainFunctionPage', (Route<dynamic> rout)=>false);  //命名路由
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MainPage()),
-                (route) => false);
-          } else {
-            showAlertDialog(context,
-                titleText: '写入信息失败', contentText: '请尝试重新登陆');
-          }
-          ;
-        });
       });
     }
   }
+
 //        print('the response is:');
 //        print(value);
 //        var data = json.decode(value.toString());
 //        print(data.toString());
-
 
   void showPassWord() {
     setState(() {
@@ -226,8 +215,12 @@ class _Login extends State<Login> {
                           ),
                         ),
                         InkWell(
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => reg1.Login()),);
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => reg1.Login()),
+                            );
                           },
                           child: Text(
                             '注册账号',
