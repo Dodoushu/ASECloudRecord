@@ -54,7 +54,7 @@ class _Login extends State<Login> {
       bodymap['phone_num']=phoneNumber;
       bodymap['pass_word']=password;
       bodymap['ver_code']='111111';
-      bodymap['user_type']='0';
+      bodymap['user_type']=0;
       var url = "http://39.100.100.198:8082/register";
       var formData = bodymap;
       print(formData);

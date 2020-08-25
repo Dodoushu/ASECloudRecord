@@ -118,7 +118,7 @@ class _SplashPage extends State<SplashPage> {
                             builder: (context) => patientMain.MainPage()),
                         (route) => false);
                   });
-                } else if (result['user_type'] == 1) {
+                } else if (result['user_type'] == 3) {
                   print('0---1');
                   isStartHomePage = true;
                   SharedPreferenceUtil.setString('name', result['name'])
