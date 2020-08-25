@@ -72,28 +72,20 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
 //      print(name);
 //    }
     var bodymap = Map();
-    var bodymap2 = Map();
-    var patient = Map();
     String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum')
-        .then((value) => {phoneNum = value});
-    patient['phone_num'] = phoneNum;
-    bodymap['patient'] = patient;
-    print(bodymap);
-    var url = "http://39.100.100.198:8082/patient";
-    var formData = bodymap;
-    await request(url, FormData: formData).then((value) {
-      var data = json.decode(value.toString());
-      if (data['token'] != null) {
-        SharedPreferenceUtil.setString('token', data['token']);
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => MainPage()),
-                (route) => false);
-      } else {
-        showAlertDialog(context,
-            titleText: 'failed', contentText: '录入信息失败，请重试');
-      }
+    SharedPreferenceUtil.getString('phoneNum').then((value) async{
+      bodymap['phone_num'] = value;
+      bodymap['files'] = selectedFiles;
+      bodymap['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
+      bodymap['picture_type'] = 3;
+      var url = "http://39.100.100.198:8082/UploadFiles/DiseasePicture";
+      var formData = bodymap;
+      await request(url, FormData: formData).then((value) {
+        var data = json.decode(value.toString());
+        print(data);
+        showAlertDialog(context,contentText: '上传成功');
+//        Navigator.of(context).pop();
+      });
     });
   }
 

@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'BottomNavigationBar.dart';
+import 'package:helloworld/sharedPrefrences.dart';
+import 'package:helloworld/http_service.dart';
+import 'dart:convert';
+import 'package:helloworld/showAlertDialogClass.dart';
+//import 'pictureGridview.dart';
+
+
 void main(){
   runApp(new MaterialApp(
     title: '用户查询页面',
@@ -90,7 +97,25 @@ class SearchPage extends StatelessWidget{
                     margin: EdgeInsets.only(top: 10),
                     child: Column(
                       children: <Widget>[
-                        _widgetBuild.create("全部图片浏览", Icons.photo_library, Colors.amberAccent),
+                        InkWell(
+                          onTap:() async{
+                            var bodymap = Map();
+                            String phoneNum;
+                            SharedPreferenceUtil.getString('phoneNum').then((value) async{
+                                  phoneNum = value;
+                                  bodymap['phone_num'] = '18392136108';
+                                  print(bodymap);
+                                  var url = "http://39.100.100.198:8082/selectAllPicture";
+                                  var formData = bodymap;
+                                  await request(url, FormData: formData).then((value) {
+                                    var data = json.decode(value.toString());
+                                    print(data);
+                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
+                                  });
+                            });
+                          },
+                          child:_widgetBuild.create("全部图片浏览", Icons.photo_library, Colors.amberAccent),
+                        ),
                         _widgetBuild.create("健康体检报告查询", Icons.inbox, Colors.deepPurple),
                         _widgetBuild.create("诊断名称查询", Icons.receipt, Colors.tealAccent),
                         _widgetBuild.create("门诊记录查询", Icons.web, Colors.orange),

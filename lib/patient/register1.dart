@@ -61,12 +61,13 @@ class _Login extends State<Login> {
       await request(url,FormData: formData).then((value) {
 
         var data = json.decode(value.toString());
+        print(data);
 
-        if(data['state_code']=='1'){
+        if(data['status_code']==1){
           SharedPreferenceUtil.setString('phoneNum', phoneNumber);
           showAlertDialog(context, titleText: '注册成功', contentText: '点击确定填写个人信息');
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
-        }else if(data['state_code']=='1'){
+        }else if(data['status_code']==0){
           showAlertDialog(context, titleText: '注册失败', contentText: '账号已存在');
         }else{
           showAlertDialog(context, titleText: '注册失败', contentText: '未知错误');

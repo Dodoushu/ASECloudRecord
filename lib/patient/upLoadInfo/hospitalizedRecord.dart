@@ -23,62 +23,74 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
   DateTime startDate = DateTime.now();
   DateTime EndDate = DateTime.now();
   String hospital;
-  String office;
+  int office;
   String doctorname;
   String recordcontent;
   String lebalContent = '请选择科室';
+  Map labelmap = {
+    '1':'皮肤科',
+    '2':'内科',
+    '3':'外科',
+    '4':'妇产科',
+    '5':'男科',
+    '6':'儿科',
+    '7':'五官科',
+    '8':'肿瘤科',
+    '9':'中医科',
+    '10':'传染科'
+  };
 
 
   List<DropdownMenuItem> getListData(){
     List<DropdownMenuItem> items=new List();
     DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
       child:new Text('皮肤科'),
-      value: '皮肤科',
+      value: '1',
     );
     items.add(dropdownMenuItem1);
     DropdownMenuItem dropdownMenuItem2=new DropdownMenuItem(
       child:new Text('内科'),
-      value: '内科',
+      value: '2',
     );
     items.add(dropdownMenuItem2);
     DropdownMenuItem dropdownMenuItem3=new DropdownMenuItem(
       child:new Text('外科'),
-      value: '外科',
+      value: '3',
     );
     items.add(dropdownMenuItem3);
     DropdownMenuItem dropdownMenuItem4=new DropdownMenuItem(
       child:new Text('妇产科'),
-      value: '妇产科',
+      value: '4',
     );
     items.add(dropdownMenuItem4);
     DropdownMenuItem dropdownMenuItem5=new DropdownMenuItem(
       child:new Text('男科'),
-      value: '男科',
+      value: '5',
     );
     items.add(dropdownMenuItem5);
     DropdownMenuItem dropdownMenuItem6=new DropdownMenuItem(
       child:new Text('儿科'),
-      value: '儿科',
+      value: '6',
     );
     items.add(dropdownMenuItem6);
     DropdownMenuItem dropdownMenuItem7=new DropdownMenuItem(
       child:new Text('五官科'),
-      value: '五官科',
+      value: '7',
     );
     items.add(dropdownMenuItem7);
     DropdownMenuItem dropdownMenuItem8=new DropdownMenuItem(
       child:new Text('肿瘤科'),
-      value: '肿瘤科',
+      value: '8',
     );
     items.add(dropdownMenuItem8);
     DropdownMenuItem dropdownMenuItem9=new DropdownMenuItem(
       child:new Text('中医科'),
-      value: '中医科',
+      value: '9',
     );
     items.add(dropdownMenuItem9);
     DropdownMenuItem dropdownMenuItem10=new DropdownMenuItem(
       child:new Text('传染科'),
-      value: '传染科',
+      value: '10',
     );
     items.add(dropdownMenuItem10);
     return items;
@@ -128,29 +140,32 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
+
     var bodymap = Map();
-    var bodymap2 = Map();
-    var patient = Map();
+    var admissionNote = Map();
     String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum')
-        .then((value) => {phoneNum = value});
-    patient['phone_num'] = phoneNum;
-    bodymap['patient'] = patient;
-    print(bodymap);
-    var url = "http://39.100.100.198:8082/patient";
-    var formData = bodymap;
-    await request(url, FormData: formData).then((value) {
-      var data = json.decode(value.toString());
-      if (data['token'] != null) {
-        SharedPreferenceUtil.setString('token', data['token']);
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => MainPage()),
-                (route) => false);
-      } else {
+    SharedPreferenceUtil.getString('phoneNum').then((value) async{
+      phoneNum = value;
+//      admissionNote['phone_num'] = phoneNum;
+      admissionNote['phone_num'] = '18392136108';
+      bodymap['admissionNote'] = admissionNote;
+      admissionNote['s_date'] = startDate.year.toString()+'-'+startDate.month.toString()+'-'+startDate.day.toString();
+      admissionNote['o_date'] = EndDate.year.toString()+'-'+EndDate.month.toString()+'-'+EndDate.day.toString();
+      admissionNote['department_treatment'] = office;
+      admissionNote['hospital'] = hospital;
+      admissionNote['doctor_name'] = doctorname;
+      admissionNote['admission_info'] = recordcontent;
+      print(bodymap);
+      var url = "http://39.100.100.198:8082/admission";
+      var formData = bodymap;
+      await request(url, FormData: formData).then((value) {
+        var data = json.decode(value.toString());
+        print(data);
+
         showAlertDialog(context,
-            titleText: 'failed', contentText: '录入信息失败，请重试');
-      }
+              titleText: 'failed', contentText: '操作成功');
+
+      });
     });
   }
 
@@ -216,9 +231,9 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
                       hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
 //                  value: value,//下拉菜单选择完之后显示给用户的值
                       onChanged: (value){//下拉菜单item点击之后的回调
-                        office = value;
+                        office = int.parse(value);
                         setState(() {
-                          lebalContent = value;
+                          lebalContent = labelmap[value];
                         });
                       },
                       elevation: 24,//设置阴影的高度

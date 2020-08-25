@@ -13,12 +13,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
         title: 'FlutterDemo',
-        routes: <String,WidgetBuilder>{//配置路径
-          '/select':(BuildContext context)  => new select(),
-          '/patientLogin':(BuildContext context) => new doctorLogin.Login(),
-          '/doctorLogin':(BuildContext context) => new patientLogin.Login(),
-          '/patient/MainFunctionPage':(BuildContext context) => new patientMain.MainPage(),
-        },
+//        routes: <String,WidgetBuilder>{//配置路径
+//          '/select':(BuildContext context)  => new select(),
+//          '/patientLogin':(BuildContext context) => new doctorLogin.Login(),
+//          '/doctorLogin':(BuildContext context) => new patientLogin.Login(),
+//          '/patient/MainFunctionPage':(BuildContext context) => new patientMain.MainPage(),
+//        },
 //        theme: new ThemeData(
 //          // This is the theme of your application.
 //          //

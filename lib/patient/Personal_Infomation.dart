@@ -278,5 +278,4 @@ class Personal_Info extends StatelessWidget {
       )
     );
   }
-
 }

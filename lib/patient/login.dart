@@ -44,7 +44,7 @@ class _Login extends State<Login> {
       await request(url, FormData: formData).then((value) {
         print('response:' + value.toString());
         Map data = json.decode(value.toString());
-
+        print(data);
         if (data['status_code'] == 4) {
           showAlertDialog(context,
               titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');

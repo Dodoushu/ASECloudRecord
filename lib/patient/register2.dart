@@ -33,27 +33,49 @@ class _register2 extends State<register2> {
   String ICE2name;
   String ICE2phone;
 
-  void frplus() {
-    if (formerResidenceNumber == null) {
-      formerResidenceNumber = 1;
-    }
-    if (formerResidenceNumber <= 3) {
-      setState(() {
-        formerResidenceNumber++;
-      });
-    }
+  String lebalContent = '请选择性别';
+  Map labelmap = {
+    '0':'男',
+    '1':'女',
+  };
+
+
+  List<DropdownMenuItem> getListData(){
+    List<DropdownMenuItem> items=new List();
+    DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
+      child:new Text('男'),
+      value: '0',
+    );
+    items.add(dropdownMenuItem1);
+    DropdownMenuItem dropdownMenuItem2=new DropdownMenuItem(
+      child:new Text('女'),
+      value: '1',
+    );
+    items.add(dropdownMenuItem2);
+    return items;
   }
 
-  void INplus() {
-    if (ICENumber == null) {
-      ICENumber = 1;
-    }
-    if (ICENumber <= 3) {
-      setState(() {
-        ICENumber++;
-      });
-    }
-  }
+//  void frplus() {
+//    if (formerResidenceNumber == null) {
+//      formerResidenceNumber = 1;
+//    }
+//    if (formerResidenceNumber <= 3) {
+//      setState(() {
+//        formerResidenceNumber++;
+//      });
+//    }
+//  }
+//
+//  void INplus() {
+//    if (ICENumber == null) {
+//      ICENumber = 1;
+//    }
+//    if (ICENumber <= 3) {
+//      setState(() {
+//        ICENumber++;
+//      });
+//    }
+//  }
 
   void summit() async{
 //    print(name);
@@ -63,35 +85,35 @@ class _register2 extends State<register2> {
 //      print(name);
 //    }
     var bodymap = Map();
-    var bodymap2 = Map();
     var patient = Map();
-    patient['name']=name;
-    SharedPreferenceUtil.setString("name", name);
-    patient['sex']=int.parse(sex);
-    patient['race']=nation;
-    patient['birthplace']=birthplace;
-    patient['id_num']=ID;
-    patient['postal_addr']=mailAddress;
-    patient['now_addr']=address;
-    patient['pre_addr1']=FR1;
-    bodymap2['formerResidence2']=FR2;
-    patient['emerge']={'name':ICE1name,'phone_num':ICE1phone}.toString();
-    bodymap2['emerge1']={'name':ICE2name,'phone_num':ICE2phone}.toString();
     String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum').then((value) => {phoneNum = value});
-    patient['phone_num']=phoneNum;
-    bodymap['patient']=patient;
-    print(bodymap);
-    var url = "http://39.100.100.198:8082/patient";
-    var formData = bodymap;
-    await request(url,FormData: formData).then((value) {
-        var data = json.decode(value.toString());
-        if(data['token']!=null){
-          SharedPreferenceUtil.setString('token', data['token']);
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
-        }else{
-          showAlertDialog(context,titleText: 'failed',contentText: '录入信息失败，请重试');
-        }
+    SharedPreferenceUtil.getString('phoneNum').then((value){
+      phoneNum = value;
+      bodymap['phone_num']=phoneNum;
+      patient['name']=name;
+      SharedPreferenceUtil.setString("name", name).then((value) async{
+        patient['sex']=int.parse(sex);
+        patient['race']=nation;
+        patient['birthplace']=birthplace;
+        patient['id_num']=ID;
+        patient['postal_addr']=mailAddress;
+        patient['now_addr']=address;
+        patient['pre_addr1']=FR1;
+        patient['emerge']=[{'name':ICE1name,'phone_num':ICE1phone},{'name':ICE2name,'phone_num':ICE2phone}];
+        bodymap['patient']=patient;
+        print(bodymap);
+        var url = "http://39.100.100.198:8082/patient";
+        var formData = bodymap;
+        await request(url,FormData: formData).then((value) {
+          var data = json.decode(value.toString());
+          if(data['status_code']==1){
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+          }else if(data['status_code']==0){
+            showAlertDialog(context,titleText: 'failed',contentText: '身份信息证已存在，请重试');
+          }else if(data['status_code']==2){
+            showAlertDialog(context,titleText: 'failed',contentText: '必填信息不全，请重试');
+        }});
+      });
     });
   }
 
@@ -131,18 +153,35 @@ class _register2 extends State<register2> {
                 Divider(
                   thickness: 2,
                 ),
-                TextField(
-                  decoration: new InputDecoration(
-                    labelText: '请输入您的性别',
-                    labelStyle: new TextStyle(
-                        fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
 
-                    sex = value;
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '性别:',
+                      style: TextStyle(fontSize: 19),
+                    ),
+                    new DropdownButton(
+                      items: getListData(),
+                      hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
+                      onChanged: (value){//下拉菜单item点击之后的回调
+                        sex = value;
+                        print(sex);
+                        setState(() {
+                          lebalContent = labelmap[value];
+                        });
+                      },
+                      elevation: 24,//设置阴影的高度
+                      style: new TextStyle(//设置文本框里面文字的样式
+                          color: Colors.black,
+                          fontSize: 15
+                      ),
+//              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
+                      iconSize: 50.0,//设置三角标icon的大小
+                    ),
+                  ],
                 ),
+
                 Divider(
                   thickness: 2,
                 ),
@@ -258,10 +297,10 @@ class _register2 extends State<register2> {
                         '曾居住地',
                         style: TextStyle(fontSize: 18),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: frplus,
-                      )
+//                      IconButton(
+//                        icon: Icon(Icons.add),
+//                        onPressed: frplus,
+//                      )
                     ],
                   ),
                 ),
@@ -280,21 +319,21 @@ class _register2 extends State<register2> {
                     FR1 = value;
                   },
                 ),
-                Divider(
-                  thickness: 2,
-                ),
-                TextField(
-                  decoration: new InputDecoration(
-                    labelText: '请输入您的曾居住地2',
-                    labelStyle: new TextStyle(
-                        fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
-                    border: InputBorder.none,
-                  ),
-                  maxLines: 5,
-                  onChanged: (value) {
-                    FR2 = value;
-                  },
-                ),
+//                Divider(
+//                  thickness: 2,
+//                ),
+//                TextField(
+//                  decoration: new InputDecoration(
+//                    labelText: '请输入您的曾居住地2',
+//                    labelStyle: new TextStyle(
+//                        fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+//                    border: InputBorder.none,
+//                  ),
+//                  maxLines: 5,
+//                  onChanged: (value) {
+//                    FR2 = value;
+//                  },
+//                ),
                 Divider(
                   thickness: 2,
                 ),
@@ -309,10 +348,10 @@ class _register2 extends State<register2> {
                       '紧急联系人',
                       style: TextStyle(fontSize: 18),
                     ),
-                    IconButton(
-                      icon: Icon(Icons.add),
-                      onPressed: frplus,
-                    )
+//                    IconButton(
+//                      icon: Icon(Icons.add),
+//                      onPressed: frplus,
+//                    )
                   ],
                 )),
             Divider(

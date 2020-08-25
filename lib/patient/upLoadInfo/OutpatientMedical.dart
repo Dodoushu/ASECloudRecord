@@ -109,29 +109,27 @@ class _outpatientMedical extends State<outpatientMedical> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
+
     var bodymap = Map();
-    var bodymap2 = Map();
-    var patient = Map();
+    var outpatient = Map();
     String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum')
-        .then((value) => {phoneNum = value});
-    patient['phone_num'] = phoneNum;
-    bodymap['patient'] = patient;
-    print(bodymap);
-    var url = "http://39.100.100.198:8082/patient";
-    var formData = bodymap;
-    await request(url, FormData: formData).then((value) {
-      var data = json.decode(value.toString());
-      if (data['token'] != null) {
-        SharedPreferenceUtil.setString('token', data['token']);
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => MainPage()),
-                (route) => false);
-      } else {
-        showAlertDialog(context,
-            titleText: 'failed', contentText: '录入信息失败，请重试');
-      }
+    SharedPreferenceUtil.getString('phoneNum').then((value) async{
+      phoneNum = value;
+      bodymap['phone_num'] = phoneNum;
+      outpatient['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
+      outpatient['department_treatment'] = office;
+      outpatient['hospital'] = hospital;
+      outpatient['disease_info'] = recordcontent;
+      outpatient['doctor_name'] = doctorname;
+      bodymap['outpatient'] = outpatient;
+      print(bodymap);
+      var url = "http://39.100.100.198:8082/outpatient";
+      var formData = bodymap;
+      await request(url, FormData: formData).then((value) {
+        var data = json.decode(value.toString());
+        print(data);
+        showAlertDialog(context,  contentText: '操作成功');
+      });
     });
   }
 
