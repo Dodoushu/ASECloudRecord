@@ -20,8 +20,8 @@ class _register2 extends State<register2> {
   String birthplace;
   String ID;
 
-  int formerResidenceNumber;
-  int ICENumber;
+  int formerResidenceNumber;   //暂时没用到
+  int ICENumber;            //暂时没用到
 
   String mailAddress;
   String address;

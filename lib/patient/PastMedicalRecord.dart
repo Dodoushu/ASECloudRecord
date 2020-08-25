@@ -63,7 +63,7 @@ class PastRecord extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void summit(int disease) async {
-      var url = "http://101.133.228.14:8082/disease";
+      var url = "http://39.100.100.198:8082/disease";
       String phone_num;
       int disease_type = disease;
       String disease_info;
@@ -87,7 +87,7 @@ class PastRecord extends StatelessWidget {
               bodymap['phone_num'] = phone_num;
               bodymap['token'] = token;
               bodymap['patientDiseaseInfo'] = patientDiseaseInfo;
-              patientDiseaseInfo['disease_type'] = disease_type;
+              patientDiseaseInfo['disease_type'] = disease_type.toString();
               patientDiseaseInfo['disease_info'] = disease_info;
               print(bodymap);
               await request(url, FormData: bodymap).then((value) {

@@ -23,7 +23,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
   DateTime startDate = DateTime.now();
   DateTime EndDate = DateTime.now();
   String hospital;
-  int office;
+  String office;
   String doctorname;
   String recordcontent;
   String lebalContent = '请选择科室';
@@ -231,7 +231,8 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
                       hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
 //                  value: value,//下拉菜单选择完之后显示给用户的值
                       onChanged: (value){//下拉菜单item点击之后的回调
-                        office = int.parse(value);
+                        office = labelmap[value];
+                        print(office);
                         setState(() {
                           lebalContent = labelmap[value];
                         });

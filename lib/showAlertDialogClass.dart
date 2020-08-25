@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 
-showAlertDialog(BuildContext context,{titleText:'请设置标题', contentText:'请设置内容',bottonText:'确定'}) {
+showAlertDialog(BuildContext context,{titleText:'请设置标题', contentText:'请设置内容',bottonText:'确定',flag:0}) {
   
   //设置按钮
   Widget okButton = FlatButton(
     child: Text(bottonText),
     onPressed: () {
       Navigator.of(context).pop();
-//      Navigator.pop(context);
+      if(flag == 1)
+      Navigator.pop(context);
     },
   );
   //设置对话框

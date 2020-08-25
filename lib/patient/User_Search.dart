@@ -103,7 +103,7 @@ class SearchPage extends StatelessWidget{
                             String phoneNum;
                             SharedPreferenceUtil.getString('phoneNum').then((value) async{
                                   phoneNum = value;
-                                  bodymap['phone_num'] = '18392136108';
+                                  bodymap['phone_num'] = phoneNum;
                                   print(bodymap);
                                   var url = "http://39.100.100.198:8082/selectAllPicture";
                                   var formData = bodymap;

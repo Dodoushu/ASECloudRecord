@@ -110,8 +110,8 @@ class _outpatientMedical extends State<outpatientMedical> {
 //      print(name);
 //    }
 
-    var bodymap = Map();
-    var outpatient = Map();
+    var bodymap = Map();      //个人信息
+    var outpatient = Map();       //上传的信息
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       phoneNum = value;

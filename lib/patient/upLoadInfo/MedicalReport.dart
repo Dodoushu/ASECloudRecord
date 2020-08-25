@@ -87,8 +87,7 @@ class _medicalReport extends State<medicalReport> {
       await request(url, FormData: formData).then((value) {
         var data = json.decode(value.toString());
         print(data);
-        showAlertDialog(context,contentText: '上传成功');
-        Navigator.of(context).pop();
+        showAlertDialog(context,contentText: '上传成功',flag: 1);
       });
     });
   }
