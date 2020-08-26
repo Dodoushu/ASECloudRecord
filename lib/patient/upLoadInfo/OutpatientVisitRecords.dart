@@ -29,6 +29,9 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
   String conclusion;
   String examItem;
   List drugMethod;
+  String medicine_name;   //药物名称
+  String medicine_method;  //使用方法
+  String time;   //使用频率
   String nonDrugMethod;
   String lebalContent = '请选择科室';
 
@@ -108,6 +111,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
 
 
   void summit() async {
+
 //    print(name);
 //    var loginForm = loginKey.currentState;
 //    //验证Form表单
@@ -130,6 +134,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
       outPatientRecords['treat_info'] = recordcontent;
       outPatientRecords['treating_info'] = conclusion;
       outPatientRecords['treat_methods'] = nonDrugMethod;
+      drugMethod.add({'medicine_name':medicine_name,'medicine_method':medicine_method,'time':time});
       outPatientRecords['medicines'] = drugMethod;
       bodymap['outPatientRecords'] = outPatientRecords;
       print(bodymap);
@@ -345,17 +350,45 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
                       ),
                       TextField(
                         decoration: new InputDecoration(
-                          labelText: '请输入用药方案',
+                          labelText: '药物名称',
                           labelStyle: new TextStyle(
                               fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(),
-                          ),
+                          border: InputBorder.none,
                         ),
-                        maxLines: 4,
                         onChanged: (value) {
-                          drugMethod.add(value);
+                          medicine_name = value;
                         },
+                      ),
+                      Divider(
+                        thickness: 2,
+                      ),
+                      TextField(
+                        decoration: new InputDecoration(
+                          labelText: '使用方法',
+                          labelStyle: new TextStyle(
+                              fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (value) {
+                          medicine_method = value;
+                        },
+                      ),
+                      Divider(
+                        thickness: 2,
+                      ),
+                      TextField(
+                        decoration: new InputDecoration(
+                          labelText: '使用频率',
+                          labelStyle: new TextStyle(
+                              fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (value) {
+                          time = value;
+                        },
+                      ),
+                      Divider(
+                        thickness: 2,
                       ),
                     ],
                   ),
