@@ -71,7 +71,7 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    var bodymap = Map();
+    var bodymap = Map<String, dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       bodymap['phone_num'] = value;
@@ -79,8 +79,8 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
       bodymap['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
       bodymap['picture_type'] = 3;
       var url = "http://39.100.100.198:8082/UploadFiles/DiseasePicture";
-      var formData = bodymap;
-      await request(url, FormData: formData).then((value) {
+      var formData = FormData.fromMap(bodymap);
+      await request(url, FormData: formData,contentType: 'multipart/form-data').then((value) {
         var data = json.decode(value.toString());
         print(data);
         showAlertDialog(context,contentText: '上传成功',flag: 1);

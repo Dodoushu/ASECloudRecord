@@ -69,11 +69,11 @@ class PastRecord extends StatelessWidget {
       String disease_info;
       String token;
       SharedPreferenceUtil.containsKey('token').then((value) {
-        if (value == false) {
-          Navigator.pushAndRemoveUntil(
-              context, MaterialPageRoute(builder: (context) => Login()), (
-              route) => false);
-        }
+//        if (value == false) {
+//          Navigator.pushAndRemoveUntil(
+//              context, MaterialPageRoute(builder: (context) => Login()), (
+//              route) => false);
+//        }
         SharedPreferenceUtil.getString('phoneNum').then((value) {
           phone_num = value;
           SharedPreferenceUtil.getString('token').then((value) {

@@ -131,7 +131,7 @@ class _ImageReview extends State<ImageReview> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    var bodymap = Map();
+    var bodymap = Map<String, dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       phoneNum = value;
@@ -141,8 +141,8 @@ class _ImageReview extends State<ImageReview> {
       bodymap['result'] = conclusion;
       bodymap['phone_num'] = phoneNum;
       var url = "http://39.100.100.198:8082/UploadFiles/ImageExamination";
-      var formData = bodymap;
-      await request(url, FormData: formData).then((value) {
+      var formData = FormData.fromMap(bodymap);
+      await request(url, FormData: formData,contentType: 'multipart/form-data').then((value) {
         var data = json.decode(value.toString());
         print(data);
         showAlertDialog(context,  contentText: '操作成功');

@@ -147,14 +147,14 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       phoneNum = value;
 //      admissionNote['phone_num'] = phoneNum;
-      admissionNote['phone_num'] = '18392136108';
-      bodymap['admissionNote'] = admissionNote;
+      bodymap['phone_num'] = '18392136108';
       admissionNote['s_date'] = startDate.year.toString()+'-'+startDate.month.toString()+'-'+startDate.day.toString();
       admissionNote['o_date'] = EndDate.year.toString()+'-'+EndDate.month.toString()+'-'+EndDate.day.toString();
       admissionNote['department_treatment'] = office;
       admissionNote['hospital'] = hospital;
       admissionNote['doctor_name'] = doctorname;
       admissionNote['admission_info'] = recordcontent;
+      bodymap['admissionNote'] = admissionNote;
       print(bodymap);
       var url = "http://39.100.100.198:8082/admission";
       var formData = bodymap;

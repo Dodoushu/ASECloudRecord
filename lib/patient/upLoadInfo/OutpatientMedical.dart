@@ -110,8 +110,8 @@ class _outpatientMedical extends State<outpatientMedical> {
 //      print(name);
 //    }
 
-    var bodymap = Map();      //个人信息
-    var outpatient = Map();       //上传的信息
+    var bodymap = Map<String, dynamic>();      //个人信息
+    var outpatient = Map<String, dynamic>();       //上传的信息
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       phoneNum = value;
@@ -121,9 +121,10 @@ class _outpatientMedical extends State<outpatientMedical> {
       outpatient['hospital'] = hospital;
       outpatient['disease_info'] = recordcontent;
       outpatient['doctor_name'] = doctorname;
-      bodymap['outpatient'] = outpatient;
+      bodymap['outPatient'] = outpatient;
       print(bodymap);
       var url = "http://39.100.100.198:8082/outpatient";
+//      var formData = FormData.fromMap(bodymap);
       var formData = bodymap;
       await request(url, FormData: formData).then((value) {
         var data = json.decode(value.toString());

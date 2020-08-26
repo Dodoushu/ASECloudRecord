@@ -26,7 +26,7 @@ class _medicalReport extends State<medicalReport> {
   String reportAbstract;
   String filesname;
   String filespath;
-  List selectedFiles = [];
+  List<MultipartFile> selectedFiles = new List<MultipartFile>();
 
   Future<void> _selectDate() async //异步
   {
@@ -55,7 +55,7 @@ class _medicalReport extends State<medicalReport> {
       for(String path in selectedFilePaths){
         MultipartFile.fromFile(path).then((value){
           tempfile = value;
-          print('*****************'+path);
+          print('image path is'+path);
           selectedFiles.add(tempfile);
           print(selectedFiles.length);
         });
@@ -73,18 +73,19 @@ class _medicalReport extends State<medicalReport> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    var bodymap = Map();
+    var bodymap = Map<String,dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
-      bodymap['phone_num'] = value;
+      phoneNum = value;
+      bodymap['phone_num'] = phoneNum;
       bodymap['files'] = selectedFiles;
       bodymap['hospital'] = hospital;
       bodymap['report_info'] = reportAbstract;
       bodymap['result'] = conclusion;
       bodymap['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
       var url = "http://39.100.100.198:8082/UploadFiles/MedicalExaminationReport";
-      var formData = bodymap;
-      await request(url, FormData: formData).then((value) {
+      FormData formData = FormData.fromMap(bodymap);
+      await request(url, FormData: formData,contentType: 'multipart/form-data').then((value) {
         var data = json.decode(value.toString());
         print(data);
         showAlertDialog(context,contentText: '上传成功',flag: 1);
