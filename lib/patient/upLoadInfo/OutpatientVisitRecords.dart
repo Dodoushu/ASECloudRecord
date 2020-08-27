@@ -28,7 +28,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
   String recordcontent;
   String conclusion;
   String examItem;
-  List drugMethod;
+
   String medicine_name;   //药物名称
   String medicine_method;  //使用方法
   String time;   //使用频率
@@ -124,6 +124,8 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
     var outPatientRecords = Map();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
+      var tempdrugMethod = Map<String,dynamic>();
+      var drugMethod = List<Map>();
       phoneNum = value;
       bodymap['phone_num'] = phoneNum;
       outPatientRecords['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
@@ -134,7 +136,8 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
       outPatientRecords['treat_info'] = recordcontent;
       outPatientRecords['treating_info'] = conclusion;
       outPatientRecords['treat_methods'] = nonDrugMethod;
-      drugMethod.add({'medicine_name':medicine_name,'medicine_method':medicine_method,'time':time});
+      tempdrugMethod = {'medicine_name':medicine_name,'medicine_method':medicine_method,'time':time};
+      drugMethod.add(tempdrugMethod);
       outPatientRecords['medicines'] = drugMethod;
       bodymap['outPatientRecords'] = outPatientRecords;
       print(bodymap);
