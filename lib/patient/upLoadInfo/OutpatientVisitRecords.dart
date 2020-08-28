@@ -1,3 +1,6 @@
+import 'dart:core';
+import 'dart:core';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:helloworld/PickFileMethod.dart';
@@ -28,7 +31,6 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
   String recordcontent;
   String conclusion;
   String examItem;
-  List drugMethod;
   String medicine_name;   //药物名称
   String medicine_method;  //使用方法
   String time;   //使用频率
@@ -121,11 +123,13 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
 
 
     var bodymap = Map();
+    var tempdrugMethod = Map<String,dynamic>();
+    var drugMethod = List<Map>();
     var outPatientRecords = Map();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       phoneNum = value;
-      bodymap['phone_num'] = phoneNum;
+      bodymap['phone_num'] = '11223344556';
       outPatientRecords['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
       outPatientRecords['department_treatment'] = office;
       outPatientRecords['hospital'] = hospital;
@@ -134,8 +138,11 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
       outPatientRecords['treat_info'] = recordcontent;
       outPatientRecords['treating_info'] = conclusion;
       outPatientRecords['treat_methods'] = nonDrugMethod;
-      drugMethod.add({'medicine_name':medicine_name,'medicine_method':medicine_method,'time':time});
-      outPatientRecords['medicines'] = drugMethod;
+      tempdrugMethod['medicine_name'] = medicine_name;
+      tempdrugMethod['medicine_method'] = medicine_method;
+      tempdrugMethod['time'] = time;
+      drugMethod.add(tempdrugMethod);
+      outPatientRecords['medicines'] = [{'medicine_name':medicine_name,'medicine_method':medicine_method,'time':time}];
       bodymap['outPatientRecords'] = outPatientRecords;
       print(bodymap);
       var url = "http://39.100.100.198:8082/outpatientRecords";
@@ -148,7 +155,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
       });
     });
 
-    
+
   }
 
   @override
