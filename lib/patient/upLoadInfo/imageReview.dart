@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -140,6 +142,7 @@ class _ImageReview extends State<ImageReview> {
       bodymap['items'] = laboratoryType;
       bodymap['result'] = conclusion;
       bodymap['phone_num'] = phoneNum;
+      print(bodymap);
       var url = "http://39.100.100.198:8082/UploadFiles/ImageExamination";
       var formData = FormData.fromMap(bodymap);
       await request(url, FormData: formData,contentType: 'multipart/form-data').then((value) {

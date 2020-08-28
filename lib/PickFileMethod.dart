@@ -30,14 +30,3 @@ Future getMultiFilesPath() async{
   return filesPaths;
 }
 
-Future getMultiFilesPathKeys() async{
-  Map<String,String> filesPaths;
-  filesPaths = await FilePicker.getMultiFilePath();
-
-//  Options
-  List<String> allNames = filesPaths.keys; // List of all file names
-  List<String> allPaths = filesPaths.values; // List of all paths
-  String someFilePath = filesPaths['fileName']; // Access a file path directly by its name (matching a key)
-
-  return allNames;
-}

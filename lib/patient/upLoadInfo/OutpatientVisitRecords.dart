@@ -132,7 +132,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
       bodymap['phone_num'] = '11223344556';
       outPatientRecords['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
       outPatientRecords['department_treatment'] = office;
-      outPatientRecords['hospital'] = hospital;
+      outPatientRecords['hospit al'] = hospital;
       outPatientRecords['disease_info'] = recordcontent;
       outPatientRecords['doctor_name'] = doctorname;
       outPatientRecords['treat_info'] = recordcontent;
