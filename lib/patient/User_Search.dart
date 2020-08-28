@@ -4,7 +4,7 @@ import 'package:helloworld/sharedPrefrences.dart';
 import 'package:helloworld/http_service.dart';
 import 'dart:convert';
 import 'package:helloworld/showAlertDialogClass.dart';
-//import 'pictureGridview.dart';
+import 'pictureGridview.dart';
 
 
 void main(){
@@ -104,13 +104,15 @@ class SearchPage extends StatelessWidget{
                             SharedPreferenceUtil.getString('phoneNum').then((value) async{
                                   phoneNum = value;
                                   bodymap['phone_num'] = phoneNum;
+                                  print('*******************************************************');
                                   print(bodymap);
-                                  var url = "http://39.100.100.198:8082/selectAllPicture";
+                                  var url = "http://39.100.100.198:8082/Select/AllPicture";
                                   var formData = bodymap;
                                   await request(url, FormData: formData).then((value) {
                                     var data = json.decode(value.toString());
                                     print(data);
-                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>PictureView(PictureInfo: data['textInfo'][0]['address'],)));
+//                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
                                   });
                             });
                           },
