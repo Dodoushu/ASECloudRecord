@@ -111,7 +111,7 @@ class SearchPage extends StatelessWidget{
                                   await request(url, FormData: formData).then((value) {
                                     var data = json.decode(value.toString());
                                     print(data);
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>PictureView(PictureInfo: data['textInfo'][0]['address'],)));
+//                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>PictureView(PictureInfo: data['textInfo'][0]['address'],)));
 //                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
                                   });
                             });
