@@ -5,6 +5,7 @@ import 'package:helloworld/http_service.dart';
 import 'dart:convert';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'pictureGridview.dart';
+import 'dart:developer';
 
 
 void main(){
@@ -110,8 +111,35 @@ class SearchPage extends StatelessWidget{
                                   var formData = bodymap;
                                   await request(url, FormData: formData).then((value) {
                                     var data = json.decode(value.toString());
-                                    print(data);
-//                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>PictureView(PictureInfo: data['textInfo'][0]['address'],)));
+                                    var url = new List();
+                                    for(var value in data['textInfo']){
+                                      url.addAll(value['address']);
+//                                      log(value['address'].toString());
+                                    }
+                                    for(var value in data['diseasePictures']){
+                                      url.addAll(value['address']);
+//                                      log(value['address'].toString());
+                                    }
+                                    for(var value in data['laboratoryPictures']){
+                                      url.addAll(value['address']);
+//                                      log(value['address'].toString());
+                                    }
+                                    for(var value in data['imagePictures']){
+                                      url.addAll(value['address']);
+//                                      log(value['address'].toString());
+                                    }
+                                    for(var value in data['instrumentPictures']){
+                                      url.addAll(value['address']);
+//                                      log(value['address'].toString());
+                                    }
+                                    log(url.toString());
+                                    var urls = List<String>();
+                                    for(value in url){
+                                      urls.add('http://'+value.toString());
+                                    }
+//                                    print(data);
+//                                    log(data['textInfo'].toString());
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) =>PictureView(urls: urls,)));
 //                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
                                   });
                             });

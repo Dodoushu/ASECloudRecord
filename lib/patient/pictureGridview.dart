@@ -35,35 +35,35 @@ class BigPhoto extends StatelessWidget{
 }
 class PictureView extends StatelessWidget{
 
-//  final List PictureInfo;
-//  PictureView({Key key, @required this.PictureInfo}): super(key:key);
-  var urls = ['https://th.bing.com/th/id/OIP.b7nc7IbOW5cWI4kwhWWrgQHaE7?pid=Api&rs=1',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
-    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
+  final List urls;
+  PictureView({Key key, @required this.urls}): super(key:key);
+//  var urls = ['https://th.bing.com/th/id/OIP.b7nc7IbOW5cWI4kwhWWrgQHaE7?pid=Api&rs=1',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'https://th.bing.com/th/id/OIP.12_fx00igRkY93QOsbmb_wHaKD?pid=Api&rs=1',
+//    'http://www.chinanews.com/cul/2018/01-08/U322P4T8D8418615F107DT20180108102000.jpg',
+//  ];
 
-  ];
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
