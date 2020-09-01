@@ -25,6 +25,7 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
   String filesname;
   String filespath;
   List selectedFiles = [];
+  List displayPath = [];
 
   Future<void> _selectDate() async //异步
       {
@@ -46,20 +47,40 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
 
   Future<void> _selectFile() async {
     Map filesPaths;
-    getMultiFilesPath().then((value){
+    getMultiFilesPath().then((value) {
       filesPaths = value;
       var selectedFilePaths = filesPaths.values;
       MultipartFile tempfile;
-      for(String path in selectedFilePaths){
-        MultipartFile.fromFile(path).then((value){
+      for (String path in selectedFilePaths) {
+        displayPath.add(path);
+        MultipartFile.fromFile(path).then((value) {
           tempfile = value;
-          print('*****************'+path);
+          print('*****************' + path);
           selectedFiles.add(tempfile);
           print(selectedFiles.length);
         });
       }
       setState(() {
-        filesname = value.keys.toString();
+        filesname = displayPath.toString();
+      });
+    });
+  }
+
+  Future<void> _selectFilefromCamera() async {
+    getImageFileFromCamera().then((value) {
+      displayPath.add(value);
+      var selectedFilePaths = value;
+      MultipartFile tempfile;
+
+      MultipartFile.fromFile(selectedFilePaths).then((value) {
+        tempfile = value;
+        print('1111111111111111111111' + selectedFilePaths);
+        selectedFiles.add(tempfile);
+        print(selectedFiles.length);
+      });
+
+      setState(() {
+        filesname = displayPath.toString();
       });
     });
   }
@@ -140,20 +161,39 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
                       '文件上传:',
                       style: TextStyle(fontSize: 19),
                     ),
-                    new Container(
+                    Row(
+                      children: <Widget>[
+                        new Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: RaisedButton(
+                              elevation: 0,
+                              onPressed: _selectFilefromCamera,
+                              color: Colors.blue,
+                              child: new Text('相机拍照',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  )),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                  new BorderRadius.circular(40.0)),
+                            )),
+                        new Container(
 //                    margin: EdgeInsets.only(left: 30),
-                        child: RaisedButton(
-                          elevation: 0,
-                          onPressed: _selectFile,
-                          color: Colors.blue,
-                          child: new Text('选择文件',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )),
+                            child: RaisedButton(
+                              elevation: 0,
+                              onPressed: _selectFile,
+                              color: Colors.blue,
+                              child: new Text('选择文件',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  )),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(40.0)),
+                            )),
+                      ],
+                    )
                   ],
                 ),
                 Row(

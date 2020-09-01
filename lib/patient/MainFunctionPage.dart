@@ -231,7 +231,7 @@ class _MainPage extends State<MainPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   new Container(
-                      padding: EdgeInsets.all(11),
+                      padding: EdgeInsets.all(5),
                       child: Column(children: <Widget>[
                         InkWell(
                           child: widgetbuild.create("体检报告", Icons.receipt),
@@ -253,7 +253,7 @@ class _MainPage extends State<MainPage> {
                           },),
                       ])),
                   new Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(5),
                     child: Column(children: <Widget>[
                       InkWell(
                         child: widgetbuild.create("门诊病历", Icons.assignment),
@@ -274,7 +274,7 @@ class _MainPage extends State<MainPage> {
                     ]),
                   ),
                   new Container(
-                    padding: EdgeInsets.all(10),
+                    padding: EdgeInsets.all(5),
                     child: Column(children: <Widget>[
                       InkWell(child: widgetbuild.create("住院病历", Icons.redeem),
                         onTap: () {

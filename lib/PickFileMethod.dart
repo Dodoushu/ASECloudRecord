@@ -1,4 +1,5 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:image_picker/image_picker.dart';
 
 Future getSingleImagePath() async{
   String SingleFilePath;
@@ -20,7 +21,7 @@ Future getMultiImagesPath() async{
 
 Future getMultiFilesPath() async{
   Map<String,String> filesPaths;
-  filesPaths = await FilePicker.getMultiFilePath();
+  filesPaths = await FilePicker.getMultiFilePath(type: FileType.image);
 
 //  Options
 //  List<String> allNames = filesPaths.keys; // List of all file names
@@ -30,3 +31,10 @@ Future getMultiFilesPath() async{
   return filesPaths;
 }
 
+Future getImageFileFromCamera() async{
+  var picker = ImagePicker();
+  PickedFile imageFile = await picker.getImage(source: ImageSource.camera,imageQuality: 50);
+  if(imageFile!=null){
+    return imageFile.path;
+  }
+}

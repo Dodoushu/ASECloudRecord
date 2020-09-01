@@ -10,15 +10,16 @@ import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
 void main() => runApp(MaterialApp(
-  home: laboratoryExaminationPicture(),
-));
+      home: laboratoryExaminationPicture(),
+    ));
 
 class laboratoryExaminationPicture extends StatefulWidget {
   @override
   State createState() => new _laboratoryExaminationPicture();
 }
 
-class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> {
+class _laboratoryExaminationPicture
+    extends State<laboratoryExaminationPicture> {
   GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
 
   DateTime date = DateTime.now();
@@ -27,72 +28,70 @@ class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> 
   String filespath;
   String laboratoryType;
   List selectedFiles = [];
+  List displayPath = [];
   String lebalContent = '请输入化验类目';
   Map labelmap = {
-    '1':'血液检查',
-    '2':'尿液检查',
-    '3':'粪便检查',
-    '4':'精液检查',
-    '5':'胸水检查',
-    '6':'腹水检查',
-    '7':'脑脊液检查',
-    '8':'其他化验检查',
+    '1': '血液检查',
+    '2': '尿液检查',
+    '3': '粪便检查',
+    '4': '精液检查',
+    '5': '胸水检查',
+    '6': '腹水检查',
+    '7': '脑脊液检查',
+    '8': '其他化验检查',
   };
 
-
-  List<DropdownMenuItem> getListData(){
-    List<DropdownMenuItem> items=new List();
-    DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
-      child:new Text('血液检查'),
+  List<DropdownMenuItem> getListData() {
+    List<DropdownMenuItem> items = new List();
+    DropdownMenuItem dropdownMenuItem1 = new DropdownMenuItem(
+      child: new Text('血液检查'),
       value: '1',
     );
     items.add(dropdownMenuItem1);
-    DropdownMenuItem dropdownMenuItem2=new DropdownMenuItem(
-      child:new Text('尿液检查'),
+    DropdownMenuItem dropdownMenuItem2 = new DropdownMenuItem(
+      child: new Text('尿液检查'),
       value: '2',
     );
     items.add(dropdownMenuItem2);
-    DropdownMenuItem dropdownMenuItem3=new DropdownMenuItem(
-      child:new Text('粪便检查'),
+    DropdownMenuItem dropdownMenuItem3 = new DropdownMenuItem(
+      child: new Text('粪便检查'),
       value: '3',
     );
     items.add(dropdownMenuItem3);
-    DropdownMenuItem dropdownMenuItem4=new DropdownMenuItem(
-      child:new Text('精液检查'),
+    DropdownMenuItem dropdownMenuItem4 = new DropdownMenuItem(
+      child: new Text('精液检查'),
       value: '4',
     );
     items.add(dropdownMenuItem4);
-    DropdownMenuItem dropdownMenuItem5=new DropdownMenuItem(
-      child:new Text('胸水检查'),
+    DropdownMenuItem dropdownMenuItem5 = new DropdownMenuItem(
+      child: new Text('胸水检查'),
       value: '5',
     );
     items.add(dropdownMenuItem5);
-    DropdownMenuItem dropdownMenuItem6=new DropdownMenuItem(
-      child:new Text('腹水检查'),
+    DropdownMenuItem dropdownMenuItem6 = new DropdownMenuItem(
+      child: new Text('腹水检查'),
       value: '6',
     );
     items.add(dropdownMenuItem6);
-    DropdownMenuItem dropdownMenuItem7=new DropdownMenuItem(
-      child:new Text('脑脊液检查'),
+    DropdownMenuItem dropdownMenuItem7 = new DropdownMenuItem(
+      child: new Text('脑脊液检查'),
       value: '7',
     );
     items.add(dropdownMenuItem7);
-    DropdownMenuItem dropdownMenuItem8=new DropdownMenuItem(
-      child:new Text('其他化验检查'),
+    DropdownMenuItem dropdownMenuItem8 = new DropdownMenuItem(
+      child: new Text('其他化验检查'),
       value: '8',
     );
     items.add(dropdownMenuItem8);
     return items;
   }
 
-
 /*  _LearnDropdownButton(){
     value=getListData()[0].value;
   }*/
 
-
   Future<void> _selectDate() async //异步
-      {
+  {
     final DateTime selectdate = await showDatePicker(
       //等待异步处理的结果
       //等待返回
@@ -111,20 +110,40 @@ class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> 
 
   Future<void> _selectFile() async {
     Map filesPaths;
-    getMultiFilesPath().then((value){
+    getMultiFilesPath().then((value) {
       filesPaths = value;
       var selectedFilePaths = filesPaths.values;
       MultipartFile tempfile;
-      for(String path in selectedFilePaths){
-        MultipartFile.fromFile(path).then((value){
+      for (String path in selectedFilePaths) {
+        displayPath.add(path);
+        MultipartFile.fromFile(path).then((value) {
           tempfile = value;
-          print('*****************'+path);
+          print('*****************' + path);
           selectedFiles.add(tempfile);
           print(selectedFiles.length);
         });
       }
       setState(() {
-        filesname = value.keys.toString();
+        filesname = displayPath.toString();
+      });
+    });
+  }
+
+  Future<void> _selectFilefromCamera() async {
+    getImageFileFromCamera().then((value) {
+      displayPath.add(value);
+      var selectedFilePaths = value;
+      MultipartFile tempfile;
+
+      MultipartFile.fromFile(selectedFilePaths).then((value) {
+        tempfile = value;
+        print('1111111111111111111111' + selectedFilePaths);
+        selectedFiles.add(tempfile);
+        print(selectedFiles.length);
+      });
+
+      setState(() {
+        filesname = displayPath.toString();
       });
     });
   }
@@ -138,22 +157,30 @@ class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> 
 //    }
     var bodymap = Map<String, dynamic>();
     String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum').then((value) async{
-          phoneNum = value;
-          bodymap['files'] = selectedFiles;
-          bodymap['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
-          bodymap['items'] = laboratoryType;
-          bodymap['result'] = conclusion;
-          bodymap['phone_num'] = phoneNum;
-          var url = "http://39.100.100.198:8082/UploadFiles/LaboratoryExamination";
-          var formData = FormData.fromMap(bodymap);
-          await request(url, FormData: formData,contentType: 'multipart/form-data').then((value) {
-            var data = json.decode(value.toString());
-            print(data);
-            showAlertDialog(context,  contentText: '操作成功');
-          });
+    SharedPreferenceUtil.getString('phoneNum').then((value) async {
+      phoneNum = value;
+      bodymap['files'] = selectedFiles;
+      bodymap['date'] = date.year.toString() +
+          '-' +
+          date.month.toString() +
+          '-' +
+          date.day.toString();
+      bodymap['items'] = laboratoryType;
+      bodymap['result'] = conclusion;
+      bodymap['phone_num'] = phoneNum;
+      var url = "http://39.100.100.198:8082/UploadFiles/LaboratoryExamination";
+      var formData = FormData.fromMap(bodymap);
+      await request(url, FormData: formData, contentType: 'multipart/form-data')
+          .then((value) {
+        var data = json.decode(value.toString());
+        print(data);
+        if (value.statusCode == 200) {
+          showAlertDialog(context, contentText: '操作成功');
+        } else {
+          showAlertDialog(context, contentText: '操作失败');
+        }
+      });
     });
-
   }
 
   @override
@@ -184,7 +211,6 @@ class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> 
             Divider(
               thickness: 2,
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -194,26 +220,27 @@ class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> 
                 ),
                 new DropdownButton(
                   items: getListData(),
-                  hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
-                  onChanged: (value){//下拉菜单item点击之后的回调
+                  hint: new Text(lebalContent),
+                  //当没有默认值的时候可以设置的提示
+                  onChanged: (value) {
+                    //下拉菜单item点击之后的回调
                     laboratoryType = value;
                     print(laboratoryType);
                     setState(() {
                       lebalContent = labelmap[value];
                     });
                   },
-                  elevation: 24,//设置阴影的高度
-                  style: new TextStyle(//设置文本框里面文字的样式
+                  elevation: 24,
+                  //设置阴影的高度
+                  style: new TextStyle(
+                      //设置文本框里面文字的样式
                       color: Colors.black,
-                      fontSize: 15
-                  ),
+                      fontSize: 15),
 //              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
-                  iconSize: 50.0,//设置三角标icon的大小
+                  iconSize: 50.0, //设置三角标icon的大小
                 ),
               ],
             ),
-
-
             Divider(
               thickness: 2,
             ),
@@ -241,9 +268,26 @@ class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> 
                       '文件上传:',
                       style: TextStyle(fontSize: 19),
                     ),
-                    new Container(
+                    Row(
+                      children: <Widget>[
+                        new Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: RaisedButton(
+                              elevation: 0,
+                              onPressed: _selectFilefromCamera,
+                              color: Colors.blue,
+                              child: new Text('相机拍照',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  )),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                      new BorderRadius.circular(40.0)),
+                            )),
+                        new Container(
 //                    margin: EdgeInsets.only(left: 30),
-                        child: RaisedButton(
+                            child: RaisedButton(
                           elevation: 0,
                           onPressed: _selectFile,
                           color: Colors.blue,
@@ -255,6 +299,8 @@ class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> 
                           shape: new RoundedRectangleBorder(
                               borderRadius: new BorderRadius.circular(40.0)),
                         )),
+                      ],
+                    )
                   ],
                 ),
                 Row(
@@ -276,7 +322,6 @@ class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> 
         ),
       ),
     );
-
 
     Widget dividerline = Container(
       height: 60,
@@ -322,9 +367,9 @@ class _laboratoryExaminationPicture extends State<laboratoryExaminationPicture> 
               height: 90,
               child: Center(
                   child: new Text(
-                    '化验检查上传',
-                    style: TextStyle(color: Colors.white, fontSize: 30.0),
-                  )),
+                '化验检查上传',
+                style: TextStyle(color: Colors.white, fontSize: 30.0),
+              )),
             ),
             Container(
               margin: EdgeInsets.only(top: 20),
