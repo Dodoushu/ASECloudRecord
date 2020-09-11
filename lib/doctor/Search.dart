@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helloworld/http_service.dart';
 import 'BottomNavigationBar.dart';
 
 void main() => runApp(MaterialApp(
@@ -9,6 +10,28 @@ void main() => runApp(MaterialApp(
 class Search extends StatelessWidget{
 
   BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
+  String name;
+  String phone_num;
+  String ID_num;
+  String year;
+  String month;
+  String day;
+
+  void submit() async {
+    var bodymap = Map();
+    bodymap['name'] = name;
+    bodymap['phone_num'] = phone_num;
+    bodymap['ID_num'] = ID_num;
+    bodymap['year'] = year;
+    bodymap['month'] = month;
+    bodymap['day'] = day;
+    var url = "";
+    var formData = bodymap;
+    await request(url,FormData: formData).then((value) {
+      //传回来的数据
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget _DropdownButtonYear = new DropdownButton(
@@ -16,7 +39,10 @@ class Search extends StatelessWidget{
         DropdownMenuItem(child: Text('2001')),
         DropdownMenuItem(child: Text('2002')),
         DropdownMenuItem(child: Text('2003'))
-      ],onChanged: (value){}
+      ],
+      onChanged: (value){
+        year = value;
+    }
     );
     Widget _DropdownButtonMonth = new DropdownButton(
 
@@ -24,14 +50,20 @@ class Search extends StatelessWidget{
           DropdownMenuItem(child: Text('10')),
           DropdownMenuItem(child: Text('11')),
           DropdownMenuItem(child: Text('12'))
-        ],onChanged: (value){}
+        ],
+        onChanged: (value){
+          month = value;
+        }
     );
     Widget _DropdownButtonDay = new DropdownButton(
         items: [
           DropdownMenuItem(child: Text('1')),
           DropdownMenuItem(child: Text('2')),
           DropdownMenuItem(child: Text('3'))
-        ],onChanged: (value){}
+        ],
+        onChanged: (value){
+          day = value;
+        }
     );
 
     Widget PatientInfo = new Container(
@@ -60,6 +92,9 @@ class Search extends StatelessWidget{
                         ),
                         //border: InputBorder.none,
                       ),
+                      onChanged: (value){
+                        name = value;
+                      },
                     )
                   ],
                 ),
@@ -74,12 +109,14 @@ class Search extends StatelessWidget{
                   ),
                   TextField(
                     decoration: new InputDecoration(
-                      labelStyle: new TextStyle(
-                        fontSize: 20,
-                        color: Color.fromARGB(255, 93, 93, 93),
-                      ),
-                      //border: InputBorder.none,
-                    ),
+                    labelStyle: new TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 93, 93, 93),
+                    ), //border: InputBorder.none,
+                  ),
+                    onChanged: (value){
+                      phone_num = value;
+                    },
                   )
                 ],
               ),
@@ -96,9 +133,11 @@ class Search extends StatelessWidget{
                       labelStyle: new TextStyle(
                         fontSize: 20,
                         color: Color.fromARGB(255, 93, 93, 93),
-                      ),
-                      //border: InputBorder.none,
+                      ), //border: InputBorder.none,
                     ),
+                    onChanged: (value){
+                      ID_num = value;
+                    },
                   )
                 ],
               ),
