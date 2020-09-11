@@ -7,8 +7,21 @@ import 'MainFunctionPage.dart';
 import 'register1.dart' as reg1;
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'register2.dart';
+import 'package:flutter/gestures.dart';
 
 void main() => runApp(new MaterialApp(home: new Login()));
+
+/// 用户协议中“低调”文本的样式。
+final TextStyle _lowProfileStyle = TextStyle(
+  fontSize: 15.0,
+  color: Color(0xFF4A4A4A),
+);
+
+/// 用户协议中“高调”文本的样式。
+final TextStyle _highProfileStyle = TextStyle(
+  fontSize: 15.0,
+  color: Color(0xFF00CED2),
+);
 
 class Login extends StatefulWidget {
   @override
@@ -30,6 +43,10 @@ class _Login extends State<Login> {
 //            (route) => false);
 
     //读取当前的Form状态
+
+    Future.delayed(Duration(seconds: 1),(){
+      Navigator.pop(context);
+    });
     var loginForm = loginKey.currentState;
     //验证Form表单
     if (loginForm.validate()) {
@@ -52,21 +69,25 @@ class _Login extends State<Login> {
               context,
               MaterialPageRoute(builder: (context) => register2()),
               (route) => false);
-        }else if (data['status_code'] == 0) {
-          SharedPreferenceUtil.setString('phoneNum', userName.toString()).then((value) {
+        } else if (data['status_code'] == 0) {
+          SharedPreferenceUtil.setString('phoneNum', userName.toString())
+              .then((value) {
             SharedPreferenceUtil.setString('name', data['name']).then((value) {
-              SharedPreferenceUtil.setString('token', data['token']).then((value) {
+              SharedPreferenceUtil.setString('token', data['token'])
+                  .then((value) {
+                print(value);
                 showAlertDialog(context, titleText: '', contentText: '登陆成功');
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainPage()),
+                    (route) => false);
               });
             });
           });
-        }else if (data['status_code'] == 1||data['status_code'] == 2){
-          showAlertDialog(context,
-              titleText: '登陆失败', contentText: '请检查账号密码');
-        }else{
-          showAlertDialog(context,
-              titleText: '登陆失败', contentText: '未知错误');
+        } else if (data['status_code'] == 1 || data['status_code'] == 2) {
+          showAlertDialog(context, titleText: '登陆失败', contentText: '请检查账号密码');
+        } else {
+          showAlertDialog(context, titleText: '登陆失败', contentText: '未知错误');
         }
       });
     }
@@ -200,9 +221,10 @@ class _Login extends State<Login> {
                       ),
                     ),
                   ),
+
                   new Container(
                     //margin: EdgeInsets.only(top: 30.0),
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 30.0),
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 20.0),
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -232,10 +254,47 @@ class _Login extends State<Login> {
                       ],
                     ),
                   ),
+                  Container(
+                    padding: EdgeInsets.only(top: 15),
+                    child: Center(
+                        child: Text.rich(
+                          // 文字跨度（`TextSpan`）组件，不可变的文本范围。
+                          TextSpan(
+                            // 文本（`text`）属性，跨度中包含的文本。
+                            text: '登录即同意',
+                            // 样式（`style`）属性，应用于文本和子组件的样式。
+                            style: _lowProfileStyle,
+                            children: [
+                              TextSpan(
+                                // 识别（`recognizer`）属性，一个手势识别器，它将接收触及此文本范围的事件。
+                                // 手势（`gestures`）库的点击手势识别器（`TapGestureRecognizer`）类，识别点击手势。
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    print('点击了“服务条款”');
+                                  },
+                                text: '“服务条款”',
+                                style: _highProfileStyle,
+                              ),
+                              TextSpan(
+                                text: '和',
+                                style: _lowProfileStyle,
+                              ),
+                              TextSpan(
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    print('点击了“隐私政策”');
+                                  },
+                                text: '“隐私政策”',
+                                style: _highProfileStyle,
+                              ),
+                            ],
+                          ),
+                        )),
+                  ),
                 ],
               ),
             ),
-          )
+          ),
         ],
       ),
     );

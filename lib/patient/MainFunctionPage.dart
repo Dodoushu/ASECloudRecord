@@ -13,6 +13,7 @@ import 'upLoadInfo/OutpatientVisitRecords.dart';
 import 'upLoadInfo/pathology.dart';
 import 'upLoadInfo/selfPortraitOfDisease.dart';
 import 'User_Search.dart';
+import 'package:flutter/rendering.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -57,6 +58,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
+
   //实例化
   WidgetBulld widgetbuild = new WidgetBulld();
   BottomNavigationBarClass Bottom_NavigationBar =
@@ -64,6 +66,9 @@ class _MainPage extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+//    debugPaintSizeEnabled = true;
+    debugRepaintRainbowEnabled = true;
+
     String name;
     double width_ = MediaQuery.of(context).size.width;
     double height_ = MediaQuery.of(context).size.height;
@@ -309,9 +314,7 @@ class _MainPage extends State<MainPage> {
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(28.0)),
               side: BorderSide(width: 1.0)),
-
           child: new Center(
-
             child: new GridView(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
