@@ -59,20 +59,16 @@ class MainPage extends StatefulWidget {
 class _MainPage extends State<MainPage> {
   //实例化
   WidgetBulld widgetbuild = new WidgetBulld();
-  BottomNavigationBarClass Bottom_NavigationBar =
-  new BottomNavigationBarClass();
+//  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
+  String name;
 
   @override
   Widget build(BuildContext context) {
     String name;
     double width_ = MediaQuery.of(context).size.width;
     double height_ = MediaQuery.of(context).size.height;
-    SharedPreferenceUtil.setString('name', 'yyy');
-    SharedPreferenceUtil.getString('name').then((value) {
-      setState(() {
-        name = value;
-      });
-    });
+
+    List listTabs = [];
     //背景蓝框及第一个功能选择条
     Widget stack = new Stack(alignment: Alignment.topCenter, children: <Widget>[
       //蓝框
@@ -385,8 +381,5 @@ class _MainPage extends State<MainPage> {
 //        backgroundColor: Colors.white,
       ),
       body: new ListView(children: <Widget>[stack, ChooseModel,ChooseModel_]),
-      bottomNavigationBar: Bottom_NavigationBar.Create(),
-
-    );
-  }
+    );}
 }

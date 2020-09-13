@@ -3,7 +3,6 @@ import 'BottomNavigationBar.dart';
 void main() =>runApp(new Personal_Info());
 
 class Personal_Info extends StatelessWidget {
-  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
 
   @override
   Widget build(BuildContext context) {
@@ -274,7 +273,6 @@ class Personal_Info extends StatelessWidget {
         body: new ListView(
           children: [Basic_Info,Contact,]
         ),
-        bottomNavigationBar: Bottom_NavigationBar.Create(),
       )
     );
   }

@@ -9,7 +9,6 @@ void main(){
 }
 
 class Setting extends StatelessWidget{
-  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
   @override
   Widget build(BuildContext context) {
     Widget ChangePspt = new Container(
@@ -102,8 +101,6 @@ class Setting extends StatelessWidget{
       body: new ListView(
         children: <Widget>[ChangePspt,ChangePhonenum,ensure],
       ),
-
-      bottomNavigationBar:Bottom_NavigationBar.Create()
     );
   }
 }

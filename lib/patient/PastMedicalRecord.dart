@@ -57,8 +57,6 @@ class PastRecord extends StatelessWidget {
 
   double heightnum = 120;
   WidgetBulld widgetbuild = new WidgetBulld();
-  BottomNavigationBarClass Bottom_NavigationBar =
-  new BottomNavigationBarClass();
 
   @override
   Widget build(BuildContext context) {
@@ -195,12 +193,6 @@ class PastRecord extends StatelessWidget {
     ],
     ),
     //底栏
-    bottomNavigationBar:
-    Bottom_NavigationBar
-    .
-    Create
-    (
-    )
     );
   }
 }

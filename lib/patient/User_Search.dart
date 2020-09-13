@@ -68,7 +68,6 @@ class WidgetBuild {
 
 class SearchPage extends StatelessWidget{
 
-  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
   WidgetBuild _widgetBuild = new WidgetBuild();
   @override
   Widget build(BuildContext context) {
@@ -177,7 +176,6 @@ class SearchPage extends StatelessWidget{
         ],
       ),
 
-      bottomNavigationBar: Bottom_NavigationBar.Create(),
     );
 
   }

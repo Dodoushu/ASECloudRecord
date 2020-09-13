@@ -4,6 +4,7 @@ import 'select.dart';
 import 'doctor/login.dart' as doctorLogin;
 import 'patient/login.dart' as patientLogin;
 import 'patient/MainFunctionPage.dart' as patientMain;
+import 'Loading.dart';
 
 void main() => runApp(new MyApp());
 
@@ -11,6 +12,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+//    print('home  $context');
+//    print('home  ${Navigator.of(context)}');
+//    Loading.ctx = context; // 注入context
     return new MaterialApp(
         title: 'FlutterDemo',
 //        routes: <String,WidgetBuilder>{//配置路径

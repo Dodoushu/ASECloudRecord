@@ -9,7 +9,6 @@ class DiseasePhoto extends StatefulWidget{
 
 
 class _DiseasePhoto extends State<DiseasePhoto> {
-  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,6 @@ class _DiseasePhoto extends State<DiseasePhoto> {
               uploadimage,
           ]
         ),
-        bottomNavigationBar: Bottom_NavigationBar.Create(),
       ),
     );
   }

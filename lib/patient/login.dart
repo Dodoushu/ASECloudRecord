@@ -8,6 +8,7 @@ import 'register1.dart' as reg1;
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'register2.dart';
 import 'package:flutter/gestures.dart';
+import 'BottomNavigationBar.dart';
 
 void main() => runApp(new MaterialApp(home: new Login()));
 
@@ -79,7 +80,7 @@ class _Login extends State<Login> {
                 showAlertDialog(context, titleText: '', contentText: '登陆成功');
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => MainPage()),
+                    MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
                     (route) => false);
               });
             });
