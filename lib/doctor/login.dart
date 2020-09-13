@@ -26,19 +26,28 @@ class _Login extends State<Login> {
     if(loginForm.validate()){
 //      print(userName);
 //      print(password);
+      var sign = Map();
+      sign['phone_num'] = userName;
+      sign['pass_word'] = password;
       var bodymap = Map();
-      bodymap['phone_num']=userName;
-      bodymap['pass_word']=password;
-      bodymap['ver_code']='123456';
-      var url = "http://101.133.228.14:8081/sign_in_c?";
+      bodymap['sign']='sign';
+      var url = "http://39.100.100.198:8082";
       var formData = bodymap;
       await request(url,FormData: formData).then((value) {
           print('response:' + json.decode(value.toString()));
+          Map data = json.decode(value.toString());
+          if(data['status_code'] == 4){
 
-//        print('the response is:');
-//        print(value);
-//        var data = json.decode(value.toString());
-//        print(data.toString());
+          }
+          else if(data['status_code'] == 0){
+
+          }
+          else if(data['status_code'] == 1 || data['status_code'] == 2){
+
+          }
+          else{
+
+          }
       });
     }
   }

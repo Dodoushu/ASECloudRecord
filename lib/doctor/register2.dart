@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:helloworld/File_Method.dart';
+import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 void main() =>runApp(new register2());
 
@@ -20,7 +21,9 @@ class _register2 extends State<register2> {
   String SocialWork;
 
   MultipartFile ID_Photo;
+  String ID_Photo_name;
   MultipartFile IDCard_1;
+  String IDCard_1_name;
   MultipartFile IDCard_2;
   MultipartFile zi_ge_zheng;
   MultipartFile zhi_ye_zheng;
@@ -53,20 +56,45 @@ class _register2 extends State<register2> {
     });
   }
 
-  ID_Photopick() async{
-    await file_method.file_pick().then((value) {ID_Photo = value;});
+   Future<void> _selectFile() async
+  {
+    getMultiFilesPath().then((path) {
+          MultipartFile.fromFile(path).then((value) {
+            ID_Photo = value;
+        });
+      setState(() {
+        ID_Photo_name = path.toString();
+      });
+    });
 
-    int FileSize = await ID_Photo.length;
-    if(FileSize > 1024){                     //用length得到文件大小，太大了就给提示（界面上弹窗提示信息），同时清理变量ID_photo
-      //弹窗提醒文件过大
-      ID_Photo = null;
-    }
-  }     //异步函数返回的也是一个future，需要async、await的配合提取
-  IDCard_1pick() async{await file_method.file_pick().then((value){IDCard_1 = value;});}
-  IDCard_2pick() async{await file_method.file_pick().then((value){IDCard_2 = value;});}
-  zi_ge_zhengpick() async{await file_method.file_pick().then((value){zi_ge_zheng = value;});}
-  zhi_ye_zhengpick() async{await file_method.file_pick().then((value){zhi_ye_zheng = value;});}
-  zhi_chengpick() async{await file_method.file_pick().then((value){zhi_cheng = value;});}
+  }
+  Future<void> _selectFilefromCamera() async {
+    getImageFileFromCamera().then((path) {
+      MultipartFile.fromFile(path).then((value) {
+        ID_Photo = value;
+      });
+      setState(() {
+        ID_Photo_name = path.toString();
+      });
+    });
+  }
+
+
+
+//  ID_Photopick() async{
+//    await file_method.file_pick().then((value) {ID_Photo = value;});
+//
+//    int FileSize = await ID_Photo.length;
+//    if(FileSize > 1024){                     //用length得到文件大小，太大了就给提示（界面上弹窗提示信息），同时清理变量ID_photo
+//      //弹窗提醒文件过大
+//      ID_Photo = null;
+//    }
+//  }     //异步函数返回的也是一个future，需要async、await的配合提取
+//  IDCard_1pick() async{await file_method.file_pick().then((value){IDCard_1 = value;});}
+//  IDCard_2pick() async{await file_method.file_pick().then((value){IDCard_2 = value;});}
+//  zi_ge_zhengpick() async{await file_method.file_pick().then((value){zi_ge_zheng = value;});}
+//  zhi_ye_zhengpick() async{await file_method.file_pick().then((value){zhi_ye_zheng = value;});}
+//  zhi_chengpick() async{await file_method.file_pick().then((value){zhi_cheng = value;});}
 
   @override
   Widget build(BuildContext context) {
@@ -124,13 +152,13 @@ class _register2 extends State<register2> {
                     ),
                     ),
                     new Container(
-                      margin: EdgeInsets.only(left: 30),
+                      margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
                           onPressed: ID_Photopick,
                           color: Colors.blue,
                           child:new Text(
-                              '上传照片',
+                              '选择照片',
                               style:TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -140,7 +168,39 @@ class _register2 extends State<register2> {
                               borderRadius: new BorderRadius.circular(40.0)),
                         )
                     ),
+                    new Container(
+                      margin: EdgeInsets.only(left: 5),
+                        child:RaisedButton(
+                          elevation: 0,
+                          onPressed: ID_Photopick,
+                          color: Colors.blue,
+                          child:new Text(
+                              '相机拍照',
+                              style:TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )
+                          ),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )
+                    ),
+
                   ],
+                ),
+                new Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '已选择文件:',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+                new Text(
+                  //filesname.toString(),
+                  "dasda",
+                  style: TextStyle(fontSize: 19),
                 ),
                 new Row(
                   children: <Widget>[
@@ -150,13 +210,13 @@ class _register2 extends State<register2> {
                     ),
                     ),
                     new Container(
-                        margin: EdgeInsets.only(left: 30),
+                        margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
                           onPressed: IDCard_1pick,
                           color: Colors.blue,
                           child:new Text(
-                              '上传照片',
+                              '选择照片',
                               style:TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -166,6 +226,23 @@ class _register2 extends State<register2> {
                               borderRadius: new BorderRadius.circular(40.0)),
                         )
                     ),
+                    new Container(
+                        margin: EdgeInsets.only(left: 5),
+                        child:RaisedButton(
+                          elevation: 0,
+                          onPressed: ID_Photopick,
+                          color: Colors.blue,
+                          child:new Text(
+                              '相机拍照',
+                              style:TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )
+                          ),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )
+                    )
                   ],
                 ),
             new Row(
@@ -176,13 +253,13 @@ class _register2 extends State<register2> {
                 ),
                 ),
                 new Container(
-                    margin: EdgeInsets.only(left: 30),
+                    margin: EdgeInsets.only(left: 10),
                     child:RaisedButton(
                       elevation: 0,
                       onPressed: IDCard_2pick,
                       color: Colors.blue,
                       child:new Text(
-                          '上传照片',
+                          '选择照片',
                           style:TextStyle(
                             fontSize: 14,
                             color: Colors.white,
@@ -192,6 +269,23 @@ class _register2 extends State<register2> {
                           borderRadius: new BorderRadius.circular(40.0)),
                     )
                 ),
+                new Container(
+                    margin: EdgeInsets.only(left: 5),
+                    child:RaisedButton(
+                      elevation: 0,
+                      onPressed: ID_Photopick,
+                      color: Colors.blue,
+                      child:new Text(
+                          '相机拍照',
+                          style:TextStyle(
+                            fontSize: 14,
+                            color: Colors.white,
+                          )
+                      ),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(40.0)),
+                    )
+                )
               ],
             ),
 
@@ -203,13 +297,13 @@ class _register2 extends State<register2> {
                     ),
                     ),
                     new Container(
-                        margin: EdgeInsets.only(left: 30),
+                        margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
                           onPressed: zi_ge_zhengpick,
                           color: Colors.blue,
                           child:new Text(
-                              '上传照片',
+                              '选择照片',
                               style:TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -219,6 +313,23 @@ class _register2 extends State<register2> {
                               borderRadius: new BorderRadius.circular(40.0)),
                         )
                     ),
+                    new Container(
+                        margin: EdgeInsets.only(left: 5),
+                        child:RaisedButton(
+                          elevation: 0,
+                          onPressed: ID_Photopick,
+                          color: Colors.blue,
+                          child:new Text(
+                              '相机拍照',
+                              style:TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )
+                          ),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )
+                    )
                   ],
                 ),
                 new Row(
@@ -229,13 +340,13 @@ class _register2 extends State<register2> {
                     ),
                     ),
                     new Container(
-                        margin: EdgeInsets.only(left: 30),
+                        margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
                           onPressed: zhi_ye_zhengpick,
                           color: Colors.blue,
                           child:new Text(
-                              '上传照片',
+                              '选择照片',
                               style:TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -245,6 +356,23 @@ class _register2 extends State<register2> {
                               borderRadius: new BorderRadius.circular(40.0)),
                         )
                     ),
+                    new Container(
+                        margin: EdgeInsets.only(left: 5),
+                        child:RaisedButton(
+                          elevation: 0,
+                          onPressed: ID_Photopick,
+                          color: Colors.blue,
+                          child:new Text(
+                              '相机拍照',
+                              style:TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )
+                          ),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )
+                    )
                   ],
                 ),
                 new Row(
@@ -255,13 +383,13 @@ class _register2 extends State<register2> {
                     ),
                     ),
                     new Container(
-                        margin: EdgeInsets.only(left: 30),
+                        margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
                           onPressed: zhi_chengpick,
                           color: Colors.blue,
                           child:new Text(
-                              '上传照片',
+                              '选择照片',
                               style:TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -271,6 +399,23 @@ class _register2 extends State<register2> {
                               borderRadius: new BorderRadius.circular(40.0)),
                         )
                     ),
+                    new Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child:RaisedButton(
+                          elevation: 0,
+                          onPressed: ID_Photopick,
+                          color: Colors.blue,
+                          child:new Text(
+                              '相机拍照',
+                              style:TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )
+                          ),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )
+                    )
                   ],
                 ),
                 Divider(
@@ -281,13 +426,29 @@ class _register2 extends State<register2> {
                     fontSize: 20,
                     color: Color.fromARGB(255, 93, 93, 93),)),
                 ),
-                TextField(),
+                TextField(
+                  decoration: new InputDecoration(
+                    labelStyle: new TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 93, 93, 93),
+                    ),
+                    //border: InputBorder.none,
+                  ),
+                ),
                 Container(
                   child:Text('医师简介:',style:TextStyle(
                     fontSize: 20,
                     color: Color.fromARGB(255, 93, 93, 93),)),
                 ),
-                TextField()
+                TextField(
+                  decoration: new InputDecoration(
+                    labelStyle: new TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 93, 93, 93),
+                    ),
+                    //border: InputBorder.none,
+                  ),
+                )
               ],
         ),
       )
@@ -321,6 +482,7 @@ class _register2 extends State<register2> {
           ),
           centerTitle: true,
           backgroundColor: Colors.blue,
+          leading: new Icon(Icons.arrow_back_ios,size: 25,)
         ),
           body: new ListView(
             children: <Widget>[
