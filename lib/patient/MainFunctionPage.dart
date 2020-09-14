@@ -44,7 +44,7 @@ class WidgetBulld {
             new Container(
                 child: Text(
                   text,
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: width_/25),
                 ))
           ]));
   }
@@ -228,43 +228,47 @@ class _MainPage extends State<MainPage> {
               borderRadius: BorderRadius.all(Radius.circular(28.0)),
               side: BorderSide(width: 1.0)),
 
-          child: new Center(
-
+          child: new Container(
+            padding: EdgeInsets.only(top: width_/20),
             child: new GridView(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 1.0
               ),
               children: <Widget>[
-                InkWell(child: widgetbuild.create("住院病历", Icons.redeem,width_),
+                InkWell(
+                  child: widgetbuild.create("体检报告", Icons.receipt,width_),
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => HospitalizedRecord()));
+                        context) => medicalReport()));
                   },),
-                InkWell(child: widgetbuild.create("化验检查", Icons.flare,width_),
+                InkWell(
+                  child: widgetbuild.create("病症照片", Icons.pageview,width_),
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => laboratoryExaminationPicture()));
+                        context) => SelfPortraitOfDisease()));
                   },),
-                InkWell(child: widgetbuild.create("病理学检查", Icons.opacity,width_),
+                InkWell(
+                  child: widgetbuild.create("影像检查", Icons.perm_media,width_),
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => Pathology()));
+                        context) => ImageReview()));
                   },),
-                InkWell(child: widgetbuild.create("住院病历", Icons.redeem,width_),
+                InkWell(
+                  child: widgetbuild.create("门诊病历", Icons.assignment,width_),
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => HospitalizedRecord()));
+                        context) => outpatientMedical()));
                   },),
-                InkWell(child: widgetbuild.create("化验检查", Icons.flare,width_),
+                InkWell(child: widgetbuild.create("门诊记录", Icons.account_balance_wallet,width_),
+                  onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (
+                      context) => outpatientVisitRecords()));
+                },),
+                InkWell(child: widgetbuild.create("侵入型器械检查", Icons.edit,width_),
                   onTap: () {
                     Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => laboratoryExaminationPicture()));
-                  },),
-                InkWell(child: widgetbuild.create("病理学检查", Icons.opacity,width_),
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => Pathology()));
+                        context) => invasiveReview()));
                   },),
                 InkWell(child: widgetbuild.create("住院病历", Icons.redeem,width_),
                   onTap: () {
