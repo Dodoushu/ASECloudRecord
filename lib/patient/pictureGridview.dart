@@ -75,7 +75,7 @@ class PictureView extends StatelessWidget{
         ),
         centerTitle: true,
         backgroundColor: Colors.blue,
-        leading: Icon(Icons.arrow_back_ios,size: 25,),
+//        leading: Icon(Icons.arrow_back_ios,size: 25,),
       ),
       body: new GridView.builder(
         shrinkWrap: true,

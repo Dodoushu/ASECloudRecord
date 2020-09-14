@@ -25,7 +25,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,
         iconSize: 30,
-        type: BottomNavigationBarType.shifting,
+//        type: BottomNavigationBarType.shifting,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(
