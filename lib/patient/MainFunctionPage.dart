@@ -214,85 +214,7 @@ class _MainPage extends State<MainPage> {
       ),
     ]);
     //跳转界面选择
-    Widget ChooseModel = SizedBox(
 
-        child: Container(
-          padding: const EdgeInsets.all(7.5),
-          child: Card(
-            elevation: 15.0, //阴影
-            //设置圆角和边框
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(28.0)),
-                side: BorderSide(width: 1.0)),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  new Container(
-                      padding: EdgeInsets.all(5),
-                      child: Column(children: <Widget>[
-                        InkWell(
-                          child: widgetbuild.create("体检报告", Icons.receipt,width_),
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (
-                                context) => medicalReport()));
-                          },),
-                        InkWell(
-                          child: widgetbuild.create("病症照片", Icons.pageview,width_),
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (
-                                context) => SelfPortraitOfDisease()));
-                          },),
-                        InkWell(
-                          child: widgetbuild.create("影像检查", Icons.perm_media,width_),
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (
-                                context) => ImageReview()));
-                          },),
-                      ])),
-                  new Container(
-                    padding: EdgeInsets.all(5),
-                    child: Column(children: <Widget>[
-                      InkWell(
-                        child: widgetbuild.create("门诊病历", Icons.assignment,width_),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => outpatientMedical()));
-                        },),
-                      InkWell(child: widgetbuild.create(
-                          "门诊记录", Icons.account_balance_wallet,width_), onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (
-                            context) => outpatientVisitRecords()));
-                      },),
-                      InkWell(child: widgetbuild.create("侵入型器械检查", Icons.edit,width_),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => invasiveReview()));
-                        },),
-                    ]),
-                  ),
-                  new Container(
-                    padding: EdgeInsets.all(5),
-                    child: Column(children: <Widget>[
-                      InkWell(child: widgetbuild.create("住院病历", Icons.redeem,width_),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => HospitalizedRecord()));
-                        },),
-                      InkWell(child: widgetbuild.create("化验检查", Icons.flare,width_),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => laboratoryExaminationPicture()));
-                        },),
-                      InkWell(child: widgetbuild.create("病理学检查", Icons.opacity,width_),
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (
-                              context) => Pathology()));
-                        },)
-                    ]),
-                  )
-                ]),
-          ),
-        ));
 
     Widget ChooseModel_ = new Container(
       height: width_*1.25,
@@ -380,6 +302,6 @@ class _MainPage extends State<MainPage> {
         centerTitle: true,
 //        backgroundColor: Colors.white,
       ),
-      body: new ListView(children: <Widget>[stack, ChooseModel,ChooseModel_]),
+      body: new ListView(children: <Widget>[stack,ChooseModel_]),
     );}
 }

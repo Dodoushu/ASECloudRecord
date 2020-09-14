@@ -21,33 +21,20 @@ class _register2 extends State<register2> {
   String SocialWork;
 
   MultipartFile ID_Photo;
-  String ID_Photo_name;
   MultipartFile IDCard_1;
-  String IDCard_1_name;
   MultipartFile IDCard_2;
   MultipartFile zi_ge_zheng;
   MultipartFile zhi_ye_zheng;
   MultipartFile zhi_cheng;
 
   File_Method file_method = new File_Method();
-  
+
+  var map = Map();
+  var filename = Map();
 
   //上传表单
   void CreateForm_POST(){
 
-    var map = Map();
-    map['name'] = name;
-    map['IdCardNumber'] = IdCardNumber;
-    map['Specialty'] = Specialty;
-    map['Introduction'] = Introduction;
-    map['SocialWork'] = SocialWork;
-
-    map['ID_Photo'] = ID_Photo;  //证件照
-    map['IDCard_1'] = IDCard_1;  //身份证正面照
-    map['IDCard_2'] = IDCard_2;   //身份证反面照
-    map['certification'] = zi_ge_zheng;   //医师资格证
-    map['practice_license'] = zhi_ye_zheng;   //医师执业证
-    map['pro_certificates '] = zhi_cheng;    //医师职称证书
     FormData formData = FormData.fromMap(map);
 
     request(url,FormData: formData,contentType: 'multipart/form-data').then((value)
@@ -56,25 +43,26 @@ class _register2 extends State<register2> {
     });
   }
 
-   Future<void> _selectFile() async
+  void _selectFile(String imageflag) async
   {
-    getMultiFilesPath().then((path) {
+      getMultiFilesPath().then((path) {
           MultipartFile.fromFile(path).then((value) {
-            ID_Photo = value;
+            map[imageflag] = value;
         });
+
       setState(() {
-        ID_Photo_name = path.toString();
+        filename[imageflag] = path.toString();
       });
     });
-
   }
-  Future<void> _selectFilefromCamera() async {
+
+  void _selectFilefromCamera(String imageflag) async {
     getImageFileFromCamera().then((path) {
       MultipartFile.fromFile(path).then((value) {
-        ID_Photo = value;
+        map[imageflag] = value;
       });
       setState(() {
-        ID_Photo_name = path.toString();
+        filename[imageflag] = path.toString();
       });
     });
   }
@@ -155,7 +143,9 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: ID_Photopick,
+                          onPressed:() => {
+                            _selectFile('ID_Photo')
+                          },
                           color: Colors.blue,
                           child:new Text(
                               '选择照片',
@@ -172,7 +162,9 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 5),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: ID_Photopick,
+                          onPressed: () => {
+                            _selectFilefromCamera('ID_Photo')
+                          },
                           color: Colors.blue,
                           child:new Text(
                               '相机拍照',
@@ -213,7 +205,9 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: IDCard_1pick,
+                          onPressed:() => {
+                            _selectFile('IDCard_1')
+                          },
                           color: Colors.blue,
                           child:new Text(
                               '选择照片',
@@ -230,7 +224,9 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 5),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: ID_Photopick,
+                          onPressed: () => {
+                            _selectFilefromCamera('IDCard_1')
+                          },
                           color: Colors.blue,
                           child:new Text(
                               '相机拍照',
@@ -256,7 +252,9 @@ class _register2 extends State<register2> {
                     margin: EdgeInsets.only(left: 10),
                     child:RaisedButton(
                       elevation: 0,
-                      onPressed: IDCard_2pick,
+                      onPressed:() => {
+                      _selectFile('IDCard_2')
+                      },
                       color: Colors.blue,
                       child:new Text(
                           '选择照片',
@@ -273,7 +271,9 @@ class _register2 extends State<register2> {
                     margin: EdgeInsets.only(left: 5),
                     child:RaisedButton(
                       elevation: 0,
-                      onPressed: ID_Photopick,
+                      onPressed: () => {
+                        _selectFilefromCamera('IDCard_2')
+                      },
                       color: Colors.blue,
                       child:new Text(
                           '相机拍照',
@@ -300,7 +300,9 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: zi_ge_zhengpick,
+                          onPressed:() => {
+                            _selectFile('zi_ge_zheng')
+                          },
                           color: Colors.blue,
                           child:new Text(
                               '选择照片',
@@ -317,7 +319,9 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 5),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: ID_Photopick,
+                          onPressed: () => {
+                            _selectFilefromCamera('zi_ge_zheng')
+                          },
                           color: Colors.blue,
                           child:new Text(
                               '相机拍照',
@@ -343,7 +347,9 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: zhi_ye_zhengpick,
+                          onPressed:() => {
+                            _selectFile('zhi_ye_zheng')
+                          },
                           color: Colors.blue,
                           child:new Text(
                               '选择照片',
@@ -360,7 +366,9 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 5),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: ID_Photopick,
+                          onPressed: () => {
+                            _selectFilefromCamera('zhi_ye_zheng')
+                          },
                           color: Colors.blue,
                           child:new Text(
                               '相机拍照',
@@ -386,7 +394,9 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: zhi_chengpick,
+                          onPressed:() => {
+                            _selectFile('zhi_cheng')
+                          },
                           color: Colors.blue,
                           child:new Text(
                               '选择照片',
@@ -403,7 +413,9 @@ class _register2 extends State<register2> {
                         margin: EdgeInsets.only(left: 10),
                         child:RaisedButton(
                           elevation: 0,
-                          onPressed: ID_Photopick,
+                          onPressed: () => {
+                            _selectFilefromCamera('zhi_cheng')
+                          },
                           color: Colors.blue,
                           child:new Text(
                               '相机拍照',
