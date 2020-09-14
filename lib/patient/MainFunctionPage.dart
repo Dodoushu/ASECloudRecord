@@ -64,9 +64,8 @@ class _MainPage extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    String name;
+
     double width_ = MediaQuery.of(context).size.width;
-    double height_ = MediaQuery.of(context).size.height;
 
     List listTabs = [];
     //背景蓝框及第一个功能选择条
@@ -77,34 +76,33 @@ class _MainPage extends State<MainPage> {
           color: Colors.blue,
         ),
         width: double.infinity,
-        height: 135,
+        height: width_/2.9,
       ),
       //文字及功能框一
       Container(
-        padding: const EdgeInsets.all(10),
+        padding: EdgeInsets.all(width_/40),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               new Container(
-                  padding: const EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.only(top: width_/20),
                   child: Text(' 尊敬的用户，您好',
 //                 child: Text(name.toString() + '，您好',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 25,
+                        fontSize: width_/15,
                       ))),
               new Container(
-                  padding: const EdgeInsets.all(6.0),
+                  padding: EdgeInsets.all(width_/65),
                   child: Text(
                     '健康是人生的第一财富',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: width_/20,
                     ),
                   )),
               SizedBox(
-                height: 160,
-                width: 600,
+                height: width_/2.6,
                 child: Card(
                     elevation: 15.0, //阴影
                     shape: RoundedRectangleBorder(
@@ -114,7 +112,7 @@ class _MainPage extends State<MainPage> {
                     //设置内部两图标
 
                     child: new Container(
-                      padding: const EdgeInsets.only(top: 15),
+                      padding:  EdgeInsets.only(top: width_/25),
                       child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
@@ -123,8 +121,8 @@ class _MainPage extends State<MainPage> {
                                   child: Column(children: <Widget>[
                                     new Stack(children: <Widget>[
                                       SizedBox(
-                                          height: 82,
-                                          width: 82,
+                                          height: width_/4.5,
+                                          width: width_/4.5,
                                           child: Card(
                                             elevation: 15.0, //阴影
                                             shape: RoundedRectangleBorder(
@@ -142,10 +140,10 @@ class _MainPage extends State<MainPage> {
                                           },
                                           child: new Container(
 //                                                alignment: Alignment.center,
-                                              padding: EdgeInsets.all(10),
+                                              padding: EdgeInsets.all(width_/40),
                                               child: Icon(
                                                 Icons.assignment_ind,
-                                                size: 60,
+                                                size: width_/6,
                                                 color: Colors.black,
                                               )))
                                     ]),
@@ -159,7 +157,7 @@ class _MainPage extends State<MainPage> {
                                         child: Container(
                                             child: Text(
                                               '既往病史填写',
-                                              style: TextStyle(fontSize: 18),
+                                              style: TextStyle(fontSize: width_/22),
                                             )))
                                   ])),
                             ),
@@ -168,8 +166,8 @@ class _MainPage extends State<MainPage> {
                                   child: Column(children: <Widget>[
                                     new Stack(children: <Widget>[
                                       SizedBox(
-                                          height: 82,
-                                          width: 82,
+                                          height: width_/4.6,
+                                          width: width_/4.6,
                                           child: Card(
                                             elevation: 15.0, //阴影
                                             shape: RoundedRectangleBorder(
@@ -186,10 +184,10 @@ class _MainPage extends State<MainPage> {
                                           },
                                           child:new Container(
 //                                                alignment: Alignment.center,
-                                          padding: EdgeInsets.all(10),
+                                          padding: EdgeInsets.all(width_/40),
                                           child: Icon(
                                             Icons.search,
-                                            size: 60,
+                                            size: width_/6,
                                             color: Colors.black,
                                           )))
                                     ]),
@@ -203,7 +201,7 @@ class _MainPage extends State<MainPage> {
                                         child:new Container(
                                         child: Text(
                                           '用户查询',
-                                          style: TextStyle(fontSize: 18),
+                                          style: TextStyle(fontSize: width_/22),
                                         )))
                                   ])),
                             )
@@ -217,10 +215,10 @@ class _MainPage extends State<MainPage> {
 
 
     Widget ChooseModel_ = new Container(
-      height: width_*1.25,
+      height: width_*1,
       child: FractionallySizedBox(
         widthFactor: 0.95,
-        heightFactor: 0.8,
+        heightFactor: 1,
         child:  new Card(
           elevation: 15.0, //阴影
           //设置圆角和边框
@@ -229,7 +227,7 @@ class _MainPage extends State<MainPage> {
               side: BorderSide(width: 1.0)),
 
           child: new Container(
-            padding: EdgeInsets.only(top: width_/20),
+            padding: EdgeInsets.only(top: width_/25),
             child: new GridView(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
