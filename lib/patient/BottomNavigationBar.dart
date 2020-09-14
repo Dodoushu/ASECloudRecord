@@ -41,7 +41,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           BottomNavigationBarItem(
               icon: Icon(Icons.pages, color: Colors.black,),
               title: Text(
-                '我的',
+                '查询',
                 style: TextStyle(fontSize: 18),
               )),
           BottomNavigationBarItem(
