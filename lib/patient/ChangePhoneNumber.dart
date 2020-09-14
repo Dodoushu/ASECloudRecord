@@ -93,7 +93,7 @@ class _ChangePhNum extends State<ChangePhNum> {
             title: Text('修改手机号',style: TextStyle(color: Colors.white),),
             centerTitle: true,
             backgroundColor: Colors.blue,
-            leading: Icon(Icons.arrow_back_ios,color: Colors.white,),
+//            leading: Icon(Icons.arrow_back_ios,color: Colors.white,),
           ),
           body: new ListView(
             children: <Widget> [
@@ -135,7 +135,7 @@ class _ChangePhNum extends State<ChangePhNum> {
                           ),
                           child: new TextFormField(
                             decoration: new InputDecoration(
-                              labelText: '输入手机号',
+                              labelText: '输入新手机号',
                               labelStyle: new TextStyle(fontSize: 15.0,color: Color.fromARGB(255, 93, 93, 93)),
                             ),
                             obscureText: false,
