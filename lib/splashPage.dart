@@ -173,7 +173,7 @@ class _SplashPage extends State<SplashPage> {
                     print('0---0');
                     Navigator.pushAndRemoveUntil(
                         context,
-                        MaterialPageRoute(builder: (context) => select()),
+                        MaterialPageRoute(builder: (context) => patientMain.MainPage()),
                             (route) => false);
                   });
                 } else if (result['user_type'] == 3) {

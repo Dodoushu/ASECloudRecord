@@ -67,7 +67,13 @@ class _MainPage extends State<MainPage> {
 
     double width_ = MediaQuery.of(context).size.width;
 
-    List listTabs = [];
+    String Welcome(){
+      SharedPreferenceUtil.getString('name').then((value) {
+        print(name);
+        return this.name.toString()+'，您好';
+      });
+    }
+
     //背景蓝框及第一个功能选择条
     Widget stack = new Stack(alignment: Alignment.topCenter, children: <Widget>[
       //蓝框
@@ -86,7 +92,7 @@ class _MainPage extends State<MainPage> {
             children: <Widget>[
               new Container(
                   padding: EdgeInsets.only(top: width_/20),
-                  child: Text(' 尊敬的用户，您好',
+                  child: Text(Welcome(),
 //                 child: Text(name.toString() + '，您好',
                       style: TextStyle(
                         color: Colors.white,
