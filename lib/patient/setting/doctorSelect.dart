@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:helloworld/patient/MainFunctionPage.dart';
 
-
 void main() {
-  runApp(MaterialApp(home: doctorSelect(),));
+  runApp(MaterialApp(
+    home: doctorSelect(),
+  ));
 }
 
 class doctorSelect extends StatefulWidget {
@@ -12,9 +13,32 @@ class doctorSelect extends StatefulWidget {
 }
 
 class _doctorSelectState extends State<doctorSelect> {
-
   bool onlyuser = true;
-  List<bool> valueList = [false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,];
+  List<bool> valueList = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+
+  String switchContent() {
+    if (onlyuser == true) {
+      return '仅自己可见';
+    } else {
+      return '选中医生可见';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +54,18 @@ class _doctorSelectState extends State<doctorSelect> {
       ];
 
       var CheckoxListTitleList = List<CheckboxListTile>();
-      CheckoxListTitleList.add(CheckboxListTile(
-        secondary: const Icon(Icons.accessible_forward),
-        title: Text('仅自己可见'),
-        value: onlyuser,
-        onChanged: (bool value) {
-          setState(() {
-            onlyuser=value;
-          });
-          print(value);
-        },
-      ));
-      if(onlyuser == false){
+//      CheckoxListTitleList.add(CheckboxListTile(
+//        secondary: const Icon(Icons.accessible_forward),
+//        title: Text(switchContent()),
+//        value: onlyuser,
+//        onChanged: (bool value) {
+//          setState(() {
+//            onlyuser=value;
+//          });
+//          print(value);
+//        },
+//      ));
+      if (onlyuser == false) {
         int i = 0;
         for (Map obj in doctorlist) {
           CheckoxListTitleList.add(new CheckboxListTile(
@@ -51,7 +75,7 @@ class _doctorSelectState extends State<doctorSelect> {
             value: valueList[obj['id']],
             onChanged: (bool value) {
               setState(() {
-                valueList[obj['id']]=value;
+                valueList[obj['id']] = value;
               });
               print(value);
             },
@@ -62,16 +86,38 @@ class _doctorSelectState extends State<doctorSelect> {
       return CheckoxListTitleList;
     }
 
-
     Widget ChangeDoctor = new Container(
-        padding: EdgeInsets.only(top: 20,left: 10, right: 5),
+        padding: EdgeInsets.only(top: 10, left: 10, right: 5),
         child: Card(
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              side: BorderSide(width: 0.5)
-          ),
+              side: BorderSide(width: 0.5)),
           child: Column(
             children: <Widget>[
+              Container(
+                padding:
+                    EdgeInsets.only(right: 16, left: 24, top: 4, bottom: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      switchContent(),
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Switch(
+//                secondary: const Icon(Icons.accessible_forward),
+//                title: Text(switchContent()),
+                      value: onlyuser,
+                      onChanged: (bool value) {
+                        setState(() {
+                          onlyuser = value;
+                        });
+                        print(value);
+                      },
+                    ),
+                  ],
+                ),
+              ),
               new Container(
                   child: Container(
                       padding: EdgeInsets.only(left: 10, right: 10),
@@ -88,11 +134,12 @@ class _doctorSelectState extends State<doctorSelect> {
 //                            Icons.arrow_forward_ios,
 //                            size: 26,
 //                          ),
-                            ),
+                                ),
                           ]))),
-              Column(
+              Container(
+                  child: Column(
                 children: buildCheckboxListTile(),
-              )
+              )),
             ],
           ),
         ));
@@ -100,7 +147,7 @@ class _doctorSelectState extends State<doctorSelect> {
     return Scaffold(
       appBar: new AppBar(
         title: Text(
-          '设置',
+          '选择医生',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
@@ -108,7 +155,7 @@ class _doctorSelectState extends State<doctorSelect> {
 //        leading: new Icon(Icons.arrow_back_ios,size: 25,),
       ),
       body: new ListView(
-        children: <Widget>[ ChangeDoctor],
+        children: <Widget>[ChangeDoctor],
       ),
     );
   }

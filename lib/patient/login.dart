@@ -222,7 +222,6 @@ class _Login extends State<Login> {
                       ),
                     ),
                   ),
-
                   new Container(
                     //margin: EdgeInsets.only(top: 30.0),
                     padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 20.0),

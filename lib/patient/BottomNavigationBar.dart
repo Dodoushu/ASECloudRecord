@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:helloworld/index.dart';
+
 import 'MainFunctionPage.dart';
-import 'User_Search.dart';
 import 'Setting.dart';
+import 'User_Search.dart';
 
 void main() {
-  runApp(MaterialApp(home: BottomNavigationWidget(),));
+  runApp(MaterialApp(
+    home: BottomNavigationWidget(),
+  ));
 }
 
 class BottomNavigationWidget extends StatefulWidget {
@@ -15,9 +17,9 @@ class BottomNavigationWidget extends StatefulWidget {
 
 class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   int currentIndex = 0;
-  List listTabs = [MainPage(),SearchPage(),Setting()];
+  List listTabs = [MainPage(), SearchPage(), Setting()];
 
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       body: listTabs[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -29,7 +31,7 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
               icon: Icon(
-                Icons.search,
+                Icons.pages,
                 color: Colors.black,
               ),
               title: Text(
@@ -39,19 +41,22 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                 ),
               )),
           BottomNavigationBarItem(
-              icon: Icon(Icons.pages, color: Colors.black,),
+              icon: Icon(
+                Icons.search,
+                color: Colors.black,
+              ),
               title: Text(
                 '查询',
                 style: TextStyle(fontSize: 18),
               )),
           BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle, color: Colors.black),
+              icon: Icon(Icons.build, color: Colors.black),
               title: Text(
                 '设置',
                 style: TextStyle(fontSize: 18),
               ))
         ],
-        onTap: (index){
+        onTap: (index) {
           setState(() {
             currentIndex = index;
           });
@@ -61,7 +66,6 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     );
   }
 }
-
 
 //class BottomNavigationBarClass{
 //  BottomNavigationBar Create() {
