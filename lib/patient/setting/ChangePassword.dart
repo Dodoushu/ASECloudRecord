@@ -33,13 +33,11 @@ class _ChangePswd extends State<ChangePswd> {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: '修改密码',
-      home: new Scaffold(
+    return new Scaffold(
         appBar: AppBar(
           title: Text('修改密码',style: TextStyle(color: Colors.white),),
           centerTitle: true,
-//          backgroundColor: Colors.blue,
+//          backgroundColor: Colors.white,
         ),
         body: new ListView(
           children: <Widget> [
@@ -148,7 +146,6 @@ class _ChangePswd extends State<ChangePswd> {
             )
           ],
         )
-      ),
-    );
+      );
   }
 }

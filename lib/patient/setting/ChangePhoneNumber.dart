@@ -86,9 +86,7 @@ class _ChangePhNum extends State<ChangePhNum> {
 
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      title: '修改手机号',
-      home: new Scaffold(
+    return new Scaffold(
           appBar: AppBar(
             title: Text('修改手机号',style: TextStyle(color: Colors.white),),
             centerTitle: true,
@@ -261,7 +259,7 @@ class _ChangePhNum extends State<ChangePhNum> {
               )
             ],
           )
-      ),
-    );
+      );
+
   }
 }
