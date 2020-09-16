@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
 //        ),
         theme: ThemeData(
           //主题色
-          primaryColor:Colors.blueAccent,
+          primaryColor:Colors.white,
         ),
         //当手机处于夜间模式时，优先执行darkTheme
         darkTheme: ThemeData(

@@ -164,7 +164,7 @@ class SearchPage extends StatelessWidget{
       appBar: new AppBar(
         title: Text(
           '用户查询',
-              style:TextStyle(color: Colors.white),
+              style:TextStyle(color: Colors.black),
         ),
         centerTitle: true,
 //        backgroundColor: Colors.blue,

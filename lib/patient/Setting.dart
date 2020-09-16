@@ -253,7 +253,7 @@ class _SettingState extends State<Setting> {
       appBar: new AppBar(
         title: Text(
           '设置',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
 //        backgroundColor: Colors.blue,

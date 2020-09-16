@@ -148,7 +148,7 @@ class _doctorSelectState extends State<doctorSelect> {
       appBar: new AppBar(
         title: Text(
           '选择医生',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
 //        backgroundColor: Colors.blue,
