@@ -45,9 +45,9 @@ class _Login extends State<Login> {
 
     //读取当前的Form状态
 
-    Future.delayed(Duration(seconds: 1),(){
-      Navigator.pop(context);
-    });
+//    Future.delayed(Duration(seconds: 1),(){
+//      Navigator.pop(context);
+//    });
     var loginForm = loginKey.currentState;
     //验证Form表单
     if (loginForm.validate()) {
@@ -74,6 +74,7 @@ class _Login extends State<Login> {
           SharedPreferenceUtil.setString('phoneNum', userName.toString())
               .then((value) {
             SharedPreferenceUtil.setString('name', data['name']).then((value) {
+              print('username:'+data['name']);
               SharedPreferenceUtil.setString('token', data['token'])
                   .then((value) {
                 print(value);

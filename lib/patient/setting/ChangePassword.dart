@@ -39,7 +39,7 @@ class _ChangePswd extends State<ChangePswd> {
         appBar: AppBar(
           title: Text('修改密码',style: TextStyle(color: Colors.white),),
           centerTitle: true,
-          backgroundColor: Colors.blue,
+//          backgroundColor: Colors.blue,
         ),
         body: new ListView(
           children: <Widget> [

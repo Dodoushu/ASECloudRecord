@@ -92,7 +92,7 @@ class _ChangePhNum extends State<ChangePhNum> {
           appBar: AppBar(
             title: Text('修改手机号',style: TextStyle(color: Colors.white),),
             centerTitle: true,
-            backgroundColor: Colors.blue,
+//            backgroundColor: Colors.blue,
 //            leading: Icon(Icons.arrow_back_ios,color: Colors.white,),
           ),
           body: new ListView(

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:helloworld/patient/MainFunctionPage.dart';
+import 'package:helloworld/sharedPrefrences.dart';
 import 'BottomNavigationBar.dart';
 import 'setting/ChangePassword.dart';
 import 'setting/ChangePhoneNumber.dart';
 import 'setting/doctorSelect.dart';
+import 'package:helloworld/select.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -146,6 +148,33 @@ class _SettingState extends State<Setting> {
       ),
     );
 
+    Widget logout = Container(
+      padding: EdgeInsets.all(0),
+      height: 50.0,
+      margin: EdgeInsets.only(left: 20.0,right: 20.0,top: 20),
+      child: new SizedBox.expand(
+        child: new RaisedButton(
+          elevation: 20,
+          onPressed: (){
+            SharedPreferenceUtil.remove('token').then((value){
+              SharedPreferenceUtil.remove('name').then((value){
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => select()), (route) => false);
+              });
+            });
+          },
+          color: Colors.red,
+          child: new Text(
+            '注销',
+            style: TextStyle(
+                fontSize: 14.0,
+                color: Color.fromARGB(255, 255, 255, 255)),
+          ),
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(40.0)),
+        ),
+      ),
+    );
+
 //    Widget ChangeDoctor = new Container(
 //        padding: EdgeInsets.only(left: 10, right: 5),
 //        child: SizedBox(
@@ -231,7 +260,7 @@ class _SettingState extends State<Setting> {
 //        leading: new Icon(Icons.arrow_back_ios,size: 25,),
       ),
       body: new ListView(
-        children: <Widget>[ChangePspt, ChangePhonenum, ChangeDoctor],
+        children: <Widget>[ChangePspt, ChangePhonenum, ChangeDoctor,logout],
       ),
     );
   }

@@ -13,6 +13,7 @@ import 'upLoadInfo/OutpatientVisitRecords.dart';
 import 'upLoadInfo/pathology.dart';
 import 'upLoadInfo/selfPortraitOfDisease.dart';
 import 'User_Search.dart';
+import 'BottomNavigationBar.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -50,6 +51,7 @@ class WidgetBulld {
   }
 }
 
+String name;
 
 class MainPage extends StatefulWidget {
   @override
@@ -60,19 +62,31 @@ class _MainPage extends State<MainPage> {
   //实例化
   WidgetBulld widgetbuild = new WidgetBulld();
 //  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
-  String name;
+
+  @override
+  void initState() {
+
+    // TODO: implement initState
+    super.initState();
+
+    SharedPreferenceUtil.getString('name').then((value) {
+      print(value+'，您好');
+      name = value;
+      print(name+'，您好');
+      setState(() {
+        name = value;
+      });
+    });
+    Future.delayed(Duration(seconds: 2),(){
+    });
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
 
     double width_ = MediaQuery.of(context).size.width;
-
-    String Welcome(){
-      SharedPreferenceUtil.getString('name').then((value) {
-        print(name);
-        return this.name.toString()+'，您好';
-      });
-    }
 
     //背景蓝框及第一个功能选择条
     Widget stack = new Stack(alignment: Alignment.topCenter, children: <Widget>[
@@ -92,7 +106,7 @@ class _MainPage extends State<MainPage> {
             children: <Widget>[
               new Container(
                   padding: EdgeInsets.only(top: width_/20),
-                  child: Text(Welcome(),
+                  child: Text(name.toString()+'，您好',
 //                 child: Text(name.toString() + '，您好',
                       style: TextStyle(
                         color: Colors.white,
@@ -199,10 +213,11 @@ class _MainPage extends State<MainPage> {
                                     ]),
                                     InkWell(
                                         onTap: (){
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      SearchPage()));
+
+//                                          Navigator.push(context,
+//                                              MaterialPageRoute(
+//                                                  builder: (context) =>
+//                                                      SearchPage()));
                                         },
                                         child:new Container(
                                         child: Text(
@@ -235,6 +250,7 @@ class _MainPage extends State<MainPage> {
           child: new Container(
             padding: EdgeInsets.only(top: width_/25),
             child: new GridView(
+              physics: NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 1.0

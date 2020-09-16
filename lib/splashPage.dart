@@ -38,6 +38,7 @@ import 'package:flutter/services.dart';
 
 import 'package:helloworld/select.dart';
 //import 'package:flutter_demo/view/HomePage.dart';
+import 'patient/BottomNavigationBar.dart';
 
 class SplashPage extends StatefulWidget {
   SplashPage({Key key}) : super(key: key);
@@ -53,7 +54,6 @@ class _SplashPage extends State<SplashPage> {
 //页面初始化状态的方法
   @override
   void initState() {
-    print('initState');
     super.initState();
     //开启倒计时
     countDown();
@@ -62,7 +62,6 @@ class _SplashPage extends State<SplashPage> {
   void countDown() {
     //设置倒计时三秒后执行跳转方法
     var duration = new Duration(seconds: 1);
-    print('countdown');
     new Future.delayed(duration, (){
       SharedPreferenceUtil.containsKey('lisence').then((value){
         if(value==false){
@@ -119,7 +118,6 @@ class _SplashPage extends State<SplashPage> {
   void goToHomePage() {
     print('gotohomepage');
     SharedPreferenceUtil.containsKey('token').then((value) {
-      print(value);
       if (value == false) {
         print('value == false');
         isStartHomePage = true;
@@ -128,13 +126,11 @@ class _SplashPage extends State<SplashPage> {
             MaterialPageRoute(builder: (context) => select()),
             (route) => false);
       } else {
-        print('else');
         String token;
         Future<bool> result =
             SharedPreferenceUtil.getString('token').then((value) {
           token = value;
           String phoneNum;
-          print('token存在');
           SharedPreferenceUtil.getString('phoneNum').then((value) {
             phoneNum = value;
             var sign = Map();
@@ -145,39 +141,33 @@ class _SplashPage extends State<SplashPage> {
             sign['phone_num'] = phoneNum;
             bodymap['token'] = token;
             bodymap['sign'] = sign;
-            print(bodymap);
             String url = 'http://39.100.100.198:8082/sign';
             var result;
             request(url, FormData: bodymap).then((value) {
               result = json.decode(value.toString());
               print(result);
 
-              //token不合法
-              if (result['status_code'] == 3) {
-                SharedPreferenceUtil.remove('token').then((value) {
-                  isStartHomePage = true;
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => select()),
-                      (route) => false);
-                });
-              }
+//              //token不合法
+//              if (result['status_code'] == 3) {
+//                SharedPreferenceUtil.remove('token').then((value) {
+//                  isStartHomePage = true;
+//                  Navigator.pushAndRemoveUntil(
+//                      context,
+//                      MaterialPageRoute(builder: (context) => select()),
+//                      (route) => false);
+//                });
+//              }
 
               //token合法
               if (result['status_code'] == 0) {
                 if (result['user_type'] == 0) {
-                  print('0---0');
-                  isStartHomePage = true;
-                  SharedPreferenceUtil.setString('name', result['name'])
-                      .then((value) {
-                    print('0---0');
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => patientMain.MainPage()),
-                            (route) => false);
+                  SharedPreferenceUtil.setString('name', result['name']).then((value) {
+                    isStartHomePage = true;
                   });
+                  if(isStartHomePage == true){
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavigationWidget()), (route) => false);
+                  }
                 } else if (result['user_type'] == 3) {
-                  print('0---1');
                   isStartHomePage = true;
                   SharedPreferenceUtil.setString('name', result['name'])
                       .then((value) {
