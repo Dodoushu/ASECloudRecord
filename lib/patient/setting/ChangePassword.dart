@@ -35,7 +35,7 @@ class _ChangePswd extends State<ChangePswd> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: AppBar(
-          title: Text('修改密码',style: TextStyle(color: Colors.white),),
+          title: Text('修改密码',style: TextStyle(color: Colors.black),),
           centerTitle: true,
 //          backgroundColor: Colors.white,
         ),
