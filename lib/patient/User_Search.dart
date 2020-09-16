@@ -22,7 +22,7 @@ class WidgetBuild {
       width: 350,
       child: Card(
         shape: RoundedRectangleBorder(
-            
+
             borderRadius: BorderRadius.all(Radius.circular(12.0))),
         color: Colors.white,
         child: Container(

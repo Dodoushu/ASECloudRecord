@@ -17,7 +17,8 @@ class BottomNavigationWidget extends StatefulWidget {
 
 class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   int currentIndex = 0;
-  List listTabs = [MainPage(), SearchPage(), Setting()];
+//  List listTabs = [MainPage(), SearchPage(), Setting()];
+  List listTabs = [MainPage(), Setting()];
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,15 +41,15 @@ class BottomNavigationWidgetState extends State<BottomNavigationWidget> {
                   fontSize: 18,
                 ),
               )),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.search,
-                color: Colors.black,
-              ),
-              title: Text(
-                '查询',
-                style: TextStyle(fontSize: 18),
-              )),
+//          BottomNavigationBarItem(
+//              icon: Icon(
+//                Icons.search,
+//                color: Colors.black,
+//              ),
+//              title: Text(
+//                '查询',
+//                style: TextStyle(fontSize: 18),
+//              )),
           BottomNavigationBarItem(
               icon: Icon(Icons.build, color: Colors.black),
               title: Text(

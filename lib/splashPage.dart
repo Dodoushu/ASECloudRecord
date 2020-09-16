@@ -161,12 +161,11 @@ class _SplashPage extends State<SplashPage> {
               //token合法
               if (result['status_code'] == 0) {
                 if (result['user_type'] == 0) {
+                  isStartHomePage = false;
                   SharedPreferenceUtil.setString('name', result['name']).then((value) {
                     isStartHomePage = true;
                   });
-                  if(isStartHomePage == true){
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavigationWidget()), (route) => false);
-                  }
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavigationWidget()), (route) => false);
                 } else if (result['user_type'] == 3) {
                   isStartHomePage = true;
                   SharedPreferenceUtil.setString('name', result['name'])
