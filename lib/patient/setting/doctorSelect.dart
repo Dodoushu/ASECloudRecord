@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helloworld/patient/MainFunctionPage.dart';
+import 'package:helloworld/select.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -40,108 +41,210 @@ class _doctorSelectState extends State<doctorSelect> {
     }
   }
 
+  var doctorlist = [
+    {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
+    {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
+    {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
+    {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
+    {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
+    {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
+    {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
+  ];
+
+  var selectedDoctor = [
+    {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
+    {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
+    {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
+  ];
+
+  var unSelectedDoctor = [
+    {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
+    {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
+    {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
+    {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
+  ];
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> buildCheckboxListTile() {
-      var doctorlist = [
-        {'id': 0, 'name': '张一', 'info': '其他信息'},
-        {'id': 1, 'name': '张二', 'info': '其他信息'},
-        {'id': 2, 'name': '张三', 'info': '其他信息'},
-        {'id': 3, 'name': '张四', 'info': '其他信息'},
-        {'id': 4, 'name': '张五', 'info': '其他信息'},
-        {'id': 5, 'name': '张六', 'info': '其他信息'},
-        {'id': 6, 'name': '张七', 'info': '其他信息'}
-      ];
 
+    Column buildSelectedCheckboxListTile() {
       var CheckoxListTitleList = List<CheckboxListTile>();
-//      CheckoxListTitleList.add(CheckboxListTile(
-//        secondary: const Icon(Icons.accessible_forward),
-//        title: Text(switchContent()),
-//        value: onlyuser,
-//        onChanged: (bool value) {
-//          setState(() {
-//            onlyuser=value;
-//          });
-//          print(value);
-//        },
-//      ));
       if (onlyuser == false) {
-        int i = 0;
-        for (Map obj in doctorlist) {
+        for (Map obj in selectedDoctor) {
           CheckoxListTitleList.add(new CheckboxListTile(
             secondary: const Icon(Icons.accessible_forward),
             title: Text(obj['name']),
             subtitle: Text(obj['info']),
-            value: valueList[obj['id']],
+            value: obj['select'],
             onChanged: (bool value) {
               setState(() {
-                valueList[obj['id']] = value;
+                int i = 0;
+                for (Map temp in selectedDoctor) {
+                  if (temp['id'] == obj['id']) {
+                    break;
+                  } else {
+                    i++;
+                  }
+                }
+                Map tempDoctor = new Map();
+                tempDoctor = selectedDoctor[i];
+                tempDoctor['select'] = false;
+                selectedDoctor.removeAt(i);
+                unSelectedDoctor.add(tempDoctor);
+                unSelectedDoctor.sort((a, b) =>
+                    (a['id'].toString()).compareTo((b['id'].toString())));
               });
-              print(value);
             },
           ));
-          i++;
         }
       }
-      return CheckoxListTitleList;
+      return Column(children: CheckoxListTitleList,);
+    }
+
+    Column buildUnSelectedCheckboxListTile() {
+      var CheckoxListTitleList = List<CheckboxListTile>();
+      if (onlyuser == false) {
+        for (Map obj in unSelectedDoctor) {
+          CheckoxListTitleList.add(new CheckboxListTile(
+            secondary: const Icon(Icons.accessible_forward),
+            title: Text(obj['name']),
+            subtitle: Text(obj['info']),
+            value: obj['select'],
+            onChanged: (bool value) {
+              setState(() {
+                int i = 0;
+                for (Map temp in unSelectedDoctor) {
+                  if (temp['id'] == obj['id']) {
+                    break;
+                  } else {
+                    i++;
+                  }
+                }
+                Map tempDoctor = new Map();
+                tempDoctor = unSelectedDoctor[i];
+                tempDoctor['select'] = true;
+                unSelectedDoctor.removeAt(i);
+                selectedDoctor.add(tempDoctor);
+                selectedDoctor.sort((a, b) =>
+                    (a['id'].toString()).compareTo((b['id'].toString())));
+              });
+            },
+          ));
+        }
+      }
+      return Column(children: CheckoxListTitleList,);
+    }
+
+    Container text1(){
+      if(onlyuser == false&&selectedDoctor.isNotEmpty){
+        return new Container(
+          padding: EdgeInsets.only(left: 20,right: 20),
+          child:Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[Text('已选中：')],
+        ),);
+      }
+    }
+
+    Container text2(){
+      if(onlyuser == false&&unSelectedDoctor.isNotEmpty){
+        return new Container(
+          padding: EdgeInsets.only(left: 20,right: 20),
+          child:Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[Text('未选中：')],
+          ),);
+      }
     }
 
     Widget ChangeDoctor = new Container(
         padding: EdgeInsets.only(top: 10, left: 10, right: 5),
-        child: Card(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10.0)),
-              side: BorderSide(width: 0.5)),
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding:
-                    EdgeInsets.only(right: 16, left: 24, top: 4, bottom: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      switchContent(),
-                      style: TextStyle(fontSize: 16),
+        child: Column(
+          children: <Widget>[
+            new Container(
+                height: 40.0,
+                width: 200,
+                margin: EdgeInsets.only(top:5,bottom: 5),
+                child: new SizedBox.expand(
+                  child: new RaisedButton(
+                    elevation: 20,
+                    onPressed: (){
+                      print(selectedDoctor.isNotEmpty);
+//                      for(Map obj in selectedDoctor){
+//                        print(obj['id']);
+//                      };
+                    },
+                    color: Colors.blue,
+                    child: new Text(
+                      '提交',
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          color: Color.fromARGB(255, 255, 255, 255)),
                     ),
-                    Switch(
+                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(40.0)),
+                  ),
+                )
+            ),
+            Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  side: BorderSide(width: 0.5)),
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    padding:
+                    EdgeInsets.only(right: 16, left: 24, top: 4, bottom: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          switchContent(),
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Switch(
 //                secondary: const Icon(Icons.accessible_forward),
 //                title: Text(switchContent()),
-                      value: onlyuser,
-                      onChanged: (bool value) {
-                        setState(() {
-                          onlyuser = value;
-                        });
-                        print(value);
-                      },
+                          value: onlyuser,
+                          onChanged: (bool value) {
+                            setState(() {
+                              onlyuser = value;
+                            });
+                            print(value);
+                          },
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-              new Container(
-                  child: Container(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(left: 10),
-                            ),
-                            Container(
+                  ),
+                  new Container(
+                      child: Container(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  padding: EdgeInsets.only(left: 10),
+                                ),
+                                Container(
 //                          padding: EdgeInsets.only(left: 230),
 //                          child: new Icon(
 //                            Icons.arrow_forward_ios,
 //                            size: 26,
 //                          ),
                                 ),
-                          ]))),
-              Container(
-                  child: Column(
-                children: buildCheckboxListTile(),
-              )),
-            ],
-          ),
+                              ]))),
+                  Container(child:text1()),
+                  Container(
+                    child: buildSelectedCheckboxListTile(),
+                  ),
+                  Container(child:text2()),
+                  Container(
+                    child: buildUnSelectedCheckboxListTile(),
+                  ),
+                ],
+              ),
+            )
+          ],
         ));
 
     return Scaffold(

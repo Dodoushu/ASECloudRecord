@@ -59,9 +59,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPage extends State<MainPage> {
-  //实例化
-  WidgetBulld widgetbuild = new WidgetBulld();
-//  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
 
   @override
   void initState() {
@@ -82,6 +79,11 @@ class _MainPage extends State<MainPage> {
 
 
   }
+  //实例化
+  WidgetBulld widgetbuild = new WidgetBulld();
+//  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
+
+
 
   @override
   Widget build(BuildContext context) {

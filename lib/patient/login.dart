@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -36,6 +37,28 @@ class _Login extends State<Login> {
   String password;
   bool isShowPassWord = false;
 
+  bool havePhoneNumber = false;
+  String prePhoneNumber;
+
+  TextEditingController _controller = new TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    //开启倒计时
+    SharedPreferenceUtil.containsKey('prePhoneNumber').then((value){
+      if(value == true){
+        SharedPreferenceUtil.getString('prePhoneNumber').then((value){
+          setState(() {
+            prePhoneNumber = value;
+            havePhoneNumber = true;
+            _controller.text = value;
+          });
+        });
+      }
+    });
+  }
+
   void login() async {
 //    //演示时去掉验证功能
 //    Navigator.pushAndRemoveUntil(
@@ -71,18 +94,20 @@ class _Login extends State<Login> {
               MaterialPageRoute(builder: (context) => register2()),
               (route) => false);
         } else if (data['status_code'] == 0) {
-          SharedPreferenceUtil.setString('phoneNum', userName.toString())
-              .then((value) {
-            SharedPreferenceUtil.setString('name', data['name']).then((value) {
-              print('username:'+data['name']);
-              SharedPreferenceUtil.setString('token', data['token'])
-                  .then((value) {
-                print(value);
-                showAlertDialog(context, titleText: '', contentText: '登陆成功');
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
-                    (route) => false);
+          SharedPreferenceUtil.setString('prePhoneNumber', userName.toString()).then((value){
+            SharedPreferenceUtil.setString('phoneNum', userName.toString())
+                .then((value) {
+              SharedPreferenceUtil.setString('name', data['name']).then((value) {
+                print('username:'+data['name']);
+                SharedPreferenceUtil.setString('token', data['token'])
+                    .then((value) {
+                  print(value);
+                  showAlertDialog(context, titleText: '', contentText: '登陆成功');
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
+                          (route) => false);
+                });
               });
             });
           });
@@ -147,6 +172,7 @@ class _Login extends State<Login> {
                                 color: Color.fromARGB(255, 240, 240, 240),
                                 width: 1.0))),
                     child: new TextFormField(
+                      controller: _controller,
                       decoration: new InputDecoration(
                         labelText: '请输入手机号',
                         labelStyle: new TextStyle(
