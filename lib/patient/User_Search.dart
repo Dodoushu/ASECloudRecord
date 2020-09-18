@@ -15,7 +15,8 @@ void main() {
 }
 
 class WidgetBuild {
-  Container create(String text, IconData icondata, Color truecolor,{double width = 350}) {
+  Container create(String text, IconData icondata, Color truecolor,
+      {double width = 350}) {
     return new Container(
         child: SizedBox(
       height: 60,
@@ -391,27 +392,15 @@ class SearchPage extends StatelessWidget {
                                   await request(url, FormData: formData)
                                       .then((value) {
                                     print(value);
-                                    var data = json.decode(value.toString());
-                                    var url = new List();
-                                    for (var value
-                                    in data['instrumentPictures']) {
-                                      url.addAll(value['address']);
-//                                      log(value['address'].toString());
-                                    }
-                                    log(url.toString());
-                                    var urls = List<String>();
-                                    for (value in url) {
-                                      urls.add('http://' + value.toString());
-                                    }
-//                                    print(data);
-//                                    log(data['textInfo'].toString());
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PictureView(
-                                              urls: urls,
-                                            )));
-//                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
+
+//                                    var url = new List();
+//                                    Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                            builder: (context) => PictureView(
+//                                              urls: urls,
+//                                            )));
+//
                                   });
                                 });
                               },
@@ -430,37 +419,25 @@ class SearchPage extends StatelessWidget {
                                       '*******************************************************');
                                   print(bodymap);
                                   var url =
-                                      "http://39.100.100.198:8082/Select/admission";
+                                      "http://39.100.100.198:8082/Select/examine";
                                   var formData = bodymap;
                                   await request(url, FormData: formData)
                                       .then((value) {
                                     print(value);
-                                    var data = json.decode(value.toString());
-                                    var url = new List();
-                                    for (var value
-                                    in data['instrumentPictures']) {
-                                      url.addAll(value['address']);
-//                                      log(value['address'].toString());
-                                    }
-                                    log(url.toString());
-                                    var urls = List<String>();
-                                    for (value in url) {
-                                      urls.add('http://' + value.toString());
-                                    }
-//                                    print(data);
-//                                    log(data['textInfo'].toString());
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PictureView(
-                                              urls: urls,
-                                            )));
-//                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
+
+//                                    var url = new List();
+//                                    Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                            builder: (context) => PictureView(
+//                                                  urls: urls,
+//                                                )));
+
                                   });
                                 });
                               },
-                              child: _widgetBuild.create(
-                                  '病理学检查查询', Icons.bookmark_border, Colors.black45),
+                              child: _widgetBuild.create('病理学检查查询',
+                                  Icons.bookmark_border, Colors.black45),
                             ),
                             InkWell(
                               onTap: () async {
@@ -474,32 +451,20 @@ class SearchPage extends StatelessWidget {
                                       '*******************************************************');
                                   print(bodymap);
                                   var url =
-                                      "http://39.100.100.198:8082/Select/admission";
+                                      "http://39.100.100.198:8082/Select/outPatient";
                                   var formData = bodymap;
                                   await request(url, FormData: formData)
                                       .then((value) {
                                     print(value);
-                                    var data = json.decode(value.toString());
+
                                     var url = new List();
-                                    for (var value
-                                    in data['instrumentPictures']) {
-                                      url.addAll(value['address']);
-//                                      log(value['address'].toString());
-                                    }
-                                    log(url.toString());
-                                    var urls = List<String>();
-                                    for (value in url) {
-                                      urls.add('http://' + value.toString());
-                                    }
-//                                    print(data);
-//                                    log(data['textInfo'].toString());
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PictureView(
-                                              urls: urls,
-                                            )));
-//                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
+//                                    Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                            builder: (context) => PictureView(
+//                                                  urls: urls,
+//                                                )));
+
                                   });
                                 });
                               },
@@ -518,37 +483,27 @@ class SearchPage extends StatelessWidget {
                                       '*******************************************************');
                                   print(bodymap);
                                   var url =
-                                      "http://39.100.100.198:8082/Select/admission";
+                                      "http://39.100.100.198:8082/Select/outPatientRecords";
                                   var formData = bodymap;
                                   await request(url, FormData: formData)
                                       .then((value) {
                                     print(value);
-                                    var data = json.decode(value.toString());
+
                                     var url = new List();
-                                    for (var value
-                                    in data['instrumentPictures']) {
-                                      url.addAll(value['address']);
-//                                      log(value['address'].toString());
-                                    }
-                                    log(url.toString());
-                                    var urls = List<String>();
-                                    for (value in url) {
-                                      urls.add('http://' + value.toString());
-                                    }
-//                                    print(data);
-//                                    log(data['textInfo'].toString());
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => PictureView(
-                                              urls: urls,
-                                            )));
-//                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
+//                                    Navigator.push(
+//                                        context,
+//                                        MaterialPageRoute(
+//                                            builder: (context) => PictureView(
+//                                                  urls: urls,
+//                                                )));
+
                                   });
                                 });
                               },
                               child: _widgetBuild.create(
-                                  '门诊记录查询', Icons.record_voice_over, Colors.deepPurpleAccent),
+                                  '门诊记录查询',
+                                  Icons.record_voice_over,
+                                  Colors.deepPurpleAccent),
                             ),
                           ],
                         ),
