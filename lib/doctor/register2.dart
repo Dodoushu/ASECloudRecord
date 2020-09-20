@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:helloworld/File_Method.dart';
 import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
-void main() =>runApp(new register2());
 
-class register2 extends StatefulWidget{
+void main() => runApp(new register2());
+
+class register2 extends StatefulWidget {
   @override
   State createState() => new _register2();
 }
 
 class _register2 extends State<register2> {
-
   var url = '';
   String name;
   String IdCardNumber;
@@ -33,22 +33,20 @@ class _register2 extends State<register2> {
   var filename = Map();
 
   //上传表单
-  void CreateForm_POST(){
-
+  void CreateForm_POST() {
     FormData formData = FormData.fromMap(map);
 
-    request(url,FormData: formData,contentType: 'multipart/form-data').then((value)
-    {
+    request(url, FormData: formData, contentType: 'multipart/form-data')
+        .then((value) {
       print('response:' + json.decode(value.toString()));
     });
   }
 
-  void _selectFile(String imageflag) async
-  {
-      getMultiFilesPath().then((path) {
-          MultipartFile.fromFile(path).then((value) {
-            map[imageflag] = value;
-        });
+  void _selectFile(String imageflag) async {
+    getSingleImagePath().then((path) {
+      MultipartFile.fromFile(path).then((value) {
+        map[imageflag] = value;
+      });
 
       setState(() {
         filename[imageflag] = path.toString();
@@ -66,8 +64,6 @@ class _register2 extends State<register2> {
       });
     });
   }
-
-
 
 //  ID_Photopick() async{
 //    await file_method.file_pick().then((value) {ID_Photo = value;});
@@ -87,384 +83,402 @@ class _register2 extends State<register2> {
   @override
   Widget build(BuildContext context) {
     Widget BasicInfo = new Container(
-      padding: EdgeInsets.only(left: 20,right: 20,bottom: 30),
-      child:Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              '基础信息',
-              style: TextStyle(fontSize: 25),
-            ),
-            Divider(
-              thickness: 2,
-            ),
-
-                  TextField(
-                    decoration: new InputDecoration(
-                      labelText: '请输入您的姓名',
-                      labelStyle: new TextStyle(
-                        fontSize: 15,
-                        color: Color.fromARGB(255, 93, 93, 93)
-                      ),
-                      border: InputBorder.none,
-                    ),
-                    onChanged: (value){
-                      name = value;
-                    },
-                  ),
-                Divider(
-                  thickness: 2,
+        padding: EdgeInsets.only(left: 20, right: 20, bottom: 30),
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                '基础信息',
+                style: TextStyle(fontSize: 25),
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              TextField(
+                decoration: new InputDecoration(
+                  labelText: '请输入您的姓名',
+                  labelStyle: new TextStyle(
+                      fontSize: 15, color: Color.fromARGB(255, 93, 93, 93)),
+                  border: InputBorder.none,
                 ),
-                TextField(
-                  decoration: new InputDecoration(
+                onChanged: (value) {
+                  name = value;
+                },
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              TextField(
+                decoration: new InputDecoration(
                     labelText: '请输入您的身份证号',
                     labelStyle: new TextStyle(
-                      fontSize: 15,
-                      color: Color.fromARGB(255, 93, 93, 93)
-                    ),
-                    border: InputBorder.none
-                  ),
-                  onChanged: (value){
-                     IdCardNumber= value;
-                  },
-                ),
-                Divider(
-                  thickness: 2,
-                ),
-                Row(
-                  children: <Widget>[
-                    Text('证件照:', style:TextStyle(
+                        fontSize: 15, color: Color.fromARGB(255, 93, 93, 93)),
+                    border: InputBorder.none),
+                onChanged: (value) {
+                  IdCardNumber = value;
+                },
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              Row(
+                children: <Widget>[
+                  Text(
+                    '证件照:',
+                    style: TextStyle(
                       fontSize: 20,
                       color: Color.fromARGB(255, 93, 93, 93),
                     ),
-                    ),
-                    new Container(
+                  ),
+                  new Container(
                       margin: EdgeInsets.only(left: 10),
-                        child:RaisedButton(
-                          elevation: 0,
-                          onPressed:() => {
-                            _selectFile('ID_Photo')
-                          },
-                          color: Colors.blue,
-                          child:new Text(
-                              '选择照片',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )
-                    ),
-                    new Container(
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFile('ID_Photo')},
+                        color: Colors.blue,
+                        child: new Text('选择照片',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      )),
+                  new Container(
                       margin: EdgeInsets.only(left: 5),
-                        child:RaisedButton(
-                          elevation: 0,
-                          onPressed: () => {
-                            _selectFilefromCamera('ID_Photo')
-                          },
-                          color: Colors.blue,
-                          child:new Text(
-                              '相机拍照',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )
-                    ),
-
-                  ],
-                ),
-                new Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      '已选择文件:',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-                new Text(
-                  //filesname.toString(),
-                  "dasda",
-                  style: TextStyle(fontSize: 19),
-                ),
-                new Row(
-                  children: <Widget>[
-                    Text('身份证正面照片:', style:TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 93, 93, 93),
-                    ),
-                    ),
-                    new Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child:RaisedButton(
-                          elevation: 0,
-                          onPressed:() => {
-                            _selectFile('IDCard_1')
-                          },
-                          color: Colors.blue,
-                          child:new Text(
-                              '选择照片',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )
-                    ),
-                    new Container(
-                        margin: EdgeInsets.only(left: 5),
-                        child:RaisedButton(
-                          elevation: 0,
-                          onPressed: () => {
-                            _selectFilefromCamera('IDCard_1')
-                          },
-                          color: Colors.blue,
-                          child:new Text(
-                              '相机拍照',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )
-                    )
-                  ],
-                ),
-            new Row(
-              children: <Widget>[
-                Text('身份证反面照片:', style:TextStyle(
-                  fontSize: 20,
-                  color: Color.fromARGB(255, 93, 93, 93),
-                ),
-                ),
-                new Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child:RaisedButton(
-                      elevation: 0,
-                      onPressed:() => {
-                      _selectFile('IDCard_2')
-                      },
-                      color: Colors.blue,
-                      child:new Text(
-                          '选择照片',
-                          style:TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          )
-                      ),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(40.0)),
-                    )
-                ),
-                new Container(
-                    margin: EdgeInsets.only(left: 5),
-                    child:RaisedButton(
-                      elevation: 0,
-                      onPressed: () => {
-                        _selectFilefromCamera('IDCard_2')
-                      },
-                      color: Colors.blue,
-                      child:new Text(
-                          '相机拍照',
-                          style:TextStyle(
-                            fontSize: 14,
-                            color: Colors.white,
-                          )
-                      ),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(40.0)),
-                    )
-                )
-              ],
-            ),
-
-                new Row(
-                  children: <Widget>[
-                    Text('医师资格证:', style:TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 93, 93, 93),
-                    ),
-                    ),
-                    new Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child:RaisedButton(
-                          elevation: 0,
-                          onPressed:() => {
-                            _selectFile('zi_ge_zheng')
-                          },
-                          color: Colors.blue,
-                          child:new Text(
-                              '选择照片',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )
-                    ),
-                    new Container(
-                        margin: EdgeInsets.only(left: 5),
-                        child:RaisedButton(
-                          elevation: 0,
-                          onPressed: () => {
-                            _selectFilefromCamera('zi_ge_zheng')
-                          },
-                          color: Colors.blue,
-                          child:new Text(
-                              '相机拍照',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )
-                    )
-                  ],
-                ),
-                new Row(
-                  children: <Widget>[
-                    Text('医师执业证:', style:TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 93, 93, 93),
-                    ),
-                    ),
-                    new Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child:RaisedButton(
-                          elevation: 0,
-                          onPressed:() => {
-                            _selectFile('zhi_ye_zheng')
-                          },
-                          color: Colors.blue,
-                          child:new Text(
-                              '选择照片',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )
-                    ),
-                    new Container(
-                        margin: EdgeInsets.only(left: 5),
-                        child:RaisedButton(
-                          elevation: 0,
-                          onPressed: () => {
-                            _selectFilefromCamera('zhi_ye_zheng')
-                          },
-                          color: Colors.blue,
-                          child:new Text(
-                              '相机拍照',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )
-                    )
-                  ],
-                ),
-                new Row(
-                  children: <Widget>[
-                    Text('医师职称证书:', style:TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 93, 93, 93),
-                    ),
-                    ),
-                    new Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child:RaisedButton(
-                          elevation: 0,
-                          onPressed:() => {
-                            _selectFile('zhi_cheng')
-                          },
-                          color: Colors.blue,
-                          child:new Text(
-                              '选择照片',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )
-                    ),
-                    new Container(
-                        margin: EdgeInsets.only(left: 10),
-                        child:RaisedButton(
-                          elevation: 0,
-                          onPressed: () => {
-                            _selectFilefromCamera('zhi_cheng')
-                          },
-                          color: Colors.blue,
-                          child:new Text(
-                              '相机拍照',
-                              style:TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                              )
-                          ),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(40.0)),
-                        )
-                    )
-                  ],
-                ),
-                Divider(
-                  thickness: 2,
-                ),
-                Container(
-                  child:Text('专业特长:',style:TextStyle(
-                    fontSize: 20,
-                    color: Color.fromARGB(255, 93, 93, 93),)),
-                ),
-                TextField(
-                  decoration: new InputDecoration(
-                    labelStyle: new TextStyle(
-                      fontSize: 20,
-                      color: Color.fromARGB(255, 93, 93, 93),
-                    ),
-                    //border: InputBorder.none,
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFilefromCamera('ID_Photo')},
+                        color: Colors.blue,
+                        child: new Text('相机拍照',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      )),
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    '已选择文件:',
+                    style: TextStyle(fontSize: 16),
                   ),
-                ),
-                Container(
-                  child:Text('医师简介:',style:TextStyle(
-                    fontSize: 20,
-                    color: Color.fromARGB(255, 93, 93, 93),)),
-                ),
-                TextField(
-                  decoration: new InputDecoration(
-                    labelStyle: new TextStyle(
+                ],
+              ),
+              new Text(
+                filename['ID_Photo'].toString(),
+                //"dasda",
+                style: TextStyle(fontSize: 19),
+              ),
+              new Row(
+                children: <Widget>[
+                  Text(
+                    '身份证正面照片:',
+                    style: TextStyle(
                       fontSize: 20,
                       color: Color.fromARGB(255, 93, 93, 93),
                     ),
-                    //border: InputBorder.none,
                   ),
-                )
-              ],
-        ),
-      )
-    );
+                  new Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFile('IDCard_1')},
+                        color: Colors.blue,
+                        child: new Text('选择照片',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      )),
+                  new Container(
+                      margin: EdgeInsets.only(left: 5),
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFilefromCamera('IDCard_1')},
+                        color: Colors.blue,
+                        child: new Text('相机拍照',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      ))
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    '已选择文件:',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              new Text(
+                filename['IDCard_1'].toString(),
+                //"dasda",
+                style: TextStyle(fontSize: 19),
+              ),
+              new Row(
+                children: <Widget>[
+                  Text(
+                    '身份证反面照片:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 93, 93, 93),
+                    ),
+                  ),
+                  new Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFile('IDCard_2')},
+                        color: Colors.blue,
+                        child: new Text('选择照片',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      )),
+                  new Container(
+                      margin: EdgeInsets.only(left: 5),
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFilefromCamera('IDCard_2')},
+                        color: Colors.blue,
+                        child: new Text('相机拍照',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      ))
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    '已选择文件:',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              new Text(
+                filename['IDCard_2'].toString(),
+                //"dasda",
+                style: TextStyle(fontSize: 19),
+              ),
+              new Row(
+                children: <Widget>[
+                  Text(
+                    '医师资格证:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 93, 93, 93),
+                    ),
+                  ),
+                  new Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFile('zi_ge_zheng')},
+                        color: Colors.blue,
+                        child: new Text('选择照片',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      )),
+                  new Container(
+                      margin: EdgeInsets.only(left: 5),
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFilefromCamera('zi_ge_zheng')},
+                        color: Colors.blue,
+                        child: new Text('相机拍照',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      ))
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    '已选择文件:',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              new Text(
+                filename['zi_ge_zheng'].toString(),
+                //"dasda",
+                style: TextStyle(fontSize: 19),
+              ),
+              new Row(
+                children: <Widget>[
+                  Text(
+                    '医师执业证:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 93, 93, 93),
+                    ),
+                  ),
+                  new Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFile('zhi_ye_zheng')},
+                        color: Colors.blue,
+                        child: new Text('选择照片',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      )),
+                  new Container(
+                      margin: EdgeInsets.only(left: 5),
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () =>
+                            {_selectFilefromCamera('zhi_ye_zheng')},
+                        color: Colors.blue,
+                        child: new Text('相机拍照',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      ))
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    '已选择文件:',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              new Text(
+                filename['zhi_ye_zheng'].toString(),
+                //"dasda",
+                style: TextStyle(fontSize: 19),
+              ),
+              new Row(
+                children: <Widget>[
+                  Text(
+                    '医师职称证书:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 93, 93, 93),
+                    ),
+                  ),
+                  new Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFile('zhi_cheng')},
+                        color: Colors.blue,
+                        child: new Text('选择照片',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      )),
+                  new Container(
+                      margin: EdgeInsets.only(left: 10),
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () => {_selectFilefromCamera('zhi_cheng')},
+                        color: Colors.blue,
+                        child: new Text('相机拍照',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.white,
+                            )),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(40.0)),
+                      ))
+                ],
+              ),
+              new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    '已选择文件:',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+              new Text(
+                filename['zhi_cheng'].toString(),
+                //"dasda",
+                style: TextStyle(fontSize: 19),
+              ),
+              Divider(
+                thickness: 2,
+              ),
+              Container(
+                child: Text('专业特长:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 93, 93, 93),
+                    )),
+              ),
+              TextField(
+                decoration: new InputDecoration(
+                  labelStyle: new TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 93, 93, 93),
+                  ),
+                  //border: InputBorder.none,
+                ),
+              ),
+              Container(
+                child: Text('医师简介:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 93, 93, 93),
+                    )),
+              ),
+              TextField(
+                decoration: new InputDecoration(
+                  labelStyle: new TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 93, 93, 93),
+                  ),
+                  //border: InputBorder.none,
+                ),
+              )
+            ],
+          ),
+        ));
 
     Widget ok = new Container(
       height: 50.0,
@@ -487,23 +501,37 @@ class _register2 extends State<register2> {
     return new MaterialApp(
       title: '医生注册2',
       home: new Scaffold(
-        appBar:new AppBar(
-          title: Text(
-            '信息录入',
-            style: TextStyle(color: Colors.white),
-          ),
-          centerTitle: true,
-          backgroundColor: Colors.blue,
-          leading: new Icon(Icons.arrow_back_ios,size: 25,)
+        appBar: new AppBar(
+            title: Text(
+              '信息录入',
+              style: TextStyle(color: Colors.white),
+            ),
+            centerTitle: true,
+            backgroundColor: Colors.blue,
+            leading: new Icon(
+              Icons.arrow_back_ios,
+              size: 25,
+            )),
+        body: new ListView(
+          children: <Widget>[BasicInfo, ok],
         ),
-          body: new ListView(
-            children: <Widget>[
-              BasicInfo,ok
-            ],
-          ),
-
-          ),
+      ),
     );
   }
+}
 
+//缩略图Widget
+Widget imgItem(index, setState, imgData) {
+  return GestureDetector(
+    child: Container(
+      color: Colors.transparent,
+      child: Stack(alignment: Alignment.topRight, children: <Widget>[
+        ConstrainedBox(
+          child: Image.file(imgData[index], fit: BoxFit.cover),
+//          child: Image.file(File(imgData[index]), fit: BoxFit.cover),
+          constraints: BoxConstraints.expand(),
+        ),
+      ]),
+    ),
+  );
 }
