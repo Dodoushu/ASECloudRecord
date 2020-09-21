@@ -5,15 +5,22 @@ import 'dart:convert';
 import 'MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 
-void main() => runApp(MaterialApp(home: register2(),));
+void main() => runApp(MaterialApp(home: register2(),
+  routes: <String, WidgetBuilder> {
+    // 这里可以定义静态路由，不能传递参数
+    '/dialog': (BuildContext context) => new NetLoadingDialog(),
+  },));
 
 class register2 extends StatefulWidget {
   @override
   State createState() => new _register2();
 }
 
+
 class _register2 extends State<register2> {
   GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
+
+  Function Dismiss;
   String name;
   String sex;
   String nation;
@@ -77,17 +84,25 @@ class _register2 extends State<register2> {
 //    }
 //  }
 
+  //_disMissCallBack(Function func){  func();  }
+
+  var data;
   void summit() async{
+    print("sumit");
 //    print(name);
 //    var loginForm = loginKey.currentState;
 //    //验证Form表单
 //    if(loginForm.validate()){
 //      print(name);
 //    }
+    //func();
+    //_disMissCallBack(Dismiss);
+    print("back already");
     var bodymap = Map();
     var patient = Map();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value){
+
       phoneNum = value;
       bodymap['phone_num']=phoneNum;
       patient['name']=name;
@@ -104,7 +119,9 @@ class _register2 extends State<register2> {
         print(bodymap);
         var url = "http://39.100.100.198:8082/patient";
         var formData = bodymap;
+
         await request(url,FormData: formData).then((value) {
+
           var data = json.decode(value.toString());
           if(data['status_code']==1){
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
@@ -116,6 +133,7 @@ class _register2 extends State<register2> {
       });
     });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -422,32 +440,50 @@ class _register2 extends State<register2> {
       child: new SizedBox.expand(
         child: new RaisedButton(
           elevation: 0,
-          onPressed: summit,
-          color: Colors.blue,
-          child: new Text(
+          onPressed: (){
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return new NetLoadingDialog(
+                  //  dismissDialog: _disMissCallBack,
+                  );
+                }
+            );
+            print("summit begin");
+            summit();
+            //_disMissCallBack(Dismiss);
+            print("summit end");
+
+          },
+          
+
+            color: Colors.blue,
+            child: new Text(
             '确定',
             style: TextStyle(
-                fontSize: 14.0, color: Color.fromARGB(255, 255, 255, 255)),
-          ),
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(40.0)),
-        ),
-      ),
-    );
+            fontSize: 14.0, color: Color.fromARGB(255, 255, 255, 255)),
+            ),
+            shape: new RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(40.0)),
+            ),
+            ),
+            );
 
     return Scaffold(
-          appBar: AppBar(
+        appBar: AppBar(
             title: Text(
-              '用户注册',
-              style: TextStyle(color: Colors.black),
+            '用户注册',
+            style: TextStyle(color: Colors.black),
             ),
+            leading: new Icon(Icons.arrow_back_ios,size: 25,),
             centerTitle: true,
 //            backgroundColor: Colors.white,
           ),
-          body: ListView(
+          body:
+          new ListView(
             children: <Widget>[
               new Container(
-                padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
+                padding: EdgeInsets.only(top: 0.0, bottom: 20.0),
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
@@ -459,13 +495,10 @@ class _register2 extends State<register2> {
                   style: TextStyle(color: Colors.white, fontSize: 30.0),
                 )),
               ),
-              Container(
-                margin: EdgeInsets.only(top: 20),
-//              padding: EdgeInsets.only(top: 30),
-                child: Column(
-                  children: <Widget>[basicInfo, dividerline, contact, ok],
-                ),
-              )
+              basicInfo,
+              dividerline,
+              contact,
+              ok,
             ],
           ));
 
