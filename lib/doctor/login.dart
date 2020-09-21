@@ -5,7 +5,7 @@ import 'package:helloworld/doctor/register2.dart';
 import 'dart:convert';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/patient/BottomNavigationBar.dart';
-
+import 'package:helloworld/doctor/register1.dart' as r1;
 import '../showAlertDialogClass.dart';
 
 void main() => runApp(Login());
