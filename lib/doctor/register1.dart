@@ -33,7 +33,14 @@ class _Login extends State<Login> {
 
   void login() async{
 
-
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+            //  dismissDialog: _disMissCallBack,
+          );
+        }
+    );
 
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
@@ -52,12 +59,12 @@ class _Login extends State<Login> {
         print(data);
         if(data['status_code']==1){
           SharedPreferenceUtil.setString('phoneNum', phoneNumber);
-          showAlertDialog(context, titleText: '注册成功', contentText: '点击确定填写个人信息');
+          showAlertDialog(context, titleText: '注册成功', contentText: '点击确定填写个人信息',flag: 1);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
         }else if(data['status_code']==0){
-          showAlertDialog(context, titleText: '注册失败', contentText: '账号已存在');
+          showAlertDialog(context, titleText: '注册失败', contentText: '账号已存在',flag: 1);
         }else{
-          showAlertDialog(context, titleText: '注册失败', contentText: '未知错误');
+          showAlertDialog(context, titleText: '注册失败', contentText: '未知错误',flag: 1);
         }
       });
     }

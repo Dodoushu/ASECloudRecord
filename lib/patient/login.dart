@@ -60,6 +60,14 @@ class _Login extends State<Login> {
   }
 
   void login() async {
+    showDialog(     //loading
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+            //  dismissDialog: _disMissCallBack,
+          );
+        }
+    );
 //    //演示时去掉验证功能
 //    Navigator.pushAndRemoveUntil(
 //        context,
@@ -88,7 +96,7 @@ class _Login extends State<Login> {
         print(data);
         if (data['status_code'] == 4) {
           showAlertDialog(context,
-              titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
+              titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息',flag: 1);
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => register2()),
@@ -102,7 +110,7 @@ class _Login extends State<Login> {
                 SharedPreferenceUtil.setString('token', data['token'])
                     .then((value) {
                   print(value);
-                  showAlertDialog(context, titleText: '', contentText: '登陆成功');
+                  showAlertDialog(context, titleText: '', contentText: '登陆成功',flag: 1);
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
@@ -112,9 +120,9 @@ class _Login extends State<Login> {
             });
           });
         } else if (data['status_code'] == 1 || data['status_code'] == 2) {
-          showAlertDialog(context, titleText: '登陆失败', contentText: '请检查账号密码');
+          showAlertDialog(context, titleText: '登陆失败', contentText: '请检查账号密码',flag: 1);
         } else {
-          showAlertDialog(context, titleText: '登陆失败', contentText: '未知错误');
+          showAlertDialog(context, titleText: '登陆失败', contentText: '未知错误',flag: 1);
         }
       });
     }

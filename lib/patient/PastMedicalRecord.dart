@@ -59,6 +59,14 @@ class PastRecord extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void summit(int disease) async {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return new NetLoadingDialog(
+              //  dismissDialog: _disMissCallBack,
+            );
+          }
+      );
       var url = "http://39.100.100.198:8082/disease";
       String phone_num;
       int disease_type = disease;
@@ -93,13 +101,13 @@ class PastRecord extends StatelessWidget {
                 print(data);
                 if (data['status_code'] == 1) {
                   showAlertDialog(context,
-                      titleText: 'success', contentText: '上传成功');
+                      titleText: 'success', contentText: '上传成功',flag: 1);
                 } else if (data['status_code'] == 0) {
                   showAlertDialog(context,
-                      titleText: 'failed', contentText: '上传失败');
+                      titleText: 'failed', contentText: '上传失败',flag: 1);
                 } else {
                   showAlertDialog(context,
-                      titleText: 'failed', contentText: '未知错误');
+                      titleText: 'failed', contentText: '未知错误',flag: 1);
                 }
               });
             });
