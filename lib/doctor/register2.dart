@@ -497,7 +497,6 @@ class _register2 extends State<register2> {
                 borderRadius: new BorderRadius.circular(40.0)),
             onPressed: () {
               CreateForm_POST;
-              print('注册成功');
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => login.Login()));
             }),
