@@ -69,7 +69,14 @@ class _Pathology extends State<Pathology> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+            //  dismissDialog: _disMissCallBack,
+          );
+        }
+    );
     var bodymap = Map();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
@@ -83,7 +90,7 @@ class _Pathology extends State<Pathology> {
         var data = json.decode(value.toString());
         print(data);
         showAlertDialog(context,
-              titleText: '', contentText: '操作成功');
+              titleText: '', contentText: '操作成功',flag: 1);
 
       });
     });
