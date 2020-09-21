@@ -92,6 +92,14 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+            //  dismissDialog: _disMissCallBack,
+          );
+        }
+    );
     var bodymap = Map<String, dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{

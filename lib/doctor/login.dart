@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:helloworld/doctor/register2.dart';
 import 'dart:convert';
 import 'package:helloworld/http_service.dart';
-import 'register1.dart' as r1;
+import 'package:helloworld/patient/BottomNavigationBar.dart';
+
+import '../showAlertDialogClass.dart';
 
 void main() => runApp(Login());
 
@@ -21,6 +23,13 @@ class _Login extends State<Login> {
   bool isShowPassWord = false;
 
   void login() async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+              //  dismissDialog: _disMissCallBack,
+              );
+        });
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
@@ -38,9 +47,25 @@ class _Login extends State<Login> {
         print('response:' + json.decode(value.toString()));
         Map data = json.decode(value.toString());
         if (data['status_code'] == 4) {
+          showAlertDialog(context,
+              titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息', flag: 1);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => register2()),
+              (route) => false);
         } else if (data['status_code'] == 0) {
+          showAlertDialog(context, titleText: '', contentText: '登陆成功', flag: 1);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
+              (route) => false);
         } else if (data['status_code'] == 1 || data['status_code'] == 2) {
-        } else {}
+          showAlertDialog(context,
+              titleText: '登陆失败', contentText: '请检查账号密码', flag: 1);
+        } else {
+          showAlertDialog(context,
+              titleText: '登陆失败', contentText: '未知错误', flag: 1);
+        }
       });
     }
   }
