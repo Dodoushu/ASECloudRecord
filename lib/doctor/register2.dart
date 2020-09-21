@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:helloworld/File_Method.dart';
 import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
+import 'package:helloworld/doctor/login.dart' as login;
 
 void main() => runApp(new register2());
 
@@ -485,17 +486,21 @@ class _register2 extends State<register2> {
       margin: EdgeInsets.only(top: 0.0, bottom: 30, left: 30, right: 30),
       child: new SizedBox.expand(
         child: new RaisedButton(
-          elevation: 0,
-          color: Colors.blue,
-          child: new Text(
-            '确定',
-            style: TextStyle(
-                fontSize: 20.0, color: Color.fromARGB(255, 255, 255, 255)),
-          ),
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(40.0)),
-          onPressed: CreateForm_POST,
-        ),
+            elevation: 0,
+            color: Colors.blue,
+            child: new Text(
+              '确定',
+              style: TextStyle(
+                  fontSize: 20.0, color: Color.fromARGB(255, 255, 255, 255)),
+            ),
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(40.0)),
+            onPressed: () {
+              CreateForm_POST;
+              print('注册成功');
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => login.Login()));
+            }),
       ),
     );
     return new MaterialApp(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
@@ -31,35 +30,35 @@ class _Login extends State<Login> {
   String verificationCode;
   bool isShowPassWord = false;
 
-  void login() async{
-
-
-
+  void login() async {
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
-    if(loginForm.validate()){
+    if (loginForm.validate()) {
       var bodymap = Map();
-      bodymap['phone_num']=phoneNumber;
-      bodymap['pass_word']=password;
-      bodymap['ver_code']='111111';
-      bodymap['user_type']=0;
+      bodymap['phone_num'] = phoneNumber;
+      bodymap['pass_word'] = password;
+      bodymap['ver_code'] = '111111';
+      bodymap['user_type'] = 0;
       var url = "http://39.100.100.198:8082";
       var formData = bodymap;
       print(formData);
-      await request(url,FormData: formData).then((value) {
-        var data = json.decode(value.toString());
-        print(data);
-        if(data['status_code']==1){
-          SharedPreferenceUtil.setString('phoneNum', phoneNumber);
-          showAlertDialog(context, titleText: '注册成功', contentText: '点击确定填写个人信息');
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
-        }else if(data['status_code']==0){
-          showAlertDialog(context, titleText: '注册失败', contentText: '账号已存在');
-        }else{
-          showAlertDialog(context, titleText: '注册失败', contentText: '未知错误');
-        }
-      });
+//      await request(url,FormData: formData).then((value) {
+//        var data = json.decode(value.toString());
+//        print(data);
+//        if(data['status_code']==1){
+      SharedPreferenceUtil.setString('phoneNum', phoneNumber);
+      showAlertDialog(context, titleText: '注册成功', contentText: '点击确定填写个人信息');
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => register2()),
+          (route) => false);
+//        }else if(data['status_code']==0){
+//          showAlertDialog(context, titleText: '注册失败', contentText: '账号已存在');
+//        }else{
+//          showAlertDialog(context, titleText: '注册失败', contentText: '未知错误');
+//        }
+//      });
     }
   }
 
@@ -140,9 +139,9 @@ class _Login extends State<Login> {
             height: 90,
             child: Center(
                 child: new Text(
-                  '用户注册',
-                  style: TextStyle(color: Colors.white, fontSize: 30.0),
-                )),
+              '用户注册',
+              style: TextStyle(color: Colors.white, fontSize: 30.0),
+            )),
           ),
           new Container(
             padding: const EdgeInsets.all(16.0),
@@ -165,7 +164,6 @@ class _Login extends State<Login> {
                             fontSize: 15.0,
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
-
                       ),
                       keyboardType: TextInputType.phone,
                       onChanged: (value) {
@@ -219,7 +217,7 @@ class _Login extends State<Login> {
                       ),
                       obscureText: !isShowPassWord,
                       validator: (value) {
-                        if (password!=null&&value != password) {
+                        if (password != null && value != password) {
                           return '请确认两次密码输入相同';
                         }
                         return null;
@@ -239,8 +237,7 @@ class _Login extends State<Login> {
                       children: <Widget>[
                         Expanded(
                           child: Padding(
-                            padding:
-                            EdgeInsets.only(left: 0, right: 0, top: 0),
+                            padding: EdgeInsets.only(left: 0, right: 0, top: 0),
                             child: TextFormField(
                                 maxLines: 1,
                                 onSaved: (value) {},
@@ -257,10 +254,9 @@ class _Login extends State<Login> {
                                       color: Color.fromARGB(255, 93, 93, 93)),
                                   border: InputBorder.none,
                                 ),
-                                onChanged: (value){
+                                onChanged: (value) {
                                   verificationCode = value;
-                                }
-                            ),
+                                }),
                           ),
                         ),
                         Container(
@@ -321,8 +317,7 @@ class _Login extends State<Login> {
                   ),
                   new Container(
                     //margin: EdgeInsets.only(top: 30.0),
-                    padding:
-                    EdgeInsets.only(left: 8.0, right: 8.0, top: 30.0),
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 30.0),
                     child: new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
