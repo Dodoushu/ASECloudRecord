@@ -161,30 +161,6 @@ class _doctorSelectState extends State<doctorSelect> {
         padding: EdgeInsets.only(top: 10, left: 10, right: 5),
         child: Column(
           children: <Widget>[
-            new Container(
-                height: 40.0,
-                width: 200,
-                margin: EdgeInsets.only(top:5,bottom: 5),
-                child: new SizedBox.expand(
-                  child: new RaisedButton(
-                    elevation: 20,
-                    onPressed: (){
-                      print(selectedDoctor.isNotEmpty);
-//                      for(Map obj in selectedDoctor){
-//                        print(obj['id']);
-//                      };
-                    },
-                    color: Colors.blue,
-                    child: new Text(
-                      '提交',
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          color: Color.fromARGB(255, 255, 255, 255)),
-                    ),
-                    shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(40.0)),
-                  ),
-                )
-            ),
             Card(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
@@ -236,6 +212,30 @@ class _doctorSelectState extends State<doctorSelect> {
                   Container(child:text1()),
                   Container(
                     child: buildSelectedCheckboxListTile(),
+                  ),
+                  new Container(
+                      height: 40.0,
+                      width: 200,
+                      margin: EdgeInsets.only(top:15,bottom: 15),
+                      child: new SizedBox.expand(
+                        child: new RaisedButton(
+                          elevation: 0,
+                          onPressed: (){
+                            print(selectedDoctor.isNotEmpty);
+//                      for(Map obj in selectedDoctor){
+//                        print(obj['id']);
+//                      };
+                          },
+                          color: Colors.blue,
+                          child: new Text(
+                            '提交',
+                            style: TextStyle(
+                                fontSize: 20.0,
+                                color: Color.fromARGB(255, 255, 255, 255)),
+                          ),
+                          shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(15.0)),
+                        ),
+                      )
                   ),
                   Container(child:text2()),
                   Container(
