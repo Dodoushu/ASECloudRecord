@@ -4,34 +4,106 @@ import 'package:helloworld/select.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: doctorSelect(),
+    home: doctorSelect(
+//      onlyuser: true,
+//      doctorlist: [
+//        {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
+//        {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
+//        {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
+//        {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
+//        {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
+//        {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
+//        {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
+//      ],
+//      selectedDoctor: [
+//        {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
+//        {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
+//        {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
+//      ],
+//      unSelectedDoctor: [
+//        {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
+//        {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
+//        {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
+//        {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
+//      ],
+    ),
   ));
 }
 
 class doctorSelect extends StatefulWidget {
+
+//  doctorSelect({Key key, @required this.onlyuser,@required this.doctorlist, @required this.selectedDoctor, @required this.unSelectedDoctor}): super(key:key);
+
+//
+  bool onlyuser = true;
+
+  List doctorlist = [
+    {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
+    {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
+    {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
+    {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
+    {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
+    {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
+    {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
+  ];
+
+  List selectedDoctor = [
+    {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
+    {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
+    {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
+  ];
+
+  List unSelectedDoctor = [
+    {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
+    {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
+    {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
+    {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
+  ];
+
+
+
   @override
-  _doctorSelectState createState() => new _doctorSelectState();
+  _doctorSelectState createState() => new _doctorSelectState(onlyuser: false,pdoctorlist: doctorlist, pselectedDoctor: selectedDoctor,punSelectedDoctor: unSelectedDoctor);
+//  _doctorSelectState createState() => new _doctorSelectState();
+
 }
 
 class _doctorSelectState extends State<doctorSelect> {
-  bool onlyuser = true;
-  List<bool> valueList = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
+
+  _doctorSelectState({@required bool onlyuser,@required List pdoctorlist,@required List pselectedDoctor,@required List punSelectedDoctor}) {
+    this.onlyuser = onlyuser;
+    this.doctorlist = pdoctorlist;
+    this.selectedDoctor = pselectedDoctor;
+    this.unSelectedDoctor = punSelectedDoctor;
+  }
+
+//  bool onlyuser = true;
+//  List doctorlist = [
+//    {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
+//    {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
+//    {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
+//    {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
+//    {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
+//    {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
+//    {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
+//  ];
+//  List selectedDoctor = [
+//    {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
+//    {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
+//    {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
+//  ];
+//  List unSelectedDoctor = [
+//    {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
+//    {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
+//    {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
+//    {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
+//  ];
+
+  bool onlyuser;
+  List doctorlist;
+  List selectedDoctor;
+  List unSelectedDoctor;
+
 
   String switchContent() {
     if (onlyuser == true) {
@@ -40,29 +112,6 @@ class _doctorSelectState extends State<doctorSelect> {
       return '选中医生可见';
     }
   }
-
-  var doctorlist = [
-    {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
-    {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
-    {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
-    {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
-    {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
-    {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
-    {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
-  ];
-
-  var selectedDoctor = [
-    {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
-    {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
-    {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
-  ];
-
-  var unSelectedDoctor = [
-    {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
-    {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
-    {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
-    {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
-  ];
 
   @override
   Widget build(BuildContext context) {
