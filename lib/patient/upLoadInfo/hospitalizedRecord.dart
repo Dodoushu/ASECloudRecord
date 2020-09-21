@@ -140,14 +140,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
+
     var bodymap = Map();
     var admissionNote = Map();
     String phoneNum;
@@ -170,7 +163,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
         print(data);
 
         showAlertDialog(context,
-              titleText: 'failed', contentText: '操作成功',flag: 1);
+              titleText: 'failed', contentText: '操作成功');
 
       });
     });

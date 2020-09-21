@@ -109,14 +109,7 @@ class _outpatientMedical extends State<outpatientMedical> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
+
     var bodymap = Map<String, dynamic>();      //个人信息
     var outpatient = Map<String, dynamic>();       //上传的信息
     String phoneNum;
@@ -136,7 +129,7 @@ class _outpatientMedical extends State<outpatientMedical> {
       await request(url, FormData: formData).then((value) {
         var data = json.decode(value.toString());
         print(data);
-        showAlertDialog(context,  contentText: '操作成功',flag: 1);
+        showAlertDialog(context,  contentText: '操作成功');
       });
     });
   }

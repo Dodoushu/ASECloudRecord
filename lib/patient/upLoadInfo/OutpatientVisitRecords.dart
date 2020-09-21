@@ -121,14 +121,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
 //      print(name);
 //    }
 
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
+
     var bodymap = Map();
     var tempdrugMethod = Map<String,dynamic>();
     var drugMethod = List<Map>();
@@ -157,7 +150,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
       await request(url, FormData: formData).then((value) {
         var data = json.decode(value.toString());
         print(data);
-        showAlertDialog(context, contentText: '操作成功',flag: 1);
+        showAlertDialog(context, contentText: '操作成功');
 
       });
     });

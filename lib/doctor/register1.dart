@@ -31,14 +31,6 @@ class _Login extends State<Login> {
   bool isShowPassWord = false;
 
   void login() async {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-              //  dismissDialog: _disMissCallBack,
-              );
-        });
-
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
