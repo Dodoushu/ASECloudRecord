@@ -89,6 +89,14 @@ class _register2 extends State<register2> {
   var data;
   void summit() async{
     print("sumit");
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+            //  dismissDialog: _disMissCallBack,
+          );
+        }
+    );
 //    print(name);
 //    var loginForm = loginKey.currentState;
 //    //验证Form表单
@@ -124,11 +132,12 @@ class _register2 extends State<register2> {
 
           var data = json.decode(value.toString());
           if(data['status_code']==1){
+            showAlertDialog(context,titleText: 'failed',contentText: '注册成功，进入主页面',flag: 1);
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
           }else if(data['status_code']==0){
-            showAlertDialog(context,titleText: 'failed',contentText: '身份信息证已存在，请重试');
+            showAlertDialog(context,titleText: 'failed',contentText: '身份信息证已存在，请重试',flag: 1);
           }else if(data['status_code']==2){
-            showAlertDialog(context,titleText: 'failed',contentText: '必填信息不全，请重试');
+            showAlertDialog(context,titleText: 'failed',contentText: '必填信息不全，请重试',flag: 1);
         }});
       });
     });
@@ -441,14 +450,7 @@ class _register2 extends State<register2> {
         child: new RaisedButton(
           elevation: 0,
           onPressed: (){
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return new NetLoadingDialog(
-                  //  dismissDialog: _disMissCallBack,
-                  );
-                }
-            );
+
             print("summit begin");
             summit();
             //_disMissCallBack(Dismiss);

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'patient/login.dart';
+import 'doctor/login.dart' as login2;
 
 void main() => runApp(MaterialApp(
       home: select(),
@@ -16,8 +17,8 @@ class select extends StatelessWidget {
       child: InkWell(
         onTap: () {
           print('我是医生');
-          showAlertDialog(context,
-              titleText: '医生端功能尚未开放', contentText: '请点击确定返回');
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => login2.Login()));
         },
         child: Card(
           elevation: 15.0, //阴影
@@ -46,7 +47,8 @@ class select extends StatelessWidget {
       width: 350,
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => Login()));
         },
         child: Card(
           elevation: 15.0, //阴影

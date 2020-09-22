@@ -155,6 +155,14 @@ class _laboratoryExaminationPicture
 //    if(loginForm.validate()){
 //      print(name);
 //    }
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+            //  dismissDialog: _disMissCallBack,
+          );
+        }
+    );
     var bodymap = Map<String, dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async {
@@ -175,9 +183,9 @@ class _laboratoryExaminationPicture
         var data = json.decode(value.toString());
         print(data);
         if (value.statusCode == 200) {
-          showAlertDialog(context, contentText: '操作成功');
+          showAlertDialog(context, contentText: '操作成功',flag: 1);
         } else {
-          showAlertDialog(context, contentText: '操作失败');
+          showAlertDialog(context, contentText: '操作失败',flag: 1);
         }
       });
     });
