@@ -170,7 +170,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
         print(data);
 
         showAlertDialog(context,
-              titleText: 'failed', contentText: '操作成功',flag: 1);
+              titleText: 'failed', contentText: '操作成功',flag: 2);
 
       });
     });

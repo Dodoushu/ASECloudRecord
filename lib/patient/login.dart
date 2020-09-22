@@ -52,6 +52,7 @@ class _Login extends State<Login> {
           setState(() {
             prePhoneNumber = value;
             havePhoneNumber = true;
+            userName = value;
             _controller.text = value;
           });
         });

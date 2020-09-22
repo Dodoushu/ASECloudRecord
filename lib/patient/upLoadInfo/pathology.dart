@@ -90,7 +90,7 @@ class _Pathology extends State<Pathology> {
         var data = json.decode(value.toString());
         print(data);
         showAlertDialog(context,
-              titleText: '', contentText: '操作成功',flag: 1);
+              titleText: '', contentText: '操作成功',flag: 2);
 
       });
     });

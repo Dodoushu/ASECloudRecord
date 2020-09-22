@@ -136,7 +136,7 @@ class _outpatientMedical extends State<outpatientMedical> {
       await request(url, FormData: formData).then((value) {
         var data = json.decode(value.toString());
         print(data);
-        showAlertDialog(context,  contentText: '操作成功',flag: 1);
+        showAlertDialog(context,  contentText: '操作成功',flag: 2);
       });
     });
   }

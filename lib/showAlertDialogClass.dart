@@ -10,8 +10,10 @@ showAlertDialog(BuildContext context,
     child: Text(bottonText),
     onPressed: () {
       Navigator.of(context).pop();
-
       if (flag == 1){
+        Navigator.of(context).pop();
+      }else if(flag == 2){
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
       }
     },
