@@ -33,21 +33,21 @@ class _Login extends State<Login> {
   void login() async {
     showDialog(
         context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-              //  dismissDialog: _disMissCallBack,
-              );
-        });
+      builder: (context) {
+        return new NetLoadingDialog(
+          //  dismissDialog: _disMissCallBack,
+        );
+      });
 
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
     if (loginForm.validate()) {
-      var bodymap = Map();
-      bodymap['phone_num'] = phoneNumber;
-      bodymap['pass_word'] = password;
-      bodymap['ver_code'] = '111111';
-      bodymap['user_type'] = 0;
+    var bodymap = Map();
+    bodymap['phone_num'] = phoneNumber;
+    bodymap['pass_word'] = password;
+    bodymap['ver_code'] = '111111';
+    bodymap['user_type'] = 0;
       var url = "http://39.100.100.198:8082";
       var formData = bodymap;
       print(formData);

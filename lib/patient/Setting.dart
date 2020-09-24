@@ -1,3 +1,5 @@
+import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/sharedPrefrences.dart';
@@ -6,6 +8,9 @@ import 'setting/ChangePassword.dart';
 import 'setting/ChangePhoneNumber.dart';
 import 'setting/doctorSelect.dart';
 import 'package:helloworld/select.dart';
+import 'package:helloworld/http_service.dart';
+import 'dart:convert';
+import 'dart:core';
 
 void main() {
   runApp(new MaterialApp(
@@ -57,7 +62,66 @@ class Setting extends StatefulWidget {
   _SettingState createState() => new _SettingState();
 }
 
+List doctorlist = [];
+List selectedDoctor = [];
+List unSelectedDoctor = [];
+bool onlyuser;
+
 class _SettingState extends State<Setting> {
+
+  void getlist() async{
+    SharedPreferenceUtil.getString('phoneNum').then((value) async{
+      Map<String, dynamic> data = Map();
+      var url = "http://39.100.100.198:8082/selectAllDoctor";
+      data['phone_num'] = '12121314';
+      var formData = data;
+      print(data);
+      await request(url, FormData: formData).then((value) {
+        doctorlist.clear();
+        selectedDoctor.clear();
+        unSelectedDoctor.clear();
+        data = json.decode(value.toString());
+        for(Map temp in data['doctors']){
+          Map doctor = {};
+          doctor['id'] = temp['id'];
+          doctor['name'] = temp['name'];
+          doctor['info'] = temp['id_num'];
+          print(data['selected_doctor_id'].runtimeType);
+          print(temp['id'].runtimeType);
+          if(data['selected_doctor_id'].contains(temp['id'])){
+            doctor['select'] = true;
+            selectedDoctor.add(doctor);
+          }else{
+            doctor['select'] = false;
+            unSelectedDoctor.add(doctor);
+          }
+          doctorlist.add(doctor);
+        }
+//        print('doctorlist');
+//        print(doctorlist);
+//        print('selectedDoctor');
+//        print(selectedDoctor);
+//        print('unSelectedDoctor');
+//        print(unSelectedDoctor);
+        if(selectedDoctor.length == 0){
+          onlyuser = true;
+        }else{
+          onlyuser = false;
+        }
+
+        Navigator.push(context, MaterialPageRoute(builder: (context){
+          return new doctorSelect(onlyuser: onlyuser, doctorlist: doctorlist, selectedDoctor: selectedDoctor, unSelectedDoctor: unSelectedDoctor);
+        }));
+
+      });
+    });
+
+
+
+//                Navigator.push(context,
+//                    MaterialPageRoute(builder: (context) => doctorSelect()));
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget ChangePspt = new Container(
@@ -218,10 +282,7 @@ class _SettingState extends State<Setting> {
             height: 60,
             width: 400,
             child: InkWell(
-              onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => doctorSelect()));
-              },
+              onTap: getlist,
               child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),
