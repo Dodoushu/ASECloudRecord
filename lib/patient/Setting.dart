@@ -109,6 +109,8 @@ class _SettingState extends State<Setting> {
           onlyuser = false;
         }
 
+        print(selectedDoctor);
+
         Navigator.push(context, MaterialPageRoute(builder: (context){
           return new doctorSelect(onlyuser: onlyuser, doctorlist: doctorlist, selectedDoctor: selectedDoctor, unSelectedDoctor: unSelectedDoctor);
         }));

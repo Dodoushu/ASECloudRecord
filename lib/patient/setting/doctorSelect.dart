@@ -3,6 +3,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/select.dart';
+import 'package:helloworld/showAlertDialogClass.dart';
+import 'package:helloworld/http_service.dart';
+import 'package:helloworld/sharedPrefrences.dart';
+import 'dart:convert';
 
 void main() {
   runApp(MaterialApp(
@@ -255,10 +259,26 @@ class _doctorSelectState extends State<doctorSelect> {
                         child: new RaisedButton(
                           elevation: 0,
                           onPressed: (){
-                            print(selectedDoctor.isNotEmpty);
-//                      for(Map obj in selectedDoctor){
-//                        print(obj['id']);
-//                      };
+//                            print(selectedDoctor.toString());
+                            List<int> commitlist = List();
+                            for(Map temp in selectedDoctor){
+                              commitlist.add(temp['id']);
+                            }
+                            if(onlyuser == true){
+                              commitlist.clear();
+                            }
+                            print(commitlist);
+                            SharedPreferenceUtil.getString('phoneNum').then((value) async{
+                              Map map = Map();
+                              map['phone_num'] =12121314;
+                              map['add_doctor_id'] = commitlist;
+                              var url = "http://39.100.100.198:8082/selectPAD";
+                              await request(url, FormData: map).then((value){
+                                var data = value.toString();
+                                print(data);
+                                showAlertDialog(context,titleText: '操作成功',contentText: '医生修改成功',flag: 1);
+                              });
+                            });
                           },
                           color: Colors.blue,
                           child: new Text(
