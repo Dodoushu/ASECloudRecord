@@ -12,16 +12,16 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: Login());
+    return MaterialApp(home: register1());
   }
 }
 
-class Login extends StatefulWidget {
+class register1 extends StatefulWidget {
   @override
-  _Login createState() => new _Login();
+  _register1 createState() => new _register1();
 }
 
-class _Login extends State<Login> {
+class _register1 extends State<register1> {
   //获取Key用来获取Form表单组件
   GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
   String phoneNumber;
@@ -30,7 +30,7 @@ class _Login extends State<Login> {
   String verificationCode;
   bool isShowPassWord = false;
 
-  void login() async {
+  void submit() async {
     showDialog(
         context: context,
       builder: (context) {
@@ -310,7 +310,7 @@ class _Login extends State<Login> {
                     child: new SizedBox.expand(
                       child: new RaisedButton(
                         elevation: 20,
-                        onPressed: login,
+                        onPressed: submit,
                         color: Colors.blue,
                         child: new Text(
                           '确定',

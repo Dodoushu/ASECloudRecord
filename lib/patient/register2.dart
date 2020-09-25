@@ -87,7 +87,7 @@ class _register2 extends State<register2> {
   //_disMissCallBack(Function func){  func();  }
 
   var data;
-  void summit() async{
+  void submit() async{
     print("sumit");
     showDialog(
         context: context,
@@ -132,7 +132,7 @@ class _register2 extends State<register2> {
 
           var data = json.decode(value.toString());
           if(data['status_code']==1){
-            showAlertDialog(context,titleText: 'failed',contentText: '注册成功，进入主页面',flag: 1);
+            showAlertDialog(context,titleText: 'Success',contentText: '注册成功，进入主页面',flag: 1);
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
           }else if(data['status_code']==0){
             showAlertDialog(context,titleText: 'failed',contentText: '身份信息证已存在，请重试',flag: 1);
@@ -452,7 +452,7 @@ class _register2 extends State<register2> {
           onPressed: (){
 
             print("summit begin");
-            summit();
+            submit();
             //_disMissCallBack(Dismiss);
             print("summit end");
 

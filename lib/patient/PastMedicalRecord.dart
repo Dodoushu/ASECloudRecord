@@ -59,14 +59,7 @@ class PastRecord extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void summit(int disease) async {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return new NetLoadingDialog(
-              //  dismissDialog: _disMissCallBack,
-            );
-          }
-      );
+
       var url = "http://39.100.100.198:8082/disease";
       String phone_num;
       int disease_type = disease;
@@ -96,6 +89,14 @@ class PastRecord extends StatelessWidget {
               patientDiseaseInfo['disease_type'] = disease_type.toString();
               patientDiseaseInfo['disease_info'] = disease_info;
               print(bodymap);
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return new NetLoadingDialog(
+                      //  dismissDialog: _disMissCallBack,
+                    );
+                  }
+              );
               await request(url, FormData: bodymap).then((value) {
                 Map data = json.decode(value.toString());
                 print(data);
