@@ -7,40 +7,38 @@ void main() {
   ));
 }
 
-class WidgetBulld {
-
-  Expanded create(String text, IconData icondata) {
-    return Expanded(
-      child: new Container(
-          child: Column(children: <Widget>[
-          new SizedBox(
-              height: 82,
-              width: 82,
-              child: Card(
-                elevation: 15.0, //阴影
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                    side: BorderSide(width: 1.0)),
-                child:new Container(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      icondata,
-                      size: 50,
-                      color: Colors.black,
-                    ))
-              )),
-          new Container(
-              child: Text(text, style: TextStyle(fontSize: 18),
-        ))
-      ])),
-    );
-  }
-}
+//class WidgetBulld {
+//
+//  Expanded create(String text, IconData icondata) {
+//    return Expanded(
+//      child: new Container(
+//          child: Column(children: <Widget>[
+//          new SizedBox(
+//              height: 82,
+//              width: 82,
+//              child: Card(
+//                elevation: 15.0, //阴影
+//                shape: RoundedRectangleBorder(
+//                    borderRadius: BorderRadius.all(Radius.circular(100.0)),
+//                    side: BorderSide(width: 1.0)),
+//                child:new Container(
+//                    alignment: Alignment.center,
+//                    child: Icon(
+//                      icondata,
+//                      size: 50,
+//                      color: Colors.black,
+//                    ))
+//              )),
+//          new Container(
+//              child: Text(text, style: TextStyle(fontSize: 18),
+//        ))
+//      ])),
+//    );
+//  }
+//}
 
 class MainPage extends StatelessWidget {
   //实例化
-  WidgetBulld widgetbuild = new WidgetBulld();
-  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
   @override
   Widget build(BuildContext context) {
     //背景蓝框及第一个功能选择条
@@ -61,7 +59,7 @@ class MainPage extends StatelessWidget {
             children: <Widget>[
               new Container(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Text('******* 先生/女士，您好',
+                  child: Text('******* 医生，您好',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 25,
@@ -213,7 +211,7 @@ class MainPage extends StatelessWidget {
         ]
       ),
 
-      bottomNavigationBar: Bottom_NavigationBar.Create(),
+     // bottomNavigationBar: Bottom_NavigationBar.Create(),
     );
   }
 }
