@@ -73,7 +73,7 @@ class _SettingState extends State<Setting> {
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       Map<String, dynamic> data = Map();
       var url = "http://39.100.100.198:8082/selectAllDoctor";
-      data['phone_num'] = '12121314';
+      data['phone_num'] = value;
       var formData = data;
       print(data);
       await request(url, FormData: formData).then((value) {
