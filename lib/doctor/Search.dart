@@ -8,8 +8,6 @@ void main() => runApp(MaterialApp(
     ));
 
 class Search extends StatelessWidget {
-  BottomNavigationBarClass Bottom_NavigationBar =
-      new BottomNavigationBarClass();
   String name;
   String phone_num;
   String ID_num;
@@ -203,7 +201,6 @@ class Search extends StatelessWidget {
           ok,
         ],
       ),
-      bottomNavigationBar: Bottom_NavigationBar.Create(),
     );
   }
 }

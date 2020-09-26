@@ -5,6 +5,9 @@ import 'package:helloworld/File_Method.dart';
 import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/doctor/login.dart' as login;
+import 'package:helloworld/sharedPrefrences.dart';
+
+import '../showAlertDialogClass.dart';
 
 void main() => runApp(new register2());
 
@@ -14,7 +17,7 @@ class register2 extends StatefulWidget {
 }
 
 class _register2 extends State<register2> {
-  var url = '';
+  var url = 'http://39.100.100.198:8082';
   String name;
   String IdCardNumber;
   String Specialty;
@@ -34,13 +37,34 @@ class _register2 extends State<register2> {
   var filename = Map();
 
   //上传表单
-  void CreateForm_POST() {
-    FormData formData = FormData.fromMap(map);
+  void submit() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+            //  dismissDialog: _disMissCallBack,
+          );
+        }
+    );
+    var bodymap = Map();
+    var doctor= Map();
+    String phoneNum;
+    SharedPreferenceUtil.getString('phoneNum').then((value){
+      phoneNum = value;
+      bodymap['phone_num'] = phoneNum;
+      doctor['name'] = name;
+      //doctor[]
+      FormData formData = FormData.fromMap(map);
 
-    request(url, FormData: formData, contentType: 'multipart/form-data')
-        .then((value) {
-      print('response:' + json.decode(value.toString()));
+      request(url, FormData: formData, contentType: 'multipart/form-data')
+          .then((value) {
+        print('response:' + json.decode(value.toString()));
+      });
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => login.Login()));
     });
+
   }
 
   void _selectFile(String imageflag) async {
@@ -496,9 +520,8 @@ class _register2 extends State<register2> {
             shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(40.0)),
             onPressed: () {
-              CreateForm_POST;
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => login.Login()));
+              submit;
+
             }),
       ),
     );

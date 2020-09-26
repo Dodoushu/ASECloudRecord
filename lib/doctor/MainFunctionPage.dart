@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'BottomNavigationBar.dart';
+import 'Search.dart';
 void main() {
   runApp(new MaterialApp(
     title: '患者主功能页',
@@ -7,40 +8,38 @@ void main() {
   ));
 }
 
-class WidgetBulld {
-
-  Expanded create(String text, IconData icondata) {
-    return Expanded(
-      child: new Container(
-          child: Column(children: <Widget>[
-          new SizedBox(
-              height: 82,
-              width: 82,
-              child: Card(
-                elevation: 15.0, //阴影
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                    side: BorderSide(width: 1.0)),
-                child:new Container(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      icondata,
-                      size: 50,
-                      color: Colors.black,
-                    ))
-              )),
-          new Container(
-              child: Text(text, style: TextStyle(fontSize: 18),
-        ))
-      ])),
-    );
-  }
-}
+//class WidgetBulld {
+//
+//  Expanded create(String text, IconData icondata) {
+//    return Expanded(
+//      child: new Container(
+//          child: Column(children: <Widget>[
+//          new SizedBox(
+//              height: 82,
+//              width: 82,
+//              child: Card(
+//                elevation: 15.0, //阴影
+//                shape: RoundedRectangleBorder(
+//                    borderRadius: BorderRadius.all(Radius.circular(100.0)),
+//                    side: BorderSide(width: 1.0)),
+//                child:new Container(
+//                    alignment: Alignment.center,
+//                    child: Icon(
+//                      icondata,
+//                      size: 50,
+//                      color: Colors.black,
+//                    ))
+//              )),
+//          new Container(
+//              child: Text(text, style: TextStyle(fontSize: 18),
+//        ))
+//      ])),
+//    );
+//  }
+//}
 
 class MainPage extends StatelessWidget {
   //实例化
-  WidgetBulld widgetbuild = new WidgetBulld();
-  BottomNavigationBarClass Bottom_NavigationBar = new BottomNavigationBarClass();
   @override
   Widget build(BuildContext context) {
     //背景蓝框及第一个功能选择条
@@ -61,7 +60,7 @@ class MainPage extends StatelessWidget {
             children: <Widget>[
               new Container(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Text('******* 先生/女士，您好',
+                  child: Text('******* 医生，您好',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 25,
@@ -93,33 +92,44 @@ class MainPage extends StatelessWidget {
                           children: <Widget>[
                             new Expanded(
                               child: new Container(
-                                  child: Column(children: <Widget>[
-                                new Stack(children: <Widget>[
-                                  SizedBox(
-                                      height: 82,
-                                      width: 82,
-                                      child: Card(
-                                        elevation: 15.0, //阴影
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(100.0)),
-                                            side: BorderSide(width: 1.0)),
-                                      )),
-                                  new Container(
+                                child: Column(children: <Widget>[
+                                  new Stack(children: <Widget>[
+                                    SizedBox(
+                                        height: 82,
+                                        width: 82,
+                                        child: Card(
+                                          elevation: 15.0, //阴影
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(100.0)),
+                                              side: BorderSide(width: 1.0)),
+                                        )),
+                                    new InkWell(
+                                        onTap: (){
+                                          //Navigator.push(context, MaterialPageRoute(builder: (context) => 录入页面));
+                                        },
+                                        child: new Container(
 //                                                alignment: Alignment.center,
-                                      padding: EdgeInsets.all(10),
-                                      child: Icon(
-                                        Icons.assignment_ind,
-                                        size: 60,
-                                        color: Colors.black,
-                                      ))
+                                            padding: EdgeInsets.all(10),
+                                            child: Icon(
+                                              Icons.search,
+                                              size: 60,
+                                              color: Colors.black,
+                                            ))
+                                    ),
+                                  ]),
+                                  new InkWell(
+                                    onTap: (){
+                                      //Navigator.push(context, MaterialPageRoute(builder: (context) => 录入页面));
+                                    },
+                                    child: Container(
+                                        child: Text(
+                                          '医生录入',
+                                          style: TextStyle(fontSize: 18),
+                                        )),
+                                  )
                                 ]),
-                                new Container(
-                                    child: Text(
-                                  '医生录入',
-                                  style: TextStyle(fontSize: 18),
-                                ))
-                              ])),
+                              ),
                             ),
                             new Expanded(
                               child: new Container(
@@ -135,21 +145,32 @@ class MainPage extends StatelessWidget {
                                                 Radius.circular(100.0)),
                                             side: BorderSide(width: 1.0)),
                                       )),
-                                  new Container(
+                                  new InkWell(
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
+                                    },
+                                      child: new Container(
 //                                                alignment: Alignment.center,
-                                      padding: EdgeInsets.all(10),
-                                      child: Icon(
-                                        Icons.search,
-                                        size: 60,
-                                        color: Colors.black,
-                                      ))
+                                          padding: EdgeInsets.all(10),
+                                          child: Icon(
+                                            Icons.search,
+                                            size: 60,
+                                            color: Colors.black,
+                                          ))
+                                  ),
                                 ]),
-                                new Container(
-                                    child: Text(
-                                  '患者查询',
-                                  style: TextStyle(fontSize: 18),
-                                ))
-                              ])),
+                                new InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
+                                  },
+                                  child: Container(
+                                      child: Text(
+                                        '患者查询',
+                                        style: TextStyle(fontSize: 18),
+                                      )),
+                                )
+                              ]),
+                              ),
                             )
                           ]),
                     )),
@@ -213,7 +234,7 @@ class MainPage extends StatelessWidget {
         ]
       ),
 
-      bottomNavigationBar: Bottom_NavigationBar.Create(),
+     // bottomNavigationBar: Bottom_NavigationBar.Create(),
     );
   }
 }

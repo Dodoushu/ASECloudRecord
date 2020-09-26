@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:helloworld/doctor/register2.dart';
 import 'dart:convert';
 import 'package:helloworld/http_service.dart';
-import 'package:helloworld/patient/BottomNavigationBar.dart';
+import 'BottomNavigationBar.dart';
 import 'package:helloworld/doctor/register1.dart' as r1;
 import '../showAlertDialogClass.dart';
 
-void main() => runApp(Login());
+void main() => runApp(MaterialApp(
+  home: Login(),
+));
 
 class Login extends StatefulWidget {
   @override
@@ -228,7 +230,7 @@ class _Login extends State<Login> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => r1.Login()));
+                                      builder: (context) => r1.register1()));
                             },
                           )
                         ],
