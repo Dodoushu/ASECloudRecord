@@ -92,40 +92,47 @@ class _Login extends State<Login> {
       var formData = bodymap;
       print(formData);
       await request(url, FormData: formData).then((value) {
-        print('response:' + value.toString());
-        Map data = json.decode(value.toString());
-        print(data);
-        if (data['status_code'] == 4) {
+        if(value['flag'] == 0){
           showAlertDialog(context,
-              titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息',flag: 1);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => register2()),
-              (route) => false);
-        } else if (data['status_code'] == 0) {
-          SharedPreferenceUtil.setString('prePhoneNumber', userName.toString()).then((value){
-            SharedPreferenceUtil.setString('phoneNum', userName.toString())
-                .then((value) {
-              SharedPreferenceUtil.setString('name', data['name']).then((value) {
-                print('username:'+data['name']);
-                SharedPreferenceUtil.setString('token', data['token'])
-                    .then((value) {
-                  print(value);
-                  showAlertDialog(context, titleText: '', contentText: '登陆成功',flag: 1);
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
-                          (route) => false);
+              titleText: '请求异常', contentText: '请稍后重试', flag: 1);
+          print(value['ErrorContent']);
+        }
+        else{
+          Map data = json.decode(value['response'].toString());
+          print(data);
+          if (data['status_code'] == 4) {
+            showAlertDialog(context,
+                titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息',flag: 1);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => register2()),
+                    (route) => false);
+          } else if (data['status_code'] == 0) {
+            SharedPreferenceUtil.setString('prePhoneNumber', userName.toString()).then((value){
+              SharedPreferenceUtil.setString('phoneNum', userName.toString())
+                  .then((value) {
+                SharedPreferenceUtil.setString('name', data['name']).then((value) {
+                  print('username:'+data['name']);
+                  SharedPreferenceUtil.setString('token', data['token'])
+                      .then((value) {
+                    print(value);
+                    showAlertDialog(context, titleText: '', contentText: '登陆成功',flag: 1);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
+                            (route) => false);
+                  });
                 });
               });
             });
-          });
-        } else if (data['status_code'] == 1 || data['status_code'] == 2) {
-          showAlertDialog(context, titleText: '登陆失败', contentText: '请检查账号密码',flag: 1);
-        } else {
-          showAlertDialog(context, titleText: '登陆失败', contentText: '未知错误',flag: 1);
+          } else if (data['status_code'] == 1 || data['status_code'] == 2) {
+            showAlertDialog(context, titleText: '登陆失败', contentText: '请检查账号密码',flag: 1);
+          } else {
+            showAlertDialog(context, titleText: '登陆失败', contentText: '未知错误',flag: 1);
+          }
         }
-      });
+        }
+        );
     }
   }
 

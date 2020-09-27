@@ -1,16 +1,30 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:helloworld/doctor/register2.dart';
 import 'dart:convert';
+import 'register1.dart';
 import 'package:helloworld/http_service.dart';
 import 'BottomNavigationBar.dart';
-import 'package:helloworld/doctor/register1.dart' as r1;
 import '../showAlertDialogClass.dart';
+import '../sharedPrefrences.dart';
 
 void main() => runApp(MaterialApp(
   home: Login(),
 ));
+
+/// 用户协议中“低调”文本的样式。
+final TextStyle _lowProfileStyle = TextStyle(
+  fontSize: 15.0,
+  color: Color(0xFF4A4A4A),
+);
+
+/// 用户协议中“高调”文本的样式。
+final TextStyle _highProfileStyle = TextStyle(
+  fontSize: 15.0,
+  color: Color(0xFF00CED2),
+);
 
 class Login extends StatefulWidget {
   @override
@@ -24,27 +38,41 @@ class _Login extends State<Login> {
   String password;
   bool isShowPassWord = false;
 
+  bool havePhoneNumber = false;
+  String prePhoneNumber;
+
+  TextEditingController _controller = new TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    //开启倒计时
+    SharedPreferenceUtil.containsKey('prePhoneNumber').then((value){
+      if(value == true){
+        SharedPreferenceUtil.getString('prePhoneNumber').then((value){
+          setState(() {
+            prePhoneNumber = value;
+            havePhoneNumber = true;
+            userName = value;
+            _controller.text = value;
+          });
+        });
+      }
+    });
+  }
+
   void login() async {
-
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
-            (route) => false);
-
-
-//    showDialog(
-//        context: context,
-//        builder: (context) {
-//          return new NetLoadingDialog(
-//              //  dismissDialog: _disMissCallBack,
-//              );
-//        });
+    showDialog(
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+              //  dismissDialog: _disMissCallBack,
+              );
+        });
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
     if (loginForm.validate()) {
-//      print(userName);
-//      print(password);
       var sign = Map();
       sign['phone_num'] = userName;
       sign['pass_word'] = password;
@@ -53,28 +81,36 @@ class _Login extends State<Login> {
       var url = "http://39.100.100.198:8082";
       var formData = bodymap;
       await request(url, FormData: formData).then((value) {
-        print('response:' + json.decode(value.toString()));
-        Map data = json.decode(value.toString());
-        if (data['status_code'] == 4) {
+        if(value['flag'] == 0){
           showAlertDialog(context,
-              titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息', flag: 1);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => register2()),
-              (route) => false);
-        } else if (data['status_code'] == 0) {
-          showAlertDialog(context, titleText: '', contentText: '登陆成功', flag: 1);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
-              (route) => false);
-        } else if (data['status_code'] == 1 || data['status_code'] == 2) {
-          showAlertDialog(context,
-              titleText: '登陆失败', contentText: '请检查账号密码', flag: 1);
-        } else {
-          showAlertDialog(context,
-              titleText: '登陆失败', contentText: '未知错误', flag: 1);
+              titleText: '请求异常', contentText: '请稍后重试', flag: 1);
+          print(value['ErrorContent']);
         }
+        else{
+          Map data = json.decode(value['response'].toString());
+          print('response:' + data['status_code']);
+          if (data['status_code'] == 4) {
+            showAlertDialog(context,
+                titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息', flag: 1);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => register2()),
+                    (route) => false);
+          } else if (data['status_code'] == 0) {
+            showAlertDialog(context, titleText: '', contentText: '登陆成功', flag: 1);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
+                    (route) => false);
+          } else if (data['status_code'] == 1 || data['status_code'] == 2) {
+            showAlertDialog(context,
+                titleText: '登陆失败', contentText: '请检查账号密码', flag: 1);
+          } else {
+            showAlertDialog(context,
+                titleText: '登陆失败', contentText: '未知错误', flag: 1);
+          }
+        }
+
       });
     }
   }
@@ -219,22 +255,60 @@ class _Login extends State<Login> {
                                   color: Color.fromARGB(255, 53, 53, 53)),
                             ),
                           ),
-                          FlatButton(
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => register1()),
+                              );
+                            },
                             child: Text(
                               '注册账号',
                               style: TextStyle(
                                   fontSize: 15.0,
                                   color: Color.fromARGB(255, 53, 53, 53)),
                             ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => r1.register1()));
-                            },
                           )
                         ],
                       ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(top: 15),
+                      child: Center(
+                          child: Text.rich(
+                            // 文字跨度（`TextSpan`）组件，不可变的文本范围。
+                            TextSpan(
+                              // 文本（`text`）属性，跨度中包含的文本。
+                              text: '登录即同意',
+                              // 样式（`style`）属性，应用于文本和子组件的样式。
+                              style: _lowProfileStyle,
+                              children: [
+                                TextSpan(
+                                  // 识别（`recognizer`）属性，一个手势识别器，它将接收触及此文本范围的事件。
+                                  // 手势（`gestures`）库的点击手势识别器（`TapGestureRecognizer`）类，识别点击手势。
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      print('点击了“服务条款”');
+                                    },
+                                  text: '“服务条款”',
+                                  style: _highProfileStyle,
+                                ),
+                                TextSpan(
+                                  text: '和',
+                                  style: _lowProfileStyle,
+                                ),
+                                TextSpan(
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      print('点击了“隐私政策”');
+                                    },
+                                  text: '“隐私政策”',
+                                  style: _highProfileStyle,
+                                ),
+                              ],
+                            ),
+                          )),
                     ),
                   ],
                 ),
