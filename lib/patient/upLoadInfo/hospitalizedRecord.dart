@@ -154,7 +154,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       phoneNum = value;
 //      admissionNote['phone_num'] = phoneNum;
-      bodymap['phone_num'] = '18392136108';
+      bodymap['phone_num'] = phoneNum;
       admissionNote['s_date'] = startDate.year.toString()+'-'+startDate.month.toString()+'-'+startDate.day.toString();
       admissionNote['o_date'] = EndDate.year.toString()+'-'+EndDate.month.toString()+'-'+EndDate.day.toString();
       admissionNote['department_treatment'] = office;
@@ -170,7 +170,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
         print(data);
 
         showAlertDialog(context,
-              titleText: 'failed', contentText: '操作成功',flag: 2);
+              titleText: 'success', contentText: '操作成功',flag: 2);
 
       });
     });

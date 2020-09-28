@@ -136,7 +136,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       phoneNum = value;
-      bodymap['phone_num'] = '11223344556';
+      bodymap['phone_num'] = phoneNum;
       outPatientRecords['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
       outPatientRecords['department_treatment'] = office;
       outPatientRecords['hospit al'] = hospital;
