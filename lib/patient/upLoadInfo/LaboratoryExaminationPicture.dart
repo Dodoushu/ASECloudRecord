@@ -180,13 +180,21 @@ class _laboratoryExaminationPicture
       var formData = FormData.fromMap(bodymap);
       await request(url, FormData: formData, contentType: 'multipart/form-data')
           .then((value) {
-        var data = json.decode(value.toString());
-        print(data);
-        if (value.statusCode == 200) {
-          showAlertDialog(context, contentText: '操作成功',flag: 2);
-        } else {
-          showAlertDialog(context, contentText: '操作失败',flag: 2);
+        if(value['flag'] == 0){
+          showAlertDialog(context,
+              titleText: '请求异常', contentText: '请稍后重试', flag: 1);
+          print(value['ErrorContent']);
         }
+        else{
+          var data = json.decode(value['response'].toString());
+          print(data);
+          if (value.statusCode == 200) {
+            showAlertDialog(context, contentText: '操作成功',flag: 2);
+          } else {
+            showAlertDialog(context, contentText: '操作失败',flag: 2);
+          }
+        }
+
       });
     });
   }

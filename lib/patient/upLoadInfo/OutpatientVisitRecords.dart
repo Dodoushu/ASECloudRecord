@@ -155,9 +155,17 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
       var url = "http://39.100.100.198:8082/outpatientRecords";
       var formData = bodymap;
       await request(url, FormData: formData).then((value) {
-        var data = json.decode(value.toString());
-        print(data);
-        showAlertDialog(context, contentText: '操作成功',flag: 2);
+        if(value['flag'] == 0){
+          showAlertDialog(context,
+              titleText: '请求异常', contentText: '请稍后重试', flag: 1);
+          print(value['ErrorContent']);
+        }
+        else{
+          var data = json.decode(value['response'].toString());
+          print(data);
+          showAlertDialog(context, contentText: '操作成功',flag: 2);
+        }
+
 
       });
     });
