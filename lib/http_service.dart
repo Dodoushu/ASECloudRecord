@@ -17,7 +17,7 @@ Future request(url, {FormData, String contentType = 'application/json'}) async {
     // Navigator.push(context, DialogRouter(LoadingDialog()));
     // Loading.before('请稍候');
     response = await dio.post(url, data: FormData);
-
+    map['response'] = response;
     if (response.statusCode == 200) {
       print(response.statusCode.toString());
       print('http成功');
