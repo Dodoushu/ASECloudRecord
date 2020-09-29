@@ -6,6 +6,10 @@ import 'dart:convert';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'pictureGridview.dart';
 import 'dart:developer';
+import 'package:helloworld/patient/search/outPatients.dart';
+import 'package:helloworld/patient/search/examine.dart';
+import 'package:helloworld/patient/search/admission.dart';
+import 'package:helloworld/patient/search/outPatientsRecords.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -391,16 +395,13 @@ class SearchPage extends StatelessWidget {
                                   var formData = bodymap;
                                   await request(url, FormData: formData)
                                       .then((value) {
-                                    print(value);
+                                    var data = json.decode(value.toString());
+                                    print(data['admissionNotes']);
 
-//                                    var url = new List();
-//                                    Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                            builder: (context) => PictureView(
-//                                              urls: urls,
-//                                            )));
-//
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => admission(contentlist: data['admissionNotes'],)));
                                   });
                                 });
                               },
@@ -423,15 +424,13 @@ class SearchPage extends StatelessWidget {
                                   var formData = bodymap;
                                   await request(url, FormData: formData)
                                       .then((value) {
-                                    print(value);
+                                    var data = json.decode(value.toString());
+                                    print(data['examines']);
 
-//                                    var url = new List();
-//                                    Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                            builder: (context) => PictureView(
-//                                                  urls: urls,
-//                                                )));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => examine(contentlist: data['examines'],)));
 
                                   });
                                 });
@@ -455,15 +454,14 @@ class SearchPage extends StatelessWidget {
                                   var formData = bodymap;
                                   await request(url, FormData: formData)
                                       .then((value) {
-                                    print(value);
+                                    var data = json.decode(value.toString());
+                                    log(data['outPatients'].toString());
 
                                     var url = new List();
-//                                    Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                            builder: (context) => PictureView(
-//                                                  urls: urls,
-//                                                )));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => outPatients(contentlist: data['outPatients'],)));
 
                                   });
                                 });
@@ -487,15 +485,14 @@ class SearchPage extends StatelessWidget {
                                   var formData = bodymap;
                                   await request(url, FormData: formData)
                                       .then((value) {
-                                    print(value);
+                                    var data = json.decode(value.toString());
+                                    log(data['outPatientRecords'].toString());
 
                                     var url = new List();
-//                                    Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                            builder: (context) => PictureView(
-//                                                  urls: urls,
-//                                                )));
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => outPatientRecords(contentlist: data['outPatientRecords'],)));
 
                                   });
                                 });

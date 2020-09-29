@@ -92,13 +92,7 @@ class _Login extends State<Login> {
       var formData = bodymap;
       print(formData);
       await request(url, FormData: formData).then((value) {
-        if(value['flag'] == 0){
-          showAlertDialog(context,
-              titleText: '请求异常', contentText: '请稍后重试', flag: 1);
-          print(value['ErrorContent']);
-        }
-        else{
-          Map data = json.decode(value['response'].toString());
+          Map data = json.decode(value.toString());
           print(data);
           if (data['status_code'] == 4) {
             showAlertDialog(context,
@@ -130,7 +124,7 @@ class _Login extends State<Login> {
           } else {
             showAlertDialog(context, titleText: '登陆失败', contentText: '未知错误',flag: 1);
           }
-        }
+
         }
         );
     }

@@ -23,7 +23,7 @@ Future request(url, {FormData, String contentType = 'application/json'}) async {
       print('http成功');
     //        Loading.complete();
 
-      return map;
+      return response;
     } else {
     //        Loading.complete();
       throw Exception('网络异常');

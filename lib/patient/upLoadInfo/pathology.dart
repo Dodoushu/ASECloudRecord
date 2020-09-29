@@ -78,27 +78,21 @@ class _Pathology extends State<Pathology> {
         }
     );
     var bodymap = Map();
+    var map2 = Map();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       phoneNum = value;
       bodymap['phone_num'] = phoneNum;
-      bodymap['examine_info'] = content;
+      map2['examine'] = content;
+      bodymap['examine'] = map2;
       print(bodymap);
       var url = "http://39.100.100.198:8082/diseaseExamine";
       var formData = bodymap;
       await request(url, FormData: formData).then((value) {
-        if(value['flag'] == 0){
-          showAlertDialog(context,
-              titleText: '请求异常', contentText: '请稍后重试', flag: 1);
-          print(value['ErrorContent']);
-        }
-        else{
-          var data = json.decode(value['response'].toString());
-          print(data);
-          showAlertDialog(context,
+        var data = json.decode(value.toString());
+        print(data);
+        showAlertDialog(context,
               titleText: '', contentText: '操作成功',flag: 2);
-        }
-
 
       });
     });
