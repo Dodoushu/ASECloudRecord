@@ -36,7 +36,7 @@ class demo extends StatelessWidget {
           data['phone_num'] = '12121314';
           var formData = data;
           print(data);
-          await request(url, FormData: formData).then((value){
+          await request(url,context, FormData: formData).then((value){
             data = json.decode(value.toString());
             print(data);
           });

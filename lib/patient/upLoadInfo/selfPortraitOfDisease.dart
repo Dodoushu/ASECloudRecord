@@ -92,14 +92,7 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
+
     var bodymap = Map<String, dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
@@ -109,17 +102,10 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
       bodymap['picture_type'] = 3;
       var url = "http://39.100.100.198:8082/UploadFiles/DiseasePicture";
       var formData = FormData.fromMap(bodymap);
-      await request(url, FormData: formData,contentType: 'multipart/form-data').then((value) {
-        if(value['flag'] == 0){
-          showAlertDialog(context,
-              titleText: '请求异常', contentText: '请稍后重试', flag: 1);
-          print(value['ErrorContent']);
-        }
-        else{
+      await request(url,context, FormData: formData,contentType: 'multipart/form-data').then((value) {
           var data = json.decode(value['response'].toString());
           print(data);
-          showAlertDialog(context,contentText: '上传成功',flag: 2);
-        }
+          showAlertDialog(context,contentText: '上传成功',flag: 1);
 
       });
     });

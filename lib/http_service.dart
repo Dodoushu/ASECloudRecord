@@ -1,28 +1,34 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'dart:async';
 import 'showAlertDialogClass.dart';
 //import 'Loading.dart';
 
-Future request(url, {FormData, String contentType = 'application/json'}) async {
-  var response;
-  var map = {'flag':1,'response':response,'ErrorContent':null};
+Future request(url, BuildContext context, {FormData, String contentType = 'application/json'}) async {
   try {
     Response response;
     Dio dio = Dio();
     dio.options.contentType = contentType;
-
+    showDialog(                                 //loading动画
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+            //  dismissDialog: _disMissCallBack,
+          );
+        }
+    );
     // FormData是数据体，默认放在post中的body里
     // Navigator.push(context, DialogRouter(LoadingDialog()));
     // Loading.before('请稍候');
     response = await dio.post(url, data: FormData);
-    map['response'] = response;
     if (response.statusCode == 200) {
       print(response.statusCode.toString());
       print('http成功');
     //        Loading.complete();
-
+      Navigator.of(context).pop();      //成功，退出loading动画
       return response;
     } else {
     //        Loading.complete();
@@ -30,29 +36,7 @@ Future request(url, {FormData, String contentType = 'application/json'}) async {
     }
 
   } catch (e) {
-    map['flag'] = 0;
-    map['ErrorContent'] = e;
-    return map;
-  }
-}
-String formatError(DioError e) {
-  if (e.type == DioErrorType.CONNECT_TIMEOUT) {
-    // It occurs when url is opened timeout.
-    print("连接超时");
-  } else if (e.type == DioErrorType.SEND_TIMEOUT) {
-    // It occurs when url is sent timeout.
-    print("请求超时");
-  } else if (e.type == DioErrorType.RECEIVE_TIMEOUT) {
-    //It occurs when receiving timeout
-    print("响应超时");
-  } else if (e.type == DioErrorType.RESPONSE) {
-    // When the server response, but with a incorrect status, such as 404, 503...
-    print("出现异常");
-  } else if (e.type == DioErrorType.CANCEL) {
-    // When the request is cancelled, dio will throw a error with this type.
-    print("请求取消");
-  } else {
-    //DEFAULT Default error type, Some other Error. In this case, you can read the DioError.error if it is not null.
-    print("未知错误");
+    showAlertDialog(context, titleText: '请求失败', contentText: '请稍后重试',flag: 1);  //失败，点击退出失败提示弹窗和loading动画
+    return 0;
   }
 }

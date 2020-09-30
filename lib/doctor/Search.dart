@@ -1,3 +1,5 @@
+//import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:helloworld/http_service.dart';
 import 'BottomNavigationBar.dart';
@@ -25,9 +27,9 @@ class Search extends StatelessWidget {
     bodymap['day'] = day;
     var url = "";
     var formData = bodymap;
-    await request(url, FormData: formData).then((value) {
-      //传回来的数据
-    });
+//    await request(url, context, FormData: formData).then((value) {
+//      //传回来的数据
+//    });
   }
 
   @override

@@ -76,7 +76,7 @@ class _SettingState extends State<Setting> {
       data['phone_num'] = value;
       var formData = data;
       print(data);
-      await request(url, FormData: formData).then((value) {
+      await request(url,context, FormData: formData).then((value) {
         doctorlist.clear();
         selectedDoctor.clear();
         unSelectedDoctor.clear();

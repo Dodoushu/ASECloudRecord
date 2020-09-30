@@ -88,15 +88,7 @@ class _register2 extends State<register2> {
 
   var data;
   void submit() async{
-    print("sumit");
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
+
 //    print(name);
 //    var loginForm = loginKey.currentState;
 //    //验证Form表单
@@ -128,16 +120,15 @@ class _register2 extends State<register2> {
         var url = "http://39.100.100.198:8082/patient";
         var formData = bodymap;
 
-        await request(url,FormData: formData).then((value) {
+        await request(url,context,FormData: formData).then((value) {
 
           var data = json.decode(value.toString());
           if(data['status_code']==1){
-            showAlertDialog(context,titleText: 'Success',contentText: '注册成功，进入主页面',flag: 1);
             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
           }else if(data['status_code']==0){
-            showAlertDialog(context,titleText: 'failed',contentText: '身份信息证已存在，请重试',flag: 1);
+            showAlertDialog(context,titleText: 'failed',contentText: '身份信息证已存在，请重试',flag: 0);
           }else if(data['status_code']==2){
-            showAlertDialog(context,titleText: 'failed',contentText: '必填信息不全，请重试',flag: 1);
+            showAlertDialog(context,titleText: 'failed',contentText: '必填信息不全，请重试',flag: 0);
         }});
       });
     });

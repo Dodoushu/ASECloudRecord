@@ -60,15 +60,38 @@ class _Login extends State<Login> {
     });
   }
 
-  void login() async {
-    showDialog(     //loading
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
+  showAlertDialog_Login({titleText: '请设置标题', contentText: '请设置内容', bottonText: '确定'}) {
+    //设置按钮
+    Widget okButton = FlatButton(
+      child: Text(bottonText),
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => register2()),
+                (route) => false);
+      },
     );
+
+    //设置对话框
+    AlertDialog alert = AlertDialog(
+      title: Text(titleText),
+      content: Text(contentText),
+      actions: [
+        okButton,
+      ],
+    );
+
+    //显示对话框
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  void login() async {
+
 //    //演示时去掉验证功能
 //    Navigator.pushAndRemoveUntil(
 //        context,
@@ -88,19 +111,15 @@ class _Login extends State<Login> {
       sign['pass_word'] = password;
       var bodymap = Map();
       bodymap['sign'] = sign;
-      var url = "http://39.100.100.198:8082/sign";
+      var url = "http://39.100.100.198:8082/sign1";
       var formData = bodymap;
       print(formData);
-      await request(url, FormData: formData).then((value) {
+      await request(url,context, FormData: formData).then((value) {
           Map data = json.decode(value.toString());
           print(data);
           if (data['status_code'] == 4) {
-            showAlertDialog(context,
-                titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息',flag: 1);
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => register2()),
-                    (route) => false);
+            showAlertDialog_Login(titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
+            //跳转填写个人信息
           } else if (data['status_code'] == 0) {
             SharedPreferenceUtil.setString('prePhoneNumber', userName.toString()).then((value){
               SharedPreferenceUtil.setString('phoneNum', userName.toString())
@@ -110,7 +129,6 @@ class _Login extends State<Login> {
                   SharedPreferenceUtil.setString('token', data['token'])
                       .then((value) {
                     print(value);
-                    showAlertDialog(context, titleText: '', contentText: '登陆成功',flag: 1);
                     Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
@@ -120,9 +138,9 @@ class _Login extends State<Login> {
               });
             });
           } else if (data['status_code'] == 1 || data['status_code'] == 2) {
-            showAlertDialog(context, titleText: '登陆失败', contentText: '请检查账号密码',flag: 1);
+            showAlertDialog(context, titleText: '登陆失败', contentText: '请检查账号密码',flag: 0);
           } else {
-            showAlertDialog(context, titleText: '登陆失败', contentText: '未知错误',flag: 1);
+            showAlertDialog(context, titleText: '登陆失败', contentText: '未知错误',flag: 0);
           }
 
         }

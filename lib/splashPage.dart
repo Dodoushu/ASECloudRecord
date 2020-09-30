@@ -143,7 +143,7 @@ class _SplashPage extends State<SplashPage> {
             bodymap['sign'] = sign;
             String url = 'http://39.100.100.198:8082/sign';
             var result;
-            request(url, FormData: bodymap).then((value) {
+            request(url,context, FormData: bodymap).then((value) {
               result = json.decode(value.toString());
               print(result);
 

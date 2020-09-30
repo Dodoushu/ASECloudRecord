@@ -155,14 +155,7 @@ class _laboratoryExaminationPicture
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
+
     var bodymap = Map<String, dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async {
@@ -178,24 +171,17 @@ class _laboratoryExaminationPicture
       bodymap['phone_num'] = phoneNum;
       var url = "http://39.100.100.198:8082/UploadFiles/LaboratoryExamination";
       var formData = FormData.fromMap(bodymap);
-      await request(url, FormData: formData, contentType: 'multipart/form-data')
+      await request(url, context,FormData: formData, contentType: 'multipart/form-data')
           .then((value) {
-        if(value['flag'] == 0){
-          showAlertDialog(context,
-              titleText: '请求异常', contentText: '请稍后重试', flag: 1);
-          print(value['ErrorContent']);
-        }
-        else{
           var data = json.decode(value['response'].toString());
           print(data);
           if (value.statusCode == 200) {
-            showAlertDialog(context, contentText: '操作成功',flag: 2);
+            showAlertDialog(context, contentText: '操作成功',flag: 1);
           } else {
-            showAlertDialog(context, contentText: '操作失败',flag: 2);
+            showAlertDialog(context, contentText: '操作失败',flag: 1);
           }
         }
-
-      });
+        );
     });
   }
 
