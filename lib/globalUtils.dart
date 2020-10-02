@@ -28,7 +28,7 @@ Widget smallPicGridView(List list){
     );
   }else{
     return Text(
-      '',
+      '无',
       style: TextStyle(fontSize: 19),
     );
   }
