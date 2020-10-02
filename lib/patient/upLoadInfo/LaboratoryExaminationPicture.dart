@@ -9,6 +9,8 @@ import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
+import 'package:helloworld/globalUtils.dart';
+
 void main() => runApp(MaterialApp(
       home: laboratoryExaminationPicture(),
     ));
@@ -328,10 +330,7 @@ class _laboratoryExaminationPicture
                     ),
                   ],
                 ),
-                Text(
-                  filesname.toString(),
-                  style: TextStyle(fontSize: 19),
-                ),
+                smallPicGridView(displayPath)
               ],
             )
           ],

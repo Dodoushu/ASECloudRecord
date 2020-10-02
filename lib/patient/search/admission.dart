@@ -59,7 +59,7 @@ class _admissionState extends State<admission> {
                             style: new TextStyle(fontSize: 18),
                           ),
                           Text(
-                            temp['s_date'],
+                              temp['s_date']!=null? temp['s_date'] : '无',
                             style: new TextStyle(fontSize: 18),
                           ),
                         ],
@@ -72,7 +72,7 @@ class _admissionState extends State<admission> {
                             style: new TextStyle(fontSize: 18),
                           ),
                           Text(
-                            temp['o_date'],
+                            temp['o_date']!=null? temp['o_date'] : '无',
                             style: new TextStyle(fontSize: 18),
                           ),
                         ],

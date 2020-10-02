@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,6 +11,8 @@ import 'dart:convert';
 import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
+
+import 'package:helloworld/globalUtils.dart';
 
 void main() => runApp(MaterialApp(
   home: ImageReview(),
@@ -190,6 +193,7 @@ class _ImageReview extends State<ImageReview> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -320,10 +324,9 @@ class _ImageReview extends State<ImageReview> {
                     ),
                   ],
                 ),
-                Text(
-                  filesname.toString(),
-                  style: TextStyle(fontSize: 19),
-                ),
+
+                smallPicGridView(displayPath)
+
               ],
             )
           ],
