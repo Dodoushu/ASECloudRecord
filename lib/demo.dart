@@ -177,7 +177,7 @@ class _ImageReview extends State<ImageReview> {
       print(bodymap);
       var url = "http://39.100.100.198:8082/UploadFiles/ImageExamination";
       var formData = FormData.fromMap(bodymap);
-      await request(url, FormData: formData,contentType: 'multipart/form-data').then((value) {
+      await request(url,context ,FormData: formData,contentType: 'multipart/form-data').then((value) {
         if(value['flag'] == 0){
           showAlertDialog(context,
               titleText: '请求异常', contentText: '请稍后重试', flag: 1);
