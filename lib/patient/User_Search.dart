@@ -119,7 +119,7 @@ class SearchPage extends StatelessWidget {
                                   var url =
                                       "http://39.100.100.198:8082/Select/AllPicture";
                                   var formData = bodymap;
-                                  await request(url, FormData: formData)
+                                  await request(url, context,FormData: formData)
                                       .then((value) {
                                     var data = json.decode(value.toString());
                                     var url = new List();
@@ -179,7 +179,7 @@ class SearchPage extends StatelessWidget {
                                   var url =
                                       "http://39.100.100.198:8082/Select/ReportPicture";
                                   var formData = bodymap;
-                                  await request(url, FormData: formData)
+                                  await request(url, context,FormData: formData)
                                       .then((value) {
                                     print(value);
                                     var data = json.decode(value.toString());
@@ -222,7 +222,7 @@ class SearchPage extends StatelessWidget {
                                     var url =
                                         "http://39.100.100.198:8082/Select/DiseasePicture";
                                     var formData = bodymap;
-                                    await request(url, FormData: formData)
+                                    await request(url,context, FormData: formData)
                                         .then((value) {
                                       print(value);
                                       var data = json.decode(value.toString());
@@ -265,7 +265,7 @@ class SearchPage extends StatelessWidget {
                                     var url =
                                         "http://39.100.100.198:8082/Select/LaboratoryPicture";
                                     var formData = bodymap;
-                                    await request(url, FormData: formData)
+                                    await request(url,context, FormData: formData)
                                         .then((value) {
                                       print(value);
                                       var data = json.decode(value.toString());
@@ -308,7 +308,7 @@ class SearchPage extends StatelessWidget {
                                     var url =
                                         "http://39.100.100.198:8082/Select/ImagePicture";
                                     var formData = bodymap;
-                                    await request(url, FormData: formData)
+                                    await request(url,context, FormData: formData)
                                         .then((value) {
                                       print(value);
                                       var data = json.decode(value.toString());
@@ -350,7 +350,7 @@ class SearchPage extends StatelessWidget {
                                     var url =
                                         "http://39.100.100.198:8082/Select/InstrumentPicture";
                                     var formData = bodymap;
-                                    await request(url, FormData: formData)
+                                    await request(url,context, FormData: formData)
                                         .then((value) {
                                       print(value);
                                       var data = json.decode(value.toString());
@@ -393,7 +393,7 @@ class SearchPage extends StatelessWidget {
                                   var url =
                                       "http://39.100.100.198:8082/Select/admission";
                                   var formData = bodymap;
-                                  await request(url, FormData: formData)
+                                  await request(url,context ,FormData: formData)
                                       .then((value) {
                                     var data = json.decode(value.toString());
                                     print(data['admissionNotes']);
@@ -422,7 +422,7 @@ class SearchPage extends StatelessWidget {
                                   var url =
                                       "http://39.100.100.198:8082/Select/examine";
                                   var formData = bodymap;
-                                  await request(url, FormData: formData)
+                                  await request(url,context ,FormData: formData)
                                       .then((value) {
                                     var data = json.decode(value.toString());
                                     print(data['examines']);
@@ -452,7 +452,7 @@ class SearchPage extends StatelessWidget {
                                   var url =
                                       "http://39.100.100.198:8082/Select/outPatient";
                                   var formData = bodymap;
-                                  await request(url, FormData: formData)
+                                  await request(url,context, FormData: formData)
                                       .then((value) {
                                     var data = json.decode(value.toString());
                                     log(data['outPatients'].toString());
@@ -483,7 +483,7 @@ class SearchPage extends StatelessWidget {
                                   var url =
                                       "http://39.100.100.198:8082/Select/outPatientRecords";
                                   var formData = bodymap;
-                                  await request(url, FormData: formData)
+                                  await request(url,context, FormData: formData)
                                       .then((value) {
                                     var data = json.decode(value.toString());
                                     log(data['outPatientRecords'].toString());

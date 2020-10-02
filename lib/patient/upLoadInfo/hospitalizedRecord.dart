@@ -140,14 +140,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
+
     var bodymap = Map();
     var admissionNote = Map();
     String phoneNum;
@@ -165,19 +158,11 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
       print(bodymap);
       var url = "http://39.100.100.198:8082/admission";
       var formData = bodymap;
-      await request(url, FormData: formData).then((value) {
-        if(value['flag'] == 0){
-          showAlertDialog(context,
-              titleText: '请求异常', contentText: '请稍后重试', flag: 1);
-          print(value['ErrorContent']);
-        }
-        else{
+      await request(url, context,FormData: formData).then((value) {
           Map data = json.decode(value['response'].toString());
           print(data);
           showAlertDialog(context,
-              titleText: 'success', contentText: '操作成功',flag: 2);
-        }
-
+              titleText: 'success', contentText: '操作成功',flag: 1);
 
       });
     });

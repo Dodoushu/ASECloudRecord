@@ -38,14 +38,7 @@ class _register2 extends State<register2> {
 
   //上传表单
   void submit() {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
+
     var bodymap = Map();
     var doctor= Map();
     String phoneNum;
@@ -56,7 +49,7 @@ class _register2 extends State<register2> {
       //doctor[]
       FormData formData = FormData.fromMap(map);
 
-      request(url, FormData: formData, contentType: 'multipart/form-data')
+      request(url,context, FormData: formData, contentType: 'multipart/form-data')
           .then((value) {
         print('response:' + json.decode(value.toString()));
       });

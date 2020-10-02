@@ -273,10 +273,10 @@ class _doctorSelectState extends State<doctorSelect> {
                               map['phone_num'] =value;
                               map['add_doctor_id'] = commitlist;
                               var url = "http://39.100.100.198:8082/selectPAD";
-                              await request(url, FormData: map).then((value){
+                              await request(url,context, FormData: map).then((value){
                                 var data = value.toString();
                                 print(data);
-                                showAlertDialog(context,titleText: '操作成功',contentText: '医生修改成功',flag: 1);
+                                showAlertDialog(context,titleText: '操作成功',contentText: '医生修改成功',flag: 0);
                               });
                             });
                           },

@@ -69,14 +69,7 @@ class _Pathology extends State<Pathology> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
+
     var bodymap = Map();
     var map2 = Map();
     String phoneNum;
@@ -88,11 +81,11 @@ class _Pathology extends State<Pathology> {
       print(bodymap);
       var url = "http://39.100.100.198:8082/diseaseExamine";
       var formData = bodymap;
-      await request(url, FormData: formData).then((value) {
+      await request(url, context,FormData: formData).then((value) {
         var data = json.decode(value.toString());
         print(data);
         showAlertDialog(context,
-              titleText: '', contentText: '操作成功',flag: 2);
+              titleText: '', contentText: '操作成功',flag: 1);
 
       });
     });
