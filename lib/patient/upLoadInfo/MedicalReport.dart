@@ -27,6 +27,7 @@ class _medicalReport extends State<medicalReport> {
   String reportAbstract;
   String filesname;
   String filespath;
+  var flag2 = 0;
   List displayPath = [];
   List<MultipartFile> selectedFiles = new List<MultipartFile>();
 
@@ -57,6 +58,9 @@ class _medicalReport extends State<medicalReport> {
       for (String path in selectedFilePaths) {
         displayPath.add(path);
         MultipartFile.fromFile(path).then((value) {
+          if(value!=Null){
+            flag2=1;
+          }
           tempfile = value;
           print('*****************' + path);
           selectedFiles.add(tempfile);
@@ -76,6 +80,9 @@ class _medicalReport extends State<medicalReport> {
       MultipartFile tempfile;
 
       MultipartFile.fromFile(selectedFilePaths).then((value) {
+        if(value!=Null){
+            flag2=1;
+        }
         tempfile = value;
         print('1111111111111111111111' + selectedFilePaths);
         selectedFiles.add(tempfile);
@@ -95,7 +102,7 @@ class _medicalReport extends State<medicalReport> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-  if(selectedFiles == null || hospital == null || reportAbstract == null || conclusion == null){
+  if(selectedFiles == null || hospital == null || reportAbstract == null || conclusion == null || flag2 == 0){
     showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
   }
     else{

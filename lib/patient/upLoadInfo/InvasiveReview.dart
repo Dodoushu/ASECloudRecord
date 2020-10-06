@@ -88,6 +88,7 @@ class _invasiveReview extends State<invasiveReview> {
   }
 
   var value;
+  var flag2=0;
 
 /*  _LearnDropdownButton(){
     value=getListData()[0].value;
@@ -121,6 +122,9 @@ class _invasiveReview extends State<invasiveReview> {
       for (String path in selectedFilePaths) {
         displayPath.add(path);
         MultipartFile.fromFile(path).then((value) {
+          if(value!=Null){
+            flag2=1;
+          }
           tempfile = value;
           print('*****************' + path);
           selectedFiles.add(tempfile);
@@ -140,6 +144,9 @@ class _invasiveReview extends State<invasiveReview> {
       MultipartFile tempfile;
 
       MultipartFile.fromFile(selectedFilePaths).then((value) {
+        if(value!=Null){
+            flag2=1;
+        }
         tempfile = value;
         print('1111111111111111111111' + selectedFilePaths);
         selectedFiles.add(tempfile);
@@ -160,7 +167,7 @@ class _invasiveReview extends State<invasiveReview> {
 //      print(name);
 //    }
 
-    if(selectedFiles == null || laboratoryType == null || conclusion == null){
+    if(selectedFiles == null || laboratoryType == null || conclusion == null || flag2 == 0){
       showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
     }
     else{var bodymap = Map<String, dynamic>();

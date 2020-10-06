@@ -26,6 +26,7 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
   String filespath;
   List selectedFiles = [];
   List displayPath = [];
+  var flag2 = 0;
 
   Future<void> _selectDate() async //异步
   {
@@ -54,6 +55,9 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
       for (String path in selectedFilePaths) {
         displayPath.add(path);
         MultipartFile.fromFile(path).then((value) {
+          if(value!=Null){
+            flag2=1;
+          }
           tempfile = value;
           print('*****************' + path);
           selectedFiles.add(tempfile);
@@ -73,6 +77,9 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
       MultipartFile tempfile;
 
       MultipartFile.fromFile(selectedFilePaths).then((value) {
+        if(value!=Null){
+            flag2=1;
+        }
         tempfile = value;
         print('1111111111111111111111' + selectedFilePaths);
         selectedFiles.add(tempfile);
@@ -92,7 +99,7 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    if (selectedFiles == null) {
+    if (selectedFiles == null || flag2 == 0) {
       showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
     } else {
       var bodymap = Map<String, dynamic>();
