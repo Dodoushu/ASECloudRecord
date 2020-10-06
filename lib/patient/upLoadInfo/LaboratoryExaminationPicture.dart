@@ -1,15 +1,15 @@
+import 'dart:convert';
+import 'dart:html';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:helloworld/PickFileMethod.dart';
+import 'package:helloworld/globalUtils.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
-import 'dart:convert';
-import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
-
-import 'package:helloworld/globalUtils.dart';
 
 void main() => runApp(MaterialApp(
       home: laboratoryExaminationPicture(),
@@ -158,33 +158,38 @@ class _laboratoryExaminationPicture
 //      print(name);
 //    }
 
-    var bodymap = Map<String, dynamic>();
-    String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum').then((value) async {
-      phoneNum = value;
-      bodymap['files'] = selectedFiles;
-      bodymap['date'] = date.year.toString() +
-          '-' +
-          date.month.toString() +
-          '-' +
-          date.day.toString();
-      bodymap['items'] = laboratoryType;
-      bodymap['result'] = conclusion;
-      bodymap['phone_num'] = phoneNum;
-      var url = "http://39.100.100.198:8082/UploadFiles/LaboratoryExamination";
-      var formData = FormData.fromMap(bodymap);
-      await request(url, context,FormData: formData, contentType: 'multipart/form-data')
-          .then((value) {
+    if (selectedFiles == null || laboratoryType == null || conclusion == null) {
+      showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
+    } else {
+      var bodymap = Map<String, dynamic>();
+      String phoneNum;
+      SharedPreferenceUtil.getString('phoneNum').then((value) async {
+        phoneNum = value;
+        bodymap['files'] = selectedFiles;
+        bodymap['date'] = date.year.toString() +
+            '-' +
+            date.month.toString() +
+            '-' +
+            date.day.toString();
+        bodymap['items'] = laboratoryType;
+        bodymap['result'] = conclusion;
+        bodymap['phone_num'] = phoneNum;
+        var url =
+            "http://39.100.100.198:8082/UploadFiles/LaboratoryExamination";
+        var formData = FormData.fromMap(bodymap);
+        await request(url, context,
+                FormData: formData, contentType: 'multipart/form-data')
+            .then((value) {
           var data = json.decode(value['response'].toString());
           print(data);
           if (value.statusCode == 200) {
-            showAlertDialog(context, contentText: '操作成功',flag: 1);
+            showAlertDialog(context, contentText: '操作成功', flag: 1);
           } else {
-            showAlertDialog(context, contentText: '操作失败',flag: 1);
+            showAlertDialog(context, contentText: '操作失败', flag: 1);
           }
-        }
-        );
-    });
+        });
+      });
+    }
   }
 
   @override

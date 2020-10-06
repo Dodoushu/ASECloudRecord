@@ -96,7 +96,10 @@ class _medicalReport extends State<medicalReport> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    showDialog(
+  if(selectedFiles == null || hospital == null || reportAbstract == null || conclusion == null){
+    showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
+  }
+    else{showDialog(
         context: context,
         builder: (context) {
           return new NetLoadingDialog(
@@ -121,7 +124,7 @@ class _medicalReport extends State<medicalReport> {
           print(data);
           showAlertDialog(context,contentText: '上传成功',flag: 1);
       });
-    });
+    });}
   }
 
   @override

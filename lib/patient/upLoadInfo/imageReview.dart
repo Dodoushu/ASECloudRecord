@@ -15,8 +15,8 @@ import 'package:intl/intl.dart';
 import 'package:helloworld/globalUtils.dart';
 
 void main() => runApp(MaterialApp(
-  home: ImageReview(),
-));
+      home: ImageReview(),
+    ));
 
 class ImageReview extends StatefulWidget {
   @override
@@ -35,50 +35,49 @@ class _ImageReview extends State<ImageReview> {
   List displayPath = [];
   String lebalContent = '请输入影像检查类目';
   Map labelmap = {
-    '1':'超声检查',
-    '2':'X线或X线造影检查',
-    '3':'CT检查',
-    '4':'磁共振（MRI）检查',
-    '5':'同位素（核素）检查',
-    '6':'PET-CT检查',
-    '7':'其他影像检查',
+    '1': '超声检查',
+    '2': 'X线或X线造影检查',
+    '3': 'CT检查',
+    '4': '磁共振（MRI）检查',
+    '5': '同位素（核素）检查',
+    '6': 'PET-CT检查',
+    '7': '其他影像检查',
   };
 
-
-  List<DropdownMenuItem> getListData(){
-    List<DropdownMenuItem> items=new List();
-    DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
-      child:new Text('超声检查'),
+  List<DropdownMenuItem> getListData() {
+    List<DropdownMenuItem> items = new List();
+    DropdownMenuItem dropdownMenuItem1 = new DropdownMenuItem(
+      child: new Text('超声检查'),
       value: '1',
     );
     items.add(dropdownMenuItem1);
-    DropdownMenuItem dropdownMenuItem2=new DropdownMenuItem(
-      child:new Text('X线或X线造影检查'),
+    DropdownMenuItem dropdownMenuItem2 = new DropdownMenuItem(
+      child: new Text('X线或X线造影检查'),
       value: '2',
     );
     items.add(dropdownMenuItem2);
-    DropdownMenuItem dropdownMenuItem3=new DropdownMenuItem(
-      child:new Text('CT检查'),
+    DropdownMenuItem dropdownMenuItem3 = new DropdownMenuItem(
+      child: new Text('CT检查'),
       value: '3',
     );
     items.add(dropdownMenuItem3);
-    DropdownMenuItem dropdownMenuItem4=new DropdownMenuItem(
-      child:new Text('磁共振（MRI）检查'),
+    DropdownMenuItem dropdownMenuItem4 = new DropdownMenuItem(
+      child: new Text('磁共振（MRI）检查'),
       value: '4',
     );
     items.add(dropdownMenuItem4);
-    DropdownMenuItem dropdownMenuItem5=new DropdownMenuItem(
-      child:new Text('同位素（核素）检查'),
+    DropdownMenuItem dropdownMenuItem5 = new DropdownMenuItem(
+      child: new Text('同位素（核素）检查'),
       value: '5',
     );
     items.add(dropdownMenuItem5);
-    DropdownMenuItem dropdownMenuItem6=new DropdownMenuItem(
-      child:new Text('PET-CT检查'),
+    DropdownMenuItem dropdownMenuItem6 = new DropdownMenuItem(
+      child: new Text('PET-CT检查'),
       value: '6',
     );
     items.add(dropdownMenuItem6);
-    DropdownMenuItem dropdownMenuItem7=new DropdownMenuItem(
-      child:new Text('其他影像检查'),
+    DropdownMenuItem dropdownMenuItem7 = new DropdownMenuItem(
+      child: new Text('其他影像检查'),
       value: '7',
     );
     items.add(dropdownMenuItem7);
@@ -91,9 +90,8 @@ class _ImageReview extends State<ImageReview> {
     value=getListData()[0].value;
   }*/
 
-
   Future<void> _selectDate() async //异步
-      {
+  {
     final DateTime selectdate = await showDatePicker(
       //等待异步处理的结果
       //等待返回
@@ -157,26 +155,35 @@ class _ImageReview extends State<ImageReview> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    var bodymap = Map<String, dynamic>();
-    String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum').then((value) async{
-      phoneNum = value;
-      bodymap['files'] = selectedFiles;
-      bodymap['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
-      bodymap['items'] = laboratoryType;
-      bodymap['result'] = conclusion;
-      bodymap['phone_num'] = phoneNum;
-      print(bodymap);
-      var url = "http://39.100.100.198:8082/UploadFiles/ImageExamination";
-      var formData = FormData.fromMap(bodymap);
-      await request(url, context,FormData: formData,contentType: 'multipart/form-data').then((value) {
+    if (selectedFiles == null || laboratoryType == null || conclusion == null) {
+      showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
+    } else {
+      var bodymap = Map<String, dynamic>();
+      String phoneNum;
+      SharedPreferenceUtil.getString('phoneNum').then((value) async {
+        phoneNum = value;
+        bodymap['files'] = selectedFiles;
+        bodymap['date'] = date.year.toString() +
+            '-' +
+            date.month.toString() +
+            '-' +
+            date.day.toString();
+        bodymap['items'] = laboratoryType;
+        bodymap['result'] = conclusion;
+        bodymap['phone_num'] = phoneNum;
+        print(bodymap);
+        var url = "http://39.100.100.198:8082/UploadFiles/ImageExamination";
+        var formData = FormData.fromMap(bodymap);
+        await request(url, context,
+                FormData: formData, contentType: 'multipart/form-data')
+            .then((value) {
           var data = json.decode(value['response'].toString());
           print(data);
-          showAlertDialog(context,  contentText: '操作成功',flag: 1);
+          showAlertDialog(context, contentText: '操作成功', flag: 1);
+        });
       });
-    });
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +213,6 @@ class _ImageReview extends State<ImageReview> {
             Divider(
               thickness: 2,
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -216,27 +222,28 @@ class _ImageReview extends State<ImageReview> {
                 ),
                 new DropdownButton(
                   items: getListData(),
-                  hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
+                  hint: new Text(lebalContent),
+                  //当没有默认值的时候可以设置的提示
 //                  value: value,//下拉菜单选择完之后显示给用户的值
-                  onChanged: (value){//下拉菜单item点击之后的回调
+                  onChanged: (value) {
+                    //下拉菜单item点击之后的回调
                     laboratoryType = value;
                     print(laboratoryType);
                     setState(() {
                       lebalContent = labelmap[value];
                     });
                   },
-                  elevation: 24,//设置阴影的高度
-                  style: new TextStyle(//设置文本框里面文字的样式
+                  elevation: 24,
+                  //设置阴影的高度
+                  style: new TextStyle(
+                      //设置文本框里面文字的样式
                       color: Colors.black,
-                      fontSize: 15
-                  ),
+                      fontSize: 15),
 //              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
-                  iconSize: 50.0,//设置三角标icon的大小
+                  iconSize: 50.0, //设置三角标icon的大小
                 ),
               ],
             ),
-
-
             Divider(
               thickness: 2,
             ),
@@ -279,22 +286,22 @@ class _ImageReview extends State<ImageReview> {
                                   )),
                               shape: new RoundedRectangleBorder(
                                   borderRadius:
-                                  new BorderRadius.circular(40.0)),
+                                      new BorderRadius.circular(40.0)),
                             )),
                         new Container(
 //                    margin: EdgeInsets.only(left: 30),
                             child: RaisedButton(
-                              elevation: 0,
-                              onPressed: _selectFile,
-                              color: Colors.blue,
-                              child: new Text('选择文件',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                  )),
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(40.0)),
-                            )),
+                          elevation: 0,
+                          onPressed: _selectFile,
+                          color: Colors.blue,
+                          child: new Text('选择文件',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )),
                       ],
                     )
                   ],
@@ -308,16 +315,13 @@ class _ImageReview extends State<ImageReview> {
                     ),
                   ],
                 ),
-
                 smallPicGridView(displayPath)
-
               ],
             )
           ],
         ),
       ),
     );
-
 
     Widget dividerline = Container(
       height: 60,
@@ -363,9 +367,9 @@ class _ImageReview extends State<ImageReview> {
               height: 90,
               child: Center(
                   child: new Text(
-                    '影像检查上传',
-                    style: TextStyle(color: Colors.white, fontSize: 30.0),
-                  )),
+                '影像检查上传',
+                style: TextStyle(color: Colors.white, fontSize: 30.0),
+              )),
             ),
             Container(
               margin: EdgeInsets.only(top: 20),
