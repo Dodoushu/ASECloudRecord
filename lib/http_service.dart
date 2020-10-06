@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +22,8 @@ Future request(url, BuildContext context, {FormData, String contentType = 'appli
     // Navigator.push(context, DialogRouter(LoadingDialog()));
     // Loading.before('请稍候');
     response = await dio.post(url, data: FormData);
+    print('**********************************');
+    print(response.toString());
     if (response.statusCode == 200) {
       print(response.statusCode.toString());
       print('http成功');
@@ -37,6 +37,6 @@ Future request(url, BuildContext context, {FormData, String contentType = 'appli
 
   } catch (e) {
     showAlertDialog(context, titleText: '请求失败', contentText: '请稍后重试',flag: 1);  //失败，点击退出失败提示弹窗和loading动画
-    return 0;
+//    return 0;
   }
 }

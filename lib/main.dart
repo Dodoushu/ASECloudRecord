@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'splashPage.dart';
-import 'select.dart';
-import 'doctor/login.dart' as doctorLogin;
-import 'patient/login.dart' as patientLogin;
-import 'patient/MainFunctionPage.dart' as patientMain;
-import 'Loading.dart';
-import 'dart:convert';
+
 
 void main() => runApp(new MyApp());
 

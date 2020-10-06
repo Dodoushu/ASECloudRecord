@@ -5,7 +5,6 @@ import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
-import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
@@ -161,7 +160,10 @@ class _invasiveReview extends State<invasiveReview> {
 //      print(name);
 //    }
 
-    var bodymap = Map<String, dynamic>();
+    if(selectedFiles == null || laboratoryType == null || conclusion == null){
+      showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
+    }
+    else{var bodymap = Map<String, dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
       phoneNum = value;
@@ -179,7 +181,7 @@ class _invasiveReview extends State<invasiveReview> {
           showAlertDialog(context,  contentText: '操作成功',flag: 1);
 
       });
-    });
+    });}
   }
 
   @override

@@ -1,16 +1,14 @@
-import 'package:dio/dio.dart';
+
 import 'package:flutter/material.dart';
-import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
-import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
 void main() => runApp(MaterialApp(
-  home: HospitalizedRecord(),
-));
+      home: HospitalizedRecord(),
+    ));
 
 class HospitalizedRecord extends StatefulWidget {
   @override
@@ -28,68 +26,67 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
   String recordcontent;
   String lebalContent = '请选择科室';
   Map labelmap = {
-    '1':'皮肤科',
-    '2':'内科',
-    '3':'外科',
-    '4':'妇产科',
-    '5':'男科',
-    '6':'儿科',
-    '7':'五官科',
-    '8':'肿瘤科',
-    '9':'中医科',
-    '10':'传染科'
+    '1': '皮肤科',
+    '2': '内科',
+    '3': '外科',
+    '4': '妇产科',
+    '5': '男科',
+    '6': '儿科',
+    '7': '五官科',
+    '8': '肿瘤科',
+    '9': '中医科',
+    '10': '传染科'
   };
 
-
-  List<DropdownMenuItem> getListData(){
-    List<DropdownMenuItem> items=new List();
-    DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
-      child:new Text('皮肤科'),
+  List<DropdownMenuItem> getListData() {
+    List<DropdownMenuItem> items = new List();
+    DropdownMenuItem dropdownMenuItem1 = new DropdownMenuItem(
+      child: new Text('皮肤科'),
       value: '1',
     );
     items.add(dropdownMenuItem1);
-    DropdownMenuItem dropdownMenuItem2=new DropdownMenuItem(
-      child:new Text('内科'),
+    DropdownMenuItem dropdownMenuItem2 = new DropdownMenuItem(
+      child: new Text('内科'),
       value: '2',
     );
     items.add(dropdownMenuItem2);
-    DropdownMenuItem dropdownMenuItem3=new DropdownMenuItem(
-      child:new Text('外科'),
+    DropdownMenuItem dropdownMenuItem3 = new DropdownMenuItem(
+      child: new Text('外科'),
       value: '3',
     );
     items.add(dropdownMenuItem3);
-    DropdownMenuItem dropdownMenuItem4=new DropdownMenuItem(
-      child:new Text('妇产科'),
+    DropdownMenuItem dropdownMenuItem4 = new DropdownMenuItem(
+      child: new Text('妇产科'),
       value: '4',
     );
     items.add(dropdownMenuItem4);
-    DropdownMenuItem dropdownMenuItem5=new DropdownMenuItem(
-      child:new Text('男科'),
+    DropdownMenuItem dropdownMenuItem5 = new DropdownMenuItem(
+      child: new Text('男科'),
       value: '5',
     );
     items.add(dropdownMenuItem5);
-    DropdownMenuItem dropdownMenuItem6=new DropdownMenuItem(
-      child:new Text('儿科'),
+    DropdownMenuItem dropdownMenuItem6 = new DropdownMenuItem(
+      child: new Text('儿科'),
       value: '6',
     );
     items.add(dropdownMenuItem6);
-    DropdownMenuItem dropdownMenuItem7=new DropdownMenuItem(
-      child:new Text('五官科'),
+    DropdownMenuItem dropdownMenuItem7 = new DropdownMenuItem(
+      child: new Text('五官科'),
       value: '7',
     );
     items.add(dropdownMenuItem7);
-    DropdownMenuItem dropdownMenuItem8=new DropdownMenuItem(
-      child:new Text('肿瘤科'),
+    DropdownMenuItem dropdownMenuItem8 = new DropdownMenuItem(
+      child: new Text('肿瘤科'),
       value: '8',
     );
     items.add(dropdownMenuItem8);
-    DropdownMenuItem dropdownMenuItem9=new DropdownMenuItem(
-      child:new Text('中医科'),
+    DropdownMenuItem dropdownMenuItem9 = new DropdownMenuItem(
+      child: new Text('中医科'),
       value: '9',
     );
     items.add(dropdownMenuItem9);
-    DropdownMenuItem dropdownMenuItem10=new DropdownMenuItem(
-      child:new Text('传染科'),
+    DropdownMenuItem dropdownMenuItem10 = new DropdownMenuItem(
+      child: new Text('传染科'),
       value: '10',
     );
     items.add(dropdownMenuItem10);
@@ -97,7 +94,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
   }
 
   Future<void> _selectstartDate() async //异步
-      {
+  {
     final DateTime selectdate = await showDatePicker(
       //等待异步处理的结果
       //等待返回
@@ -115,7 +112,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
   }
 
   Future<void> _selectendDate() async //异步
-      {
+  {
     final DateTime selectdate = await showDatePicker(
       //等待异步处理的结果
       //等待返回
@@ -132,7 +129,6 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
     });
   }
 
-
   void summit() async {
 //    print(name);
 //    var loginForm = loginKey.currentState;
@@ -141,31 +137,45 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
 //      print(name);
 //    }
 
-    var bodymap = Map();
-    var admissionNote = Map();
-    String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum').then((value) async{
-      phoneNum = value;
+    if (office == null ||
+        hospital == null ||
+        doctorname == null ||
+        recordcontent == null) {
+      showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
+    } else {
+      var bodymap = Map();
+      var admissionNote = Map();
+      String phoneNum;
+      SharedPreferenceUtil.getString('phoneNum').then((value) async {
+        phoneNum = value;
 //      admissionNote['phone_num'] = phoneNum;
-      bodymap['phone_num'] = phoneNum;
-      admissionNote['s_date'] = startDate.year.toString()+'-'+startDate.month.toString()+'-'+startDate.day.toString();
-      admissionNote['o_date'] = EndDate.year.toString()+'-'+EndDate.month.toString()+'-'+EndDate.day.toString();
-      admissionNote['department_treatment'] = office;
-      admissionNote['hospital'] = hospital;
-      admissionNote['doctor_name'] = doctorname;
-      admissionNote['admission_info'] = recordcontent;
-      bodymap['admissionNote'] = admissionNote;
-      print(bodymap);
-      var url = "http://39.100.100.198:8082/admission";
-      var formData = bodymap;
-      await request(url, context,FormData: formData).then((value) {
+        bodymap['phone_num'] = phoneNum;
+        admissionNote['s_date'] = startDate.year.toString() +
+            '-' +
+            startDate.month.toString() +
+            '-' +
+            startDate.day.toString();
+        admissionNote['o_date'] = EndDate.year.toString() +
+            '-' +
+            EndDate.month.toString() +
+            '-' +
+            EndDate.day.toString();
+        admissionNote['department_treatment'] = office;
+        admissionNote['hospital'] = hospital;
+        admissionNote['doctor_name'] = doctorname;
+        admissionNote['admission_info'] = recordcontent;
+        bodymap['admissionNote'] = admissionNote;
+        print(bodymap);
+        var url = "http://39.100.100.198:8082/admission";
+        var formData = bodymap;
+        await request(url, context, FormData: formData).then((value) {
           Map data = json.decode(value['response'].toString());
           print(data);
           showAlertDialog(context,
-              titleText: 'success', contentText: '操作成功',flag: 1);
-
+              titleText: 'success', contentText: '操作成功', flag: 1);
+        });
       });
-    });
+    }
   }
 
   @override
@@ -227,22 +237,25 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
                     ),
                     new DropdownButton(
                       items: getListData(),
-                      hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
+                      hint: new Text(lebalContent),
+                      //当没有默认值的时候可以设置的提示
 //                  value: value,//下拉菜单选择完之后显示给用户的值
-                      onChanged: (value){//下拉菜单item点击之后的回调
+                      onChanged: (value) {
+                        //下拉菜单item点击之后的回调
                         office = labelmap[value];
                         print(office);
                         setState(() {
                           lebalContent = labelmap[value];
                         });
                       },
-                      elevation: 24,//设置阴影的高度
-                      style: new TextStyle(//设置文本框里面文字的样式
+                      elevation: 24,
+                      //设置阴影的高度
+                      style: new TextStyle(
+                          //设置文本框里面文字的样式
                           color: Colors.black,
-                          fontSize: 15
-                      ),
+                          fontSize: 15),
 //              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
-                      iconSize: 50.0,//设置三角标icon的大小
+                      iconSize: 50.0, //设置三角标icon的大小
                     ),
                   ],
                 ),
@@ -296,7 +309,6 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
       ),
     );
 
-
     Widget dividerline = Container(
       height: 60,
     );
@@ -341,9 +353,9 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
               height: 90,
               child: Center(
                   child: new Text(
-                    '住院病历',
-                    style: TextStyle(color: Colors.white, fontSize: 30.0),
-                  )),
+                '住院病历',
+                style: TextStyle(color: Colors.white, fontSize: 30.0),
+              )),
             ),
             Container(
               margin: EdgeInsets.only(top: 20),

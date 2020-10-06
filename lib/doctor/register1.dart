@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:helloworld/http_service.dart';
-import 'dart:convert';
 import 'register2.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'package:helloworld/showAlertDialogClass.dart';

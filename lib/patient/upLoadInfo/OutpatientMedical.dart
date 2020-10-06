@@ -1,10 +1,7 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
-import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
@@ -109,7 +106,10 @@ class _outpatientMedical extends State<outpatientMedical> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    var bodymap = Map<String, dynamic>();      //个人信息
+  if(office == null || hospital == null || recordcontent == null || doctorname == null){
+    showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
+  }
+    else{var bodymap = Map<String, dynamic>();      //个人信息
     var outpatient = Map<String, dynamic>();       //上传的信息
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
@@ -130,7 +130,7 @@ class _outpatientMedical extends State<outpatientMedical> {
           print(data);
           showAlertDialog(context,  contentText: '操作成功',flag: 1);
       });
-    });
+    });}
   }
 
   @override

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:helloworld/showAlertDialogClass.dart';
 import 'patient/login.dart';
 import 'doctor/login.dart' as login2;
 

@@ -4,15 +4,13 @@ import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
-import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
-
 import 'package:helloworld/globalUtils.dart';
 
 void main() => runApp(MaterialApp(
-  home: SelfPortraitOfDisease(),
-));
+      home: SelfPortraitOfDisease(),
+    ));
 
 class SelfPortraitOfDisease extends StatefulWidget {
   @override
@@ -30,7 +28,7 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
   List displayPath = [];
 
   Future<void> _selectDate() async //异步
-      {
+  {
     final DateTime selectdate = await showDatePicker(
       //等待异步处理的结果
       //等待返回
@@ -94,23 +92,31 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-
-    var bodymap = Map<String, dynamic>();
-    String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum').then((value) async{
-      bodymap['phone_num'] = value;
-      bodymap['files'] = selectedFiles;
-      bodymap['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
-      bodymap['picture_type'] = 3;
-      var url = "http://39.100.100.198:8082/UploadFiles/DiseasePicture";
-      var formData = FormData.fromMap(bodymap);
-      await request(url,context, FormData: formData,contentType: 'multipart/form-data').then((value) {
+    if (selectedFiles == null) {
+      showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
+    } else {
+      var bodymap = Map<String, dynamic>();
+      String phoneNum;
+      SharedPreferenceUtil.getString('phoneNum').then((value) async {
+        bodymap['phone_num'] = value;
+        bodymap['files'] = selectedFiles;
+        bodymap['date'] = date.year.toString() +
+            '-' +
+            date.month.toString() +
+            '-' +
+            date.day.toString();
+        bodymap['picture_type'] = 3;
+        var url = "http://39.100.100.198:8082/UploadFiles/DiseasePicture";
+        var formData = FormData.fromMap(bodymap);
+        await request(url, context,
+                FormData: formData, contentType: 'multipart/form-data')
+            .then((value) {
           var data = json.decode(value['response'].toString());
           print(data);
-          showAlertDialog(context,contentText: '上传成功',flag: 1);
-
+          showAlertDialog(context, contentText: '上传成功', flag: 1);
+        });
       });
-    });
+    }
   }
 
   @override
@@ -180,22 +186,22 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
                                   )),
                               shape: new RoundedRectangleBorder(
                                   borderRadius:
-                                  new BorderRadius.circular(40.0)),
+                                      new BorderRadius.circular(40.0)),
                             )),
                         new Container(
 //                    margin: EdgeInsets.only(left: 30),
                             child: RaisedButton(
-                              elevation: 0,
-                              onPressed: _selectFile,
-                              color: Colors.blue,
-                              child: new Text('选择文件',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.white,
-                                  )),
-                              shape: new RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(40.0)),
-                            )),
+                          elevation: 0,
+                          onPressed: _selectFile,
+                          color: Colors.blue,
+                          child: new Text('选择文件',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )),
                       ],
                     )
                   ],
@@ -216,7 +222,6 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
         ),
       ),
     );
-
 
     Widget dividerline = Container(
       height: 60,
@@ -262,9 +267,9 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
               height: 90,
               child: Center(
                   child: new Text(
-                    '自拍照片选择',
-                    style: TextStyle(color: Colors.white, fontSize: 30.0),
-                  )),
+                '自拍照片选择',
+                style: TextStyle(color: Colors.white, fontSize: 30.0),
+              )),
             ),
             Container(
               margin: EdgeInsets.only(top: 20),

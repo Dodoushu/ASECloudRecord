@@ -4,13 +4,11 @@ import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
-import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
-import 'package:intl/intl.dart';
 
 void main() => runApp(MaterialApp(
-  home: Pathology(),
-));
+      home: Pathology(),
+    ));
 
 class Pathology extends StatefulWidget {
   @override
@@ -24,7 +22,7 @@ class _Pathology extends State<Pathology> {
   String content;
 
   Future<void> _selectDate() async //异步
-      {
+  {
     final DateTime selectdate = await showDatePicker(
       //等待异步处理的结果
       //等待返回
@@ -62,7 +60,6 @@ class _Pathology extends State<Pathology> {
 //  }
 
   void summit() async {
-
 //    print(name);
 //    var loginForm = loginKey.currentState;
 //    //验证Form表单
@@ -70,25 +67,27 @@ class _Pathology extends State<Pathology> {
 //      print(name);
 //    }
 
-    var bodymap = Map();
-    var map2 = Map();
-    String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum').then((value) async{
-      phoneNum = value;
-      bodymap['phone_num'] = phoneNum;
-      map2['examine'] = content;
-      bodymap['examine'] = map2;
-      print(bodymap);
-      var url = "http://39.100.100.198:8082/diseaseExamine";
-      var formData = bodymap;
-      await request(url, context,FormData: formData).then((value) {
-        var data = json.decode(value.toString());
-        print(data);
-        showAlertDialog(context,
-              titleText: '', contentText: '操作成功',flag: 1);
-
+    if (content == null) {
+      showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
+    } else {
+      var bodymap = Map();
+      var map2 = Map();
+      String phoneNum;
+      SharedPreferenceUtil.getString('phoneNum').then((value) async {
+        phoneNum = value;
+        bodymap['phone_num'] = phoneNum;
+        map2['examine'] = content;
+        bodymap['examine'] = map2;
+        print(bodymap);
+        var url = "http://39.100.100.198:8082/diseaseExamine";
+        var formData = bodymap;
+        await request(url, context, FormData: formData).then((value) {
+          var data = json.decode(value.toString());
+          print(data);
+          showAlertDialog(context, titleText: '', contentText: '操作成功', flag: 1);
+        });
       });
-    });
+    }
   }
 
   @override
@@ -125,7 +124,6 @@ class _Pathology extends State<Pathology> {
         ),
       ),
     );
-
 
     Widget dividerline = Container(
       height: 60,
@@ -171,9 +169,9 @@ class _Pathology extends State<Pathology> {
               height: 90,
               child: Center(
                   child: new Text(
-                    '病理学检查结果上传',
-                    style: TextStyle(color: Colors.white, fontSize: 30.0),
-                  )),
+                '病理学检查结果上传',
+                style: TextStyle(color: Colors.white, fontSize: 30.0),
+              )),
             ),
             Container(
               margin: EdgeInsets.only(top: 20),

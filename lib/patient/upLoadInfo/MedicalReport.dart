@@ -4,7 +4,6 @@ import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
-import 'package:helloworld/patient/MainFunctionPage.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 
@@ -96,6 +95,17 @@ class _medicalReport extends State<medicalReport> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
+  if(selectedFiles == null || hospital == null || reportAbstract == null || conclusion == null){
+    showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
+  }
+    else{showDialog(
+        context: context,
+        builder: (context) {
+          return new NetLoadingDialog(
+            //  dismissDialog: _disMissCallBack,
+          );
+        }
+    );
     var bodymap = Map<String,dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
@@ -106,14 +116,14 @@ class _medicalReport extends State<medicalReport> {
       bodymap['report_info'] = reportAbstract;
       bodymap['result'] = conclusion;
       bodymap['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
-      var url = "http://39.100.100.198:8082/UploadFiles/MedicalExaminationReport00";
+      var url = "http://39.100.100.198:8082/UploadFiles/MedicalExaminationReport";
       FormData formData = FormData.fromMap(bodymap);
       await request(url, context,FormData: formData,contentType: 'multipart/form-data').then((value) {
           var data = json.decode(value['response'].toString());
           print(data);
           showAlertDialog(context,contentText: '上传成功',flag: 1);
       });
-    });
+    });}
   }
 
   @override
