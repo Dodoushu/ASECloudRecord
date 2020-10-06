@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'BottomNavigationBar.dart';
+
 void main() =>runApp(new Personal_Info());
 
 class Personal_Info extends StatelessWidget {

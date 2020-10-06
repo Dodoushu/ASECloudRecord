@@ -1,6 +1,5 @@
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
-import 'package:archive/archive_io.dart';
 import 'package:dio/dio.dart';
 
 class File_Method{

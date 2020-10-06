@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'BottomNavigationBar.dart';
 import 'Search.dart';
 void main() {
   runApp(new MaterialApp(

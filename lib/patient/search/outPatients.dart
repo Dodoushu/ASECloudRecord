@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:helloworld/patient/MainFunctionPage.dart';
-import 'package:helloworld/select.dart';
-import 'package:helloworld/showAlertDialogClass.dart';
-import 'package:helloworld/http_service.dart';
-import 'package:helloworld/sharedPrefrences.dart';
-import 'dart:convert';
+
 
 void main() {
   runApp(MaterialApp(

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'BottomNavigationBar.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'package:helloworld/http_service.dart';
 import 'dart:convert';
-import 'package:helloworld/showAlertDialogClass.dart';
 import 'pictureGridview.dart';
 import 'dart:developer';
 import 'package:helloworld/patient/search/outPatients.dart';

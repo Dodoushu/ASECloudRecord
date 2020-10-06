@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:helloworld/sharedPrefrences.dart';
-import 'BottomNavigationBar.dart';
 import 'PastMedicalRecord.dart';
-
 import 'upLoadInfo/hospitalizedRecord.dart';
 import 'upLoadInfo/imageReview.dart';
 import 'upLoadInfo/InvasiveReview.dart';
@@ -13,7 +11,6 @@ import 'upLoadInfo/OutpatientVisitRecords.dart';
 import 'upLoadInfo/pathology.dart';
 import 'upLoadInfo/selfPortraitOfDisease.dart';
 import 'User_Search.dart';
-import 'BottomNavigationBar.dart';
 
 void main() {
   runApp(new MaterialApp(

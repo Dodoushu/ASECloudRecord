@@ -1,5 +1,3 @@
-import 'dart:ffi';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,7 +6,7 @@ import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
-import 'package:helloworld/patient/MainFunctionPage.dart';
+
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 

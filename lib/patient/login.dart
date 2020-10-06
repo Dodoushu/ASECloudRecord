@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
-import 'MainFunctionPage.dart';
 import 'register1.dart' as reg1;
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'register2.dart';
