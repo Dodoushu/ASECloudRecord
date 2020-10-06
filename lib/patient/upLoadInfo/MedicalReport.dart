@@ -98,14 +98,7 @@ class _medicalReport extends State<medicalReport> {
   if(selectedFiles == null || hospital == null || reportAbstract == null || conclusion == null){
     showAlertDialog(context, contentText: '请填写所有项目，若没有信息请填写“无”');
   }
-    else{showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
+    else{
     var bodymap = Map<String,dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
@@ -119,9 +112,14 @@ class _medicalReport extends State<medicalReport> {
       var url = "http://39.100.100.198:8082/UploadFiles/MedicalExaminationReport";
       FormData formData = FormData.fromMap(bodymap);
       await request(url, context,FormData: formData,contentType: 'multipart/form-data').then((value) {
-          var data = json.decode(value['response'].toString());
+          var data = json.decode(value.toString());
           print(data);
-          showAlertDialog(context,contentText: '上传成功',flag: 1);
+         if(data['status_code'] == 1) {
+           showAlertDialog(context,contentText: '上传成功',flag: 1);
+         }
+         else {
+           showAlertDialog(context, titleText: '上传失败', contentText: '请稍后重试',flag: 0);
+         }
       });
     });}
   }

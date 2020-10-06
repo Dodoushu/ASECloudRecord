@@ -180,7 +180,7 @@ class _laboratoryExaminationPicture
         await request(url, context,
                 FormData: formData, contentType: 'multipart/form-data')
             .then((value) {
-          var data = json.decode(value['response'].toString());
+          var data = json.decode(value.toString());
           print(data);
           if (value.statusCode == 200) {
             showAlertDialog(context, contentText: '操作成功', flag: 1);

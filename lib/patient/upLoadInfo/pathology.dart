@@ -84,7 +84,12 @@ class _Pathology extends State<Pathology> {
         await request(url, context, FormData: formData).then((value) {
           var data = json.decode(value.toString());
           print(data);
-          showAlertDialog(context, titleText: '', contentText: '操作成功', flag: 1);
+          if(data['status_code'] == 1) {
+            showAlertDialog(context, titleText: '', contentText: '操作成功', flag: 1);
+          }
+          else {
+            showAlertDialog(context, titleText: '上传失败', contentText: '请稍后重试',flag: 0);
+          }
         });
       });
     }
