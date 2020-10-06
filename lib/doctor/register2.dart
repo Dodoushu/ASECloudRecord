@@ -18,18 +18,18 @@ class register2 extends StatefulWidget {
 
 class _register2 extends State<register2> {
   var url = 'http://39.100.100.198:8082';
-  String name;
-  String IdCardNumber;
-  String Specialty;
-  String Introduction;
-  String SocialWork;
+  String name;         //姓名
+  String id_number;    //身份证号
+  String specialty;
+  String introduction;
+  String socialwork;
 
-  MultipartFile ID_Photo;
-  MultipartFile IDCard_1;
-  MultipartFile IDCard_2;
-  MultipartFile zi_ge_zheng;
-  MultipartFile zhi_ye_zheng;
-  MultipartFile zhi_cheng;
+  MultipartFile id_photo;
+  MultipartFile id_card1;
+  MultipartFile id_card2;
+  MultipartFile certificate;
+  MultipartFile worklicense;
+  MultipartFile title_certi;
 
   File_Method file_method = new File_Method();
 
@@ -134,7 +134,7 @@ class _register2 extends State<register2> {
                         fontSize: 15, color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none),
                 onChanged: (value) {
-                  IdCardNumber = value;
+                  id_number = value;
                 },
               ),
               Divider(
@@ -153,7 +153,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 10),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFile('ID_Photo')},
+                        onPressed: () => {_selectFile('id_photo')},
                         color: Colors.blue,
                         child: new Text('选择照片',
                             style: TextStyle(
@@ -167,7 +167,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 5),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFilefromCamera('ID_Photo')},
+                        onPressed: () => {_selectFilefromCamera('id_photo')},
                         color: Colors.blue,
                         child: new Text('相机拍照',
                             style: TextStyle(
@@ -189,7 +189,7 @@ class _register2 extends State<register2> {
                 ],
               ),
               new Text(
-                filename['ID_Photo'].toString(),
+                filename['id_photo'].toString(),
                 //"dasda",
                 style: TextStyle(fontSize: 19),
               ),
@@ -206,7 +206,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 10),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFile('IDCard_1')},
+                        onPressed: () => {_selectFile('id_card1')},
                         color: Colors.blue,
                         child: new Text('选择照片',
                             style: TextStyle(
@@ -220,7 +220,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 5),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFilefromCamera('IDCard_1')},
+                        onPressed: () => {_selectFilefromCamera('id_card1')},
                         color: Colors.blue,
                         child: new Text('相机拍照',
                             style: TextStyle(
@@ -242,7 +242,7 @@ class _register2 extends State<register2> {
                 ],
               ),
               new Text(
-                filename['IDCard_1'].toString(),
+                filename['id_card1'].toString(),
                 //"dasda",
                 style: TextStyle(fontSize: 19),
               ),
@@ -259,7 +259,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 10),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFile('IDCard_2')},
+                        onPressed: () => {_selectFile('id_card2')},
                         color: Colors.blue,
                         child: new Text('选择照片',
                             style: TextStyle(
@@ -273,7 +273,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 5),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFilefromCamera('IDCard_2')},
+                        onPressed: () => {_selectFilefromCamera('id_card2')},
                         color: Colors.blue,
                         child: new Text('相机拍照',
                             style: TextStyle(
@@ -295,7 +295,7 @@ class _register2 extends State<register2> {
                 ],
               ),
               new Text(
-                filename['IDCard_2'].toString(),
+                filename['id_card2'].toString(),
                 //"dasda",
                 style: TextStyle(fontSize: 19),
               ),
@@ -312,7 +312,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 10),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFile('zi_ge_zheng')},
+                        onPressed: () => {_selectFile('certificate')},
                         color: Colors.blue,
                         child: new Text('选择照片',
                             style: TextStyle(
@@ -326,7 +326,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 5),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFilefromCamera('zi_ge_zheng')},
+                        onPressed: () => {_selectFilefromCamera('certificate')},
                         color: Colors.blue,
                         child: new Text('相机拍照',
                             style: TextStyle(
@@ -348,7 +348,7 @@ class _register2 extends State<register2> {
                 ],
               ),
               new Text(
-                filename['zi_ge_zheng'].toString(),
+                filename['certificate'].toString(),
                 //"dasda",
                 style: TextStyle(fontSize: 19),
               ),
@@ -365,7 +365,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 10),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFile('zhi_ye_zheng')},
+                        onPressed: () => {_selectFile('worklicense')},
                         color: Colors.blue,
                         child: new Text('选择照片',
                             style: TextStyle(
@@ -380,7 +380,7 @@ class _register2 extends State<register2> {
                       child: RaisedButton(
                         elevation: 0,
                         onPressed: () =>
-                            {_selectFilefromCamera('zhi_ye_zheng')},
+                            {_selectFilefromCamera('worklicense')},
                         color: Colors.blue,
                         child: new Text('相机拍照',
                             style: TextStyle(
@@ -402,7 +402,7 @@ class _register2 extends State<register2> {
                 ],
               ),
               new Text(
-                filename['zhi_ye_zheng'].toString(),
+                filename['worklicense'].toString(),
                 //"dasda",
                 style: TextStyle(fontSize: 19),
               ),
@@ -419,7 +419,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 10),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFile('zhi_cheng')},
+                        onPressed: () => {_selectFile('title_certi')},
                         color: Colors.blue,
                         child: new Text('选择照片',
                             style: TextStyle(
@@ -433,7 +433,7 @@ class _register2 extends State<register2> {
                       margin: EdgeInsets.only(left: 10),
                       child: RaisedButton(
                         elevation: 0,
-                        onPressed: () => {_selectFilefromCamera('zhi_cheng')},
+                        onPressed: () => {_selectFilefromCamera('title_certi')},
                         color: Colors.blue,
                         child: new Text('相机拍照',
                             style: TextStyle(
@@ -455,7 +455,7 @@ class _register2 extends State<register2> {
                 ],
               ),
               new Text(
-                filename['zhi_cheng'].toString(),
+                filename['title_certi'].toString(),
                 //"dasda",
                 style: TextStyle(fontSize: 19),
               ),
@@ -477,6 +477,10 @@ class _register2 extends State<register2> {
                   ),
                   //border: InputBorder.none,
                 ),
+                keyboardType: TextInputType.multiline,
+                onChanged:(value){
+                  specialty = value;
+              } ,
               ),
               Container(
                 child: Text('医师简介:',
@@ -493,6 +497,30 @@ class _register2 extends State<register2> {
                   ),
                   //border: InputBorder.none,
                 ),
+                keyboardType: TextInputType.multiline,
+                onChanged: (value){
+                  introduction = value;
+                },
+              ),
+              Container(
+                child: Text('社会兼职:',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Color.fromARGB(255, 93, 93, 93),
+                    )),
+              ),
+              TextField(
+                decoration: new InputDecoration(
+                  labelStyle: new TextStyle(
+                    fontSize: 20,
+                    color: Color.fromARGB(255, 93, 93, 93),
+                  ),
+                  //border: InputBorder.none,
+                ),
+                keyboardType: TextInputType.multiline,
+                onChanged: (value){
+                  specialty = value;
+                },
               )
             ],
           ),

@@ -96,14 +96,6 @@ class _medicalReport extends State<medicalReport> {
 //    if(loginForm.validate()){
 //      print(name);
 //    }
-    showDialog(
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog(
-            //  dismissDialog: _disMissCallBack,
-          );
-        }
-    );
     var bodymap = Map<String,dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value) async{
@@ -114,7 +106,7 @@ class _medicalReport extends State<medicalReport> {
       bodymap['report_info'] = reportAbstract;
       bodymap['result'] = conclusion;
       bodymap['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
-      var url = "http://39.100.100.198:8082/UploadFiles/MedicalExaminationReport";
+      var url = "http://39.100.100.198:8082/UploadFiles/MedicalExaminationReport00";
       FormData formData = FormData.fromMap(bodymap);
       await request(url, context,FormData: formData,contentType: 'multipart/form-data').then((value) {
           var data = json.decode(value['response'].toString());
