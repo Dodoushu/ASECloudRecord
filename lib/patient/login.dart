@@ -110,7 +110,7 @@ class _Login extends State<Login> {
       sign['pass_word'] = password;
       var bodymap = Map();
       bodymap['sign'] = sign;
-      var url = "http://39.100.100.198:8082/sign1";
+      var url = "http://39.100.100.198:8082/sign";
       var formData = bodymap;
       print(formData);
       await request(url,context, FormData: formData).then((value) {

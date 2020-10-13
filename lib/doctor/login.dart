@@ -2,11 +2,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:helloworld/doctor/MainFunctionPage.dart';
 import 'package:helloworld/doctor/register2.dart';
 import 'dart:convert';
 import 'register1.dart';
 import 'package:helloworld/http_service.dart';
 import 'BottomNavigationBar.dart';
+import 'MainFunctionPage.dart';
 import '../showAlertDialogClass.dart';
 import '../sharedPrefrences.dart';
 
@@ -102,19 +104,19 @@ class _Login extends State<Login> {
       sign['phone_num'] = userName;
       sign['pass_word'] = password;
       var bodymap = Map();
-      bodymap['sign'] = 'sign';
-      var url = "http://39.100.100.198:8082";
+      bodymap['sign'] = sign;
+      var url = "http://39.100.100.198:8082/sign";
       var formData = bodymap;
       await request(url, context,FormData: formData).then((value) {
-
-          Map data = json.decode(value['response'].toString());
-          print('response:' + data['status_code']);
+          Map data = json.decode(value.toString());
+          print('response:' + data['status_code'].toString());
           if (data['status_code'] == 4) {
             showAlertDialog_Login(titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
           } else if (data['status_code'] == 0) {
+            print("++++++++");
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
+                MaterialPageRoute(builder: (context) => MainPage()),
                     (route) => false);
           } else if (data['status_code'] == 1 || data['status_code'] == 2) {
             showAlertDialog(context,
