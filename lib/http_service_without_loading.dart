@@ -9,12 +9,6 @@ Future request(url, BuildContext context, {FormData, String contentType = 'appli
     Response response;
     Dio dio = Dio();
     dio.options.contentType = contentType;
-    showDialog(                                 //loading动画
-        context: context,
-        builder: (context) {
-          return new NetLoadingDialog();
-        }
-    );
     // FormData是数据体，默认放在post中的body里
     // Navigator.push(context, DialogRouter(LoadingDialog()));
     // Loading.before('请稍候');
@@ -25,11 +19,10 @@ Future request(url, BuildContext context, {FormData, String contentType = 'appli
     if (response.statusCode == 200) {
       print(response.statusCode.toString());
       print('http成功');
-    //        Loading.complete();
-      Navigator.of(context).pop();      //成功，退出loading动画
+      //        Loading.complete();
       return response;
     } else {
-    //        Loading.complete();
+      //        Loading.complete();
       //throw Exception('网络异常');
     }
 

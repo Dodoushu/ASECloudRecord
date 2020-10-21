@@ -88,14 +88,6 @@ class PastRecord extends StatelessWidget {
               patientDiseaseInfo['disease_type'] = disease_type.toString();
               patientDiseaseInfo['disease_info'] = disease_info;
               print(bodymap);
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return new NetLoadingDialog(
-                      //  dismissDialog: _disMissCallBack,
-                    );
-                  }
-              );
               await request(url,context, FormData: bodymap).then((value) {
                 Map data = json.decode(value.toString());
                 print(data);
