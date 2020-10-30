@@ -29,14 +29,6 @@ class _register1 extends State<register1> {
   bool isShowPassWord = false;
 
   void submit() async {
-    showDialog(
-        context: context,
-      builder: (context) {
-        return new NetLoadingDialog(
-          //  dismissDialog: _disMissCallBack,
-        );
-      });
-
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单

@@ -50,7 +50,6 @@ class SplashPage extends StatefulWidget {
 class _SplashPage extends State<SplashPage> {
   //flag
   bool isStartHomePage = false;
-
 //页面初始化状态的方法
   @override
   void initState() {
@@ -70,7 +69,7 @@ class _SplashPage extends State<SplashPage> {
         }
         else if(value==true){
           print('2');
-          goToHomePage();
+          goToHomePage(context);
         }
       });
     });
@@ -83,7 +82,7 @@ class _SplashPage extends State<SplashPage> {
       child: Text('同意'),
       onPressed: () {
         SharedPreferenceUtil.setString('lisence', '1').then((value){
-          goToHomePage();
+          goToHomePage(context);
         });
       },
     );
@@ -115,7 +114,7 @@ class _SplashPage extends State<SplashPage> {
     );
   }
 
-  void goToHomePage() {
+  void goToHomePage(BuildContext context) {
     print('gotohomepage');
     SharedPreferenceUtil.containsKey('token').then((value) {
       if (value == false) {
@@ -143,6 +142,7 @@ class _SplashPage extends State<SplashPage> {
             bodymap['sign'] = sign;
             String url = 'http://39.100.100.198:8082/sign';
             var result;
+
             request(url,context, FormData: bodymap).then((value) {
               result = json.decode(value.toString());
               print(result);
@@ -179,20 +179,25 @@ class _SplashPage extends State<SplashPage> {
                 }
                 ;
               }
+              if (!isStartHomePage) {
+                //跳转至身份选择页面 且销毁当前页面
+//      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context)=>new select()), (Route<dynamic> rout)=>false);
+                isStartHomePage = true;
+                Navigator.pushAndRemoveUntil(context,
+                    MaterialPageRoute(builder: (context) => select()), (route) => false);
+              }
             });
           });
         });
       }
+
+
+
     });
 
     //如果页面还未跳转过则跳转至选择页面
-    if (!isStartHomePage) {
-      //跳转至身份选择页面 且销毁当前页面
-//      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context)=>new select()), (Route<dynamic> rout)=>false);
-      isStartHomePage = true;
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => select()), (route) => false);
-    }
+
+
   }
 
   @override

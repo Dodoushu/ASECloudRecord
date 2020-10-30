@@ -40,15 +40,10 @@ showAlertDialog(BuildContext context,
 // ignore: must_be_immutable
 class NetLoadingDialog extends StatefulWidget {
   String loadingText;
-//  bool outsideDismiss;
-
-  Function dismissDialog;
-
   NetLoadingDialog(
       {Key key,
         this.loadingText = "loading...",
-       // this.outsideDismiss = true,
-        this.dismissDialog})
+       })
       : super(key: key);
 
   @override
@@ -56,20 +51,10 @@ class NetLoadingDialog extends StatefulWidget {
 }
 
 class _LoadingDialog extends State<NetLoadingDialog> {
-  _dismissDialog() {
-    Navigator.of(context).pop();
-  }
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 200)).then((e) {
-      widget.dismissDialog(() {
-        Navigator.of(context).pop();
-        print("func");
-      });
-    });
-
 //    WidgetsBinding.instance.addPostFrameCallback((_) {
 //
 //    });
