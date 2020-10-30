@@ -38,6 +38,7 @@ Future request(url, BuildContext context, {FormData, String contentType = 'appli
 
   } catch (e) {
     print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^');
+    print(e);
     showAlertDialog(context, titleText: '请求失败', contentText: '请稍后重试',flag: 1);  //失败，点击退出失败提示弹窗和loading动画
 //    return 0;
   }

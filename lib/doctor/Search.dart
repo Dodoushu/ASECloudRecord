@@ -1,8 +1,9 @@
-//import 'dart:js';
-
+import 'dart:developer';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:helloworld/http_service.dart';
 import 'BottomNavigationBar.dart';
+import 'package:helloworld/sharedPrefrences.dart';
 
 void main() => runApp(MaterialApp(
       title: "患者查询",
@@ -17,23 +18,34 @@ class Search extends StatelessWidget {
   String month;
   String day;
 
-  void submit() async {
-    var bodymap = Map();
-    bodymap['name'] = name;
-    bodymap['phone_num'] = phone_num;
-    bodymap['ID_num'] = ID_num;
-    bodymap['year'] = year;
-    bodymap['month'] = month;
-    bodymap['day'] = day;
-    var url = "";
-    var formData = bodymap;
-//    await request(url, context, FormData: formData).then((value) {
-//      //传回来的数据
-//    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
+
+    void submit() async {
+      var bodymap = Map();
+      String phoneNum;
+      SharedPreferenceUtil.getString('phoneNum')
+          .then((value) async {
+        phoneNum = value;
+//        bodymap['phone_num'] = phoneNum;
+        bodymap['phone_num'] = '12121314';
+        print('*******************************************************');
+        print(bodymap);
+        var url =
+            "http://39.100.100.198:8082/Select/outPatientRecords";
+        var formData = bodymap;
+        await request(url,context, FormData: formData)
+            .then((value) {
+          var data = json.decode(value.toString());
+          log(data.toString());
+
+//          Navigator.push(context, MaterialPageRoute(builder: (context) => outPatientRecords(contentlist: data['outPatientRecords'],)));
+        });
+      });
+    }
+
     Widget _DropdownButtonYear = new DropdownButton(
         items: [
           DropdownMenuItem(child: Text('2001')),
@@ -171,6 +183,7 @@ class Search extends StatelessWidget {
       margin: EdgeInsets.all(30),
       child: new SizedBox.expand(
         child: new RaisedButton(
+          onPressed: submit,
           elevation: 0,
           color: Colors.blue,
           child: new Text(

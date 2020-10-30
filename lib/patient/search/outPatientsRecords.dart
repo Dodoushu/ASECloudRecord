@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'outPatientsRecordsDetailed.dart';
 
 class outPatientRecords extends StatefulWidget {
   outPatientRecords({Key key, @required this.contentlist}) : super(key: key) {
@@ -18,225 +18,213 @@ class _outPatientRecordsState extends State<outPatientRecords> {
     this.contentlist = contentlist;
   }
 
+  bool getDayDifference(String time, int days) {
+    var birthday = DateTime.parse(time);
+    var date2 = DateTime.now();
+    int difference = date2.difference(birthday).inDays;
+    return difference < days ? true : false;
+  }
+
+  TextStyle titleStyle = TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.normal);
+  TextStyle contentStyle = TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.normal);
+
+
+  var _value = 0;
   List contentlist;
+  Map<int, int> valueToDays = {0: 999999, 1: 90, 2: 180, 3: 365, 4: 365 * 3};
+  int selectedDays = 999999;
 
   @override
   Widget build(BuildContext context) {
     double width_ = MediaQuery.of(context).size.width;
 
-    List<Widget> medicineListBuilder(List list){
-      List<Widget> returnList = new List<Widget>();
-      for (Map temp in list) {
-        Widget contentCard = Container(
-          child: new Card(
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  new Row(
-                    children: [
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '药物名称：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['medicine_name'],
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '使用方法：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['medicine_method'],
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '使用频率：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['time'],
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              )
+    Widget timeSelecter = new Container(
+      child: new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          new Text(
+            '时间范围：',
+            style: new TextStyle(
+//                      color: Colors.,
+//                      fontWeight: FontWeight.,
+              fontSize: 22,
             ),
           ),
-        );
-      }
-    }
-
+          DropdownButton(
+              isExpanded: false,
+              value: _value,
+              items: [
+                DropdownMenuItem(
+                  child: Text(
+                    '全部',
+                    style: new TextStyle(
+//                      color: Colors.,
+//                      fontWeight: FontWeight.,
+                      fontSize: 18,
+                    ),
+                  ),
+                  value: 0,
+                ),
+                DropdownMenuItem(
+                  child: Text(
+                    '近三个月',
+                    style: new TextStyle(
+//                      color: Colors.,
+//                      fontWeight: FontWeight.,
+                      fontSize: 18,
+                    ),
+                  ),
+                  value: 1,
+                ),
+                DropdownMenuItem(
+                  child: Text(
+                    '近半年',
+                    style: new TextStyle(
+//                      color: Colors.,
+//                      fontWeight: FontWeight.,
+                      fontSize: 18,
+                    ),
+                  ),
+                  value: 2,
+                ),
+                DropdownMenuItem(
+                  child: Text(
+                    '近一年',
+                    style: new TextStyle(
+//                      color: Colors.,
+//                      fontWeight: FontWeight.,
+                      fontSize: 18,
+                    ),
+                  ),
+                  value: 3,
+                ),
+                DropdownMenuItem(
+                  child: Text(
+                    '近三年',
+                    style: new TextStyle(
+//                      color: Colors.,
+//                      fontWeight: FontWeight.,
+                      fontSize: 18,
+                    ),
+                  ),
+                  value: 4,
+                ),
+              ],
+              icon: Icon(
+                Icons.keyboard_arrow_down,
+              ),
+              iconSize: 20,
+              onChanged: (value) {
+                setState(() {
+                  _value = value;
+                  selectedDays = valueToDays[value];
+                });
+              }),
+//          RaisedButton(
+//            color: Colors.blue,
+//            // 按钮背景色
+//            highlightColor: Colors.blue[700],
+//            // 按钮高亮后的背景色
+//            colorBrightness: Brightness.dark,
+//            // 使用深色主题，保证按钮文字颜色为浅色
+//            splashColor: Colors.grey,
+//            // 点击时，水波动画中水波的颜色
+//            child: Text(
+//              "查询",
+//              style: new TextStyle(
+////                      color: Colors.,
+////                      fontWeight: FontWeight.,
+//                fontSize: 20,
+//              ),
+//            ),
+//            // 文本
+//            shape: RoundedRectangleBorder(
+//                borderRadius: BorderRadius.circular(12.0)),
+//            //圆角矩形
+//            onPressed: () {},
+//          )
+        ],
+      ),
+    );
 
     List<Widget> contentCardBuilder() {
       List<Widget> returnList = new List<Widget>();
+      returnList.add(timeSelecter);
       for (Map temp in contentlist) {
         Widget contentCard = Container(
-          padding: EdgeInsets.only(
-            top: 7, bottom: 3
-          ),
-            child: new Card(
+            padding: EdgeInsets.only(top: 7, bottom: 3),
+            child: InkWell(
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => outPatientRecordsDetailed(contentlist: [temp],)));
+              },
+                child: new Card(
               margin: EdgeInsets.only(
                 right: width_ * 0.03,
                 left: width_ * 0.03,
               ),
               child: Container(
                   margin: EdgeInsets.only(
-                    right: width_ * 0.03,
-                    left: width_ * 0.03,
+                      right: width_ * 0.03,
+                      left: width_ * 0.03,
                       top: 15,
-                      bottom: 15
-                  ),
-                  child: Column(
+                      bottom: 15),
+                  child: Row(
+//                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '检查日期：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['date'].substring(0, 10),
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
+                      SizedBox(
+                        width: width_ * 0.30,
+                        child: new Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                                temp['hospital'] != null
+                                    ? temp['hospital']
+                                    : '无',
+                                style: titleStyle,
+                                overflow: TextOverflow.ellipsis),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text(temp['date'].substring(0, 10),
+                                style: titleStyle,
+                                overflow: TextOverflow.ellipsis),
+                          ],
+                        ),
                       ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '就诊科室：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['department_treatment'],
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
+                      SizedBox(
+                        height: 70,
+                        width: 1,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(color: Colors.grey),
+                        ),
                       ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '就诊医院：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['hospital']!=null? temp['hospital'] : '无',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '医生姓名：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['doctor_name'],
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '诊断内容：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['treat_info']!=null? temp['treat_info'] : '无',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '就诊内容：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['treating_info']!=null? temp['treating_info'] : '无',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '检查项目：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['treat_items']!=null? temp['treat_items'] : '无',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '非药物治疗方案：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['treat_methods']!=null? temp['treat_methods'] : '无',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '用药方案：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            '',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
-                      new Container(
-                        padding: EdgeInsets.only(right: 10,left: 10),
-                        child: Column(
-                          children: medicineListBuilder(temp['medicines'])!=null?medicineListBuilder(temp['medicines']) : <Widget>[    new Text('无',
-                                style: new TextStyle(
-                                  fontSize: 18,
-                                ),
-
-                              )],
+                      Container(
+                        padding: EdgeInsets.only(left: 18),
+                        child: new Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("就诊科室：" + temp['department_treatment'],
+                                style: titleStyle,
+                                overflow: TextOverflow.ellipsis),
+                            SizedBox(
+                              height: 8,
+                            ),
+                            Text("医生姓名：" + temp['doctor_name'],
+                                style: titleStyle,
+                                overflow: TextOverflow.ellipsis),
+                          ],
                         ),
                       )
                     ],
                   )),
-            ));
-        returnList.add(contentCard);
+            )));
+        if (getDayDifference(temp['date'].substring(0, 10), selectedDays)) {
+          returnList.add(contentCard);
+        }
       }
       return returnList;
     }

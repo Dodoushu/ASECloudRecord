@@ -17,7 +17,7 @@ class register2 extends StatefulWidget {
 }
 
 class _register2 extends State<register2> {
-  var url = 'http://39.100.100.198:8082';
+  var url = 'http://39.100.100.198:8082/UploadFiles/DoctorInfo';
   String name;         //姓名
   String id_number;    //身份证号
   String specialty;
@@ -39,23 +39,39 @@ class _register2 extends State<register2> {
   //上传表单
   void submit() {
 
-    var bodymap = Map();
-    var doctor= Map();
+    var doctor= Map<String,dynamic>();
     String phoneNum;
     SharedPreferenceUtil.getString('phoneNum').then((value){
-      phoneNum = value;
-      bodymap['phone_num'] = phoneNum;
+      String phoneNum = value;
+      doctor['phone_num'] = '12121314';
       doctor['name'] = name;
-      //doctor[]
-      FormData formData = FormData.fromMap(map);
+      doctor['id_num'] = id_number;
+      doctor['specialty'] = specialty;
+      doctor['personal_info'] = introduction;
+      doctor['social_work'] = socialwork;
+      doctor['types'] = [1,2,3,4,5,6];
+      List<MultipartFile> fileList = List();
+      fileList.add(map['id_photo']);
+      fileList.add(map['id_card1']);
+      fileList.add(map['id_card2']);
+      fileList.add(map['certificate']);
+      fileList.add(map['worklicense']);
+      fileList.add(map['title_certi']);
+      doctor['files'] = fileList;
+
+
+      FormData formData = FormData.fromMap(doctor);
+
+      print(doctor);
+      print(formData.toString());
 
       request(url,context, FormData: formData, contentType: 'multipart/form-data')
           .then((value) {
         print('response:' + json.decode(value.toString()));
       });
 
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => login.Login()));
+//      Navigator.push(context,
+//          MaterialPageRoute(builder: (context) => login.Login()));
     });
 
   }
@@ -519,7 +535,7 @@ class _register2 extends State<register2> {
                 ),
                 keyboardType: TextInputType.multiline,
                 onChanged: (value){
-                  specialty = value;
+                  socialwork = value;
                 },
               )
             ],
@@ -540,10 +556,8 @@ class _register2 extends State<register2> {
             ),
             shape: new RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(40.0)),
-            onPressed: () {
-              submit;
-
-            }),
+            onPressed: submit
+        ),
       ),
     );
     return new MaterialApp(

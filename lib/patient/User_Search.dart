@@ -16,6 +16,8 @@ void main() {
   ));
 }
 
+
+
 class WidgetBuild {
   Container create(String text, IconData icondata, Color truecolor,
       {double width = 350}) {
@@ -69,6 +71,7 @@ class WidgetBuild {
     ));
   }
 }
+
 
 class SearchPage extends StatelessWidget {
   WidgetBuild _widgetBuild = new WidgetBuild();
@@ -474,7 +477,8 @@ class SearchPage extends StatelessWidget {
                                 SharedPreferenceUtil.getString('phoneNum')
                                     .then((value) async {
                                   phoneNum = value;
-                                  bodymap['phone_num'] = phoneNum;
+//                                  bodymap['phone_num'] = phoneNum;
+                                  bodymap['phone_num'] = '12121314';
                                   print(
                                       '*******************************************************');
                                   print(bodymap);

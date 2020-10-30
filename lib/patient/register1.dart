@@ -50,18 +50,18 @@ class _Login extends State<Login> {
 //      print(password);
       var bodymap = Map();
       bodymap['phone_num']=phoneNumber;
-      bodymap['pass_word']=password;
-      bodymap['ver_code']='111111';
-      bodymap['user_type']=0;
-      var url = "http://39.100.100.198:8082/register";
-      var formData = bodymap;
-      print(formData);
-      await request(url,context,FormData: formData).then((value) {
+          bodymap['pass_word']=password;
+          bodymap['ver_code']='111111';
+          bodymap['user_type']=0;
+          var url = "http://39.100.100.198:8082/register";
+          var formData = bodymap;
+          print(formData);
+          await request(url,context,FormData: formData).then((value) {
 
-        var data = json.decode(value.toString());
-        print(data);
+            var data = json.decode(value.toString());
+            print(data);
 
-        if(data['status_code']==1){
+            if(data['status_code']==1){
           SharedPreferenceUtil.setString('phoneNum', phoneNumber);
           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
         }else if(data['status_code']==0){
