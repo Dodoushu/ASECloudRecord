@@ -9,27 +9,27 @@ import 'package:helloworld/sharedPrefrences.dart';
 void main() {
   runApp(MaterialApp(
     home: doctorSelect(
-//      onlyuser: true,
-//      doctorlist: [
-//        {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
-//        {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
-//        {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
-//        {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
-//        {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
-//        {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
-//        {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
-//      ],
-//      selectedDoctor: [
-//        {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
-//        {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
-//        {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
-//      ],
-//      unSelectedDoctor: [
-//        {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
-//        {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
-//        {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
-//        {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
-//      ],
+      onlyuser: true,
+      doctorlist: [
+        {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
+        {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
+        {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
+        {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
+        {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
+        {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
+        {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
+      ],
+      selectedDoctor: [
+        {'id': 0, 'name': '张一', 'info': '其他信息', 'select': true},
+        {'id': 3, 'name': '张四', 'info': '其他信息', 'select': true},
+        {'id': 5, 'name': '张六', 'info': '其他信息', 'select': true},
+      ],
+      unSelectedDoctor: [
+        {'id': 1, 'name': '张二', 'info': '其他信息', 'select': false},
+        {'id': 2, 'name': '张三', 'info': '其他信息', 'select': false},
+        {'id': 4, 'name': '张五', 'info': '其他信息', 'select': false},
+        {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
+      ],
     ),
   ));
 }
@@ -108,9 +108,15 @@ class _doctorSelectState extends State<doctorSelect> {
       if (onlyuser == false) {
         for (Map obj in selectedDoctor) {
           CheckoxListTitleList.add(new CheckboxListTile(
-            secondary: const Icon(Icons.accessible_forward),
+            isThreeLine: true,
+            secondary: Image.network(
+              'https://www.easyicon.net/api/resizeApi.php?id=1291310&size=96',
+            ),
             title: Text(obj['name']),
-            subtitle: Text(obj['info']),
+            subtitle: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [Text(obj['info']),Text('医院名')],
+            ),
             value: obj['select'],
             onChanged: (bool value) {
               setState(() {
@@ -142,9 +148,15 @@ class _doctorSelectState extends State<doctorSelect> {
       if (onlyuser == false) {
         for (Map obj in unSelectedDoctor) {
           CheckoxListTitleList.add(new CheckboxListTile(
-            secondary: const Icon(Icons.accessible_forward),
+            isThreeLine: true,
+            secondary: Image.network(
+              'https://www.easyicon.net/api/resizeApi.php?id=1291310&size=96',
+            ),
             title: Text(obj['name']),
-            subtitle: Text(obj['info']),
+            subtitle: new Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [Text(obj['info']),Text('医院名')],
+            ),
             value: obj['select'],
             onChanged: (bool value) {
               setState(() {

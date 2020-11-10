@@ -4,6 +4,16 @@ import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
+import 'package:helloworld/PickFileMethod.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:helloworld/PickFileMethod.dart';
+import 'package:helloworld/http_service.dart';
+import 'package:helloworld/sharedPrefrences.dart';
+import 'dart:convert';
+import 'package:helloworld/showAlertDialogClass.dart';
+import 'package:intl/intl.dart';
+import 'package:helloworld/globalUtils.dart';
 
 void main() => runApp(MaterialApp(
   home: outpatientMedical(),
@@ -24,9 +34,68 @@ class _outpatientMedical extends State<outpatientMedical> {
   String recordcontent;
   String lebalContent = '请选择科室';
 
+  String introduction;
+  String filesname;
+  String filespath;
+  List selectedFiles = [];
+  List displayPath = [];
+  var flag2 = 0;
+
+
+  Future<void> _selectFile() async {
+    Map filesPaths;
+    getMultiFilesPath().then((value) {
+      filesPaths = value;
+      var selectedFilePaths = filesPaths.values;
+      MultipartFile tempfile;
+      for (String path in selectedFilePaths) {
+        displayPath.add(path);
+        MultipartFile.fromFile(path).then((value) {
+          if(value!=Null){
+            flag2=1;
+          }
+          tempfile = value;
+          print('*****************' + path);
+          selectedFiles.add(tempfile);
+          print(selectedFiles.length);
+        });
+      }
+      setState(() {
+        filesname = displayPath.toString();
+      });
+    });
+  }
+
+  Future<void> _selectFilefromCamera() async {
+    getImageFileFromCamera().then((value) {
+      displayPath.add(value);
+      var selectedFilePaths = value;
+      MultipartFile tempfile;
+
+      MultipartFile.fromFile(selectedFilePaths).then((value) {
+        if(value!=Null){
+          flag2=1;
+        }
+        tempfile = value;
+        print('1111111111111111111111' + selectedFilePaths);
+        selectedFiles.add(tempfile);
+        print(selectedFiles.length);
+      });
+
+      setState(() {
+        filesname = displayPath.toString();
+      });
+    });
+  }
+
 
   List<DropdownMenuItem> getListData(){
     List<DropdownMenuItem> items=new List();
+    DropdownMenuItem dropdownMenuItem0=new DropdownMenuItem(
+      child:new Text('无'),
+      value: '无',
+    );
+    items.add(dropdownMenuItem0);
     DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
       child:new Text('皮肤科'),
       value: '皮肤科',
@@ -237,6 +306,58 @@ class _outpatientMedical extends State<outpatientMedical> {
                   onChanged: (value) {
                     recordcontent = value;
                   },
+                ),
+                Divider(thickness: 2,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '文件上传:',
+                      style: TextStyle(fontSize: 19),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        new Container(
+                            margin: EdgeInsets.only(right: 10),
+                            child: RaisedButton(
+                              elevation: 0,
+                              onPressed: _selectFilefromCamera,
+                              color: Colors.blue,
+                              child: new Text('相机拍照',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  )),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius:
+                                  new BorderRadius.circular(40.0)),
+                            )),
+                        new Container(
+//                    margin: EdgeInsets.only(left: 30),
+                            child: RaisedButton(
+                              elevation: 0,
+                              onPressed: _selectFile,
+                              color: Colors.blue,
+                              child: new Text('选择文件',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.white,
+                                  )),
+                              shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(40.0)),
+                            )),
+                      ],
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '已选择文件:',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ],
                 ),
               ],
             )

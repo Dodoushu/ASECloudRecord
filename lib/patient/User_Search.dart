@@ -113,6 +113,40 @@ class SearchPage extends StatelessWidget {
                                 SharedPreferenceUtil.getString('phoneNum')
                                     .then((value) async {
                                   phoneNum = value;
+//                                  bodymap['phone_num'] = phoneNum;
+                                  bodymap['phone_num'] = '12121314';
+                                  print(
+                                      '*******************************************************');
+                                  print(bodymap);
+                                  var url =
+                                      "http://39.100.100.198:8082/Select/outPatientRecords";
+                                  var formData = bodymap;
+                                  await request(url,context, FormData: formData)
+                                      .then((value) {
+                                    var data = json.decode(value.toString());
+                                    log(data['outPatientRecords'].toString());
+
+                                    var url = new List();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => outPatientRecords(contentlist: data['outPatientRecords'],)));
+
+                                  });
+                                });
+                              },
+                              child: _widgetBuild.create(
+                                  '门诊记录查询',
+                                  Icons.record_voice_over,
+                                  Colors.deepPurpleAccent),
+                            ),
+                            InkWell(
+                              onTap: () async {
+                                var bodymap = Map();
+                                String phoneNum;
+                                SharedPreferenceUtil.getString('phoneNum')
+                                    .then((value) async {
+                                  phoneNum = value;
                                   bodymap['phone_num'] = phoneNum;
                                   print(
                                       '*******************************************************');
@@ -469,40 +503,6 @@ class SearchPage extends StatelessWidget {
                               },
                               child: _widgetBuild.create(
                                   '门诊信息查询', Icons.assistant, Colors.pinkAccent),
-                            ),
-                            InkWell(
-                              onTap: () async {
-                                var bodymap = Map();
-                                String phoneNum;
-                                SharedPreferenceUtil.getString('phoneNum')
-                                    .then((value) async {
-                                  phoneNum = value;
-//                                  bodymap['phone_num'] = phoneNum;
-                                  bodymap['phone_num'] = '12121314';
-                                  print(
-                                      '*******************************************************');
-                                  print(bodymap);
-                                  var url =
-                                      "http://39.100.100.198:8082/Select/outPatientRecords";
-                                  var formData = bodymap;
-                                  await request(url,context, FormData: formData)
-                                      .then((value) {
-                                    var data = json.decode(value.toString());
-                                    log(data['outPatientRecords'].toString());
-
-                                    var url = new List();
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => outPatientRecords(contentlist: data['outPatientRecords'],)));
-
-                                  });
-                                });
-                              },
-                              child: _widgetBuild.create(
-                                  '门诊记录查询',
-                                  Icons.record_voice_over,
-                                  Colors.deepPurpleAccent),
                             ),
                           ],
                         ),

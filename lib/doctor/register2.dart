@@ -156,6 +156,35 @@ class _register2 extends State<register2> {
               Divider(
                 thickness: 2,
               ),
+
+              TextField(
+                decoration: new InputDecoration(
+                    labelText: '请输入医院名称',
+                    labelStyle: new TextStyle(
+                        fontSize: 15, color: Color.fromARGB(255, 93, 93, 93)),
+                    border: InputBorder.none),
+                onChanged: (value) {
+                  id_number = value;
+                },
+              ),
+              Divider(
+                thickness: 2,
+              ),
+
+              TextField(
+                decoration: new InputDecoration(
+                    labelText: '请输入科室名称',
+                    labelStyle: new TextStyle(
+                        fontSize: 15, color: Color.fromARGB(255, 93, 93, 93)),
+                    border: InputBorder.none),
+                onChanged: (value) {
+                  id_number = value;
+                },
+              ),
+              Divider(
+                thickness: 2,
+              ),
+
               Row(
                 children: <Widget>[
                   Text(

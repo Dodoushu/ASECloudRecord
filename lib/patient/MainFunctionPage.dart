@@ -151,11 +151,8 @@ class _MainPage extends State<MainPage> {
                                           )),
                                       InkWell(
                                           onTap: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        PastRecord()));
+                                            Navigator.push(context, MaterialPageRoute(builder: (
+                                                context) => outpatientMedical()));
                                           },
                                           child: new Container(
 //                                                alignment: Alignment.center,
@@ -166,18 +163,23 @@ class _MainPage extends State<MainPage> {
                                                 color: Colors.black,
                                               )))
                                     ]),
+
+
                                     new InkWell(
                                         onTap: () {
-                                          Navigator.push(context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PastRecord()));
+
+                                          Navigator.push(context, MaterialPageRoute(builder: (
+                                              context) => outpatientMedical()));
+
+
                                         },
                                         child: Container(
                                             child: Text(
-                                              '既往病史填写',
+                                              '门诊病历填写',
                                               style: TextStyle(fontSize: width_/22),
                                             )))
+
+
                                   ])),
                             ),
                             new Expanded(
@@ -270,16 +272,16 @@ class _MainPage extends State<MainPage> {
                 InkWell(
                   child: widgetbuild.create("影像检查", Icons.perm_media,width_),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => ImageReview()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ImageReview()));
                   },),
+
                 InkWell(
-                  child: widgetbuild.create("门诊病历", Icons.assignment,width_),
+                  child: widgetbuild.create("既往病史填写", Icons.assignment,width_),
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (
-                        context) => outpatientMedical()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => PastRecord()));
                   },),
-                InkWell(child: widgetbuild.create("门诊记录", Icons.account_balance_wallet,width_),
+
+                InkWell(child: widgetbuild.create("门诊详细记录", Icons.account_balance_wallet,width_),
                   onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (
                       context) => outpatientVisitRecords()));

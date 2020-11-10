@@ -117,7 +117,7 @@ class _SplashPage extends State<SplashPage> {
   void goToHomePage(BuildContext context) {
     print('gotohomepage');
     SharedPreferenceUtil.containsKey('token').then((value) {
-      if (value == false) {
+        if (value == false) {
         print('value == false');
         isStartHomePage = true;
         Navigator.pushAndRemoveUntil(

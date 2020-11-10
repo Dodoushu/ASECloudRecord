@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:helloworld/http_service.dart';
 import 'BottomNavigationBar.dart';
 import 'package:helloworld/sharedPrefrences.dart';
+import 'Search_PatientList.dart';
 
 void main() => runApp(MaterialApp(
       title: "患者查询",
@@ -32,7 +33,7 @@ class Search extends StatelessWidget {
 //        bodymap['phone_num'] = phoneNum;
         bodymap['phone_num'] = '12121314';
         print('*******************************************************');
-        print(bodymap);
+//        print(bodymap);
         var url =
             "http://39.100.100.198:8082/Select/outPatientRecords";
         var formData = bodymap;
@@ -41,7 +42,38 @@ class Search extends StatelessWidget {
           var data = json.decode(value.toString());
           log(data.toString());
 
-//          Navigator.push(context, MaterialPageRoute(builder: (context) => outPatientRecords(contentlist: data['outPatientRecords'],)));
+          List testData = [
+            {
+              'name':'zhangsan',
+              'sex':0,
+              'birthday':'1976-06-03',
+              'phone_num':'12121314',
+              'id':'123467'
+            },
+            {
+              'name':'zhangsan',
+              'sex':0,
+              'birthday':'1976-06-03',
+              'phone_num':'12121314',
+              'id':'123467'
+            },
+            {
+              'name':'zhangsan',
+              'sex':0,
+              'birthday':'1976-06-03',
+              'phone_num':'12121314',
+              'id':'123467'
+            },
+            {
+              'name':'zhangsan',
+              'sex':0,
+              'birthday':'1976-06-03',
+              'phone_num':'12121314',
+              'id':'123467'
+            },
+          ];
+
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Search_PatientList(contentlist: testData,)));
         });
       });
     }
@@ -148,31 +180,31 @@ class Search extends StatelessWidget {
                 )
               ],
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  '出生日期：',
-                  style: TextStyle(fontSize: 20),
-                ),
-                Row(
-                  children: <Widget>[
-                    new Container(
-                      padding: EdgeInsets.only(left: 10),
-                      child: _DropdownButtonYear,
-                    ),
-                    new Container(
-                      padding: EdgeInsets.only(left: 20),
-                      child: _DropdownButtonMonth,
-                    ),
-                    new Container(
-                      padding: EdgeInsets.only(left: 20),
-                      child: _DropdownButtonDay,
-                    )
-                  ],
-                )
-              ],
-            ),
+//            Column(
+//              crossAxisAlignment: CrossAxisAlignment.start,
+//              children: <Widget>[
+//                Text(
+//                  '出生日期：',
+//                  style: TextStyle(fontSize: 20),
+//                ),
+//                Row(
+//                  children: <Widget>[
+//                    new Container(
+//                      padding: EdgeInsets.only(left: 10),
+//                      child: _DropdownButtonYear,
+//                    ),
+//                    new Container(
+//                      padding: EdgeInsets.only(left: 20),
+//                      child: _DropdownButtonMonth,
+//                    ),
+//                    new Container(
+//                      padding: EdgeInsets.only(left: 20),
+//                      child: _DropdownButtonDay,
+//                    )
+//                  ],
+//                )
+//              ],
+//            ),
           ],
         ),
       ),
