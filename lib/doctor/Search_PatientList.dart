@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'Search_Result.dart';
+import 'search_patient/Search_Result.dart';
 import 'package:helloworld/http_service.dart';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:helloworld/sharedPrefrences.dart';
+import 'package:helloworld/doctor/search_patient/Search_Result.dart';
 
 class Search_PatientList extends StatefulWidget {
   Search_PatientList({Key key, @required this.contentlist}) : super(key: key) {
@@ -42,6 +43,9 @@ class _Search_PatientListState extends State<Search_PatientList> {
       }
 
       int returnAge(String birthday){
+        if(birthday == null){
+          return 0;
+        }
         DateTime now = DateTime.now();
         DateTime birth = DateTime.parse(birthday);
         return (now.difference(birth).inDays/365).round();
@@ -50,32 +54,38 @@ class _Search_PatientListState extends State<Search_PatientList> {
       for(Map temp in contentlist){
         Widget contentCard = new InkWell(
             onTap: (){
-              var bodymap = Map();
-              String phoneNum;
-              SharedPreferenceUtil.getString('phoneNum')
-                  .then((value) async {
-                phoneNum = value;
-//                                  bodymap['phone_num'] = phoneNum;
-                bodymap['phone_num'] = '12121314';
-                print(
-                    '*******************************************************');
-                print(bodymap);
-                var url =
-                    "http://39.100.100.198:8082/Select/outPatientRecords";
-                var formData = bodymap;
-                await request(url,context, FormData: formData)
-                    .then((value) {
-                  var data = json.decode(value.toString());
-                  log(data['outPatientRecords'].toString());
 
-                  var url = new List();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SearchPage(temp['id'].toString())));
+
+//              var bodymap = Map();
+//              String userId;
+//              SharedPreferenceUtil.getString('userId')
+//                  .then((value) async {
+//                userId = value;
+//                bodymap['userId'] = '6';
+//                Map patient = new Map();
+//                bodymap['patient'] = patient;
+//                patient['user_id'] = temp['id'];
+//                print(bodymap);
+//                var url =
+//                    "http://39.100.100.198:8082/watchPatientInfo";
+//                var formData = bodymap;
+//                await request(url,context, FormData: formData)
+//                    .then((value) {
+//                  var data = json.decode(value.toString());
+//                  log(data.toString());
+//
+//                  var url = new List();
 //                  Navigator.push(
 //                      context,
 //                      MaterialPageRoute(
 //                          builder: (context) => outPatientRecords(contentlist: data['outPatientRecords'],)));
-
-                });
-              });
+//
+//                });
+//              });
             },
             child:new Container(
           width: width_,
@@ -95,16 +105,16 @@ class _Search_PatientListState extends State<Search_PatientList> {
                     new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(width: 90,padding: EdgeInsets.only(right: 10),child:Text(temp['name'],style: contentStyle,),),
+                        Container(width: 90,padding: EdgeInsets.only(right: 10),child:Text(temp['name']==null?'null':temp['name'],style: contentStyle,),),
                         Container(width: 30,padding: EdgeInsets.only(right: 10),child:Text(returnSex(temp['sex']),style: contentStyle,),),
                         Container(width: 50,padding: EdgeInsets.only(right: 10),child:Text(returnAge(temp['birthday']).toString()+'岁',style: contentStyle,),),
-                        Container(width: 110,padding: EdgeInsets.only(right: 10),child:Text(temp['birthday'],style: contentStyle,))
+                        Container(width: 110,padding: EdgeInsets.only(right: 10),child:Text(temp['birthday']==null?'null':temp['birthday'],style: contentStyle,))
                       ],
                     ),
                     new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('电话号码：'+temp['phone_num'],style: contentStyle,),
+                        Text('身份证号：'+temp['id_num'],style: contentStyle,),
                         Text('')
                       ],
                     ),

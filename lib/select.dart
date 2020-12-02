@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'patient/login.dart';
-import 'doctor/login.dart' as login2;
+import 'package:helloworld/patient/register1.dart' as patient_register;
+import 'package:helloworld/doctor/register1.dart' as doctor_register;
 
 void main() => runApp(MaterialApp(
       home: select(),
@@ -17,7 +17,9 @@ class select extends StatelessWidget {
         onTap: () {
           print('我是医生');
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => login2.Login()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => doctor_register.register1()));
         },
         child: Card(
           elevation: 15.0, //阴影
@@ -47,7 +49,9 @@ class select extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => Login()));
+              context,
+              MaterialPageRoute(
+                  builder: (context) => patient_register.Login()));
         },
         child: Card(
           elevation: 15.0, //阴影

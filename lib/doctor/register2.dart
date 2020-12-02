@@ -6,23 +6,31 @@ import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/doctor/login.dart' as login;
 import 'package:helloworld/sharedPrefrences.dart';
+import 'MainFunctionPage.dart';
 
-import '../showAlertDialogClass.dart';
+void main() => runApp(new MyApp());
 
-void main() => runApp(new register2());
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(home: register2());
+  }
+}
 
 class register2 extends StatefulWidget {
   @override
-  State createState() => new _register2();
+  _register2 createState() => new _register2();
 }
 
 class _register2 extends State<register2> {
-  var url = 'http://39.100.100.198:8082/UploadFiles/DoctorInfo';
+
   String name;         //姓名
   String id_number;    //身份证号
   String specialty;
   String introduction;
   String socialwork;
+  String hospital;
+  String Hospitalclass;
 
   MultipartFile id_photo;
   MultipartFile id_card1;
@@ -41,15 +49,18 @@ class _register2 extends State<register2> {
 
     var doctor= Map<String,dynamic>();
     String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum').then((value){
-      String phoneNum = value;
-      doctor['phone_num'] = '12121314';
+    SharedPreferenceUtil.getString('userId').then((value){
+
+      var url = 'http://39.100.100.198:8082/DoctorInfo';
+      doctor['userId'] = value;
       doctor['name'] = name;
       doctor['id_num'] = id_number;
       doctor['specialty'] = specialty;
       doctor['personal_info'] = introduction;
       doctor['social_work'] = socialwork;
-      doctor['types'] = [1,2,3,4,5,6];
+      doctor['hospital'] = hospital;
+      doctor['department'] = Hospitalclass;
+
       List<MultipartFile> fileList = List();
       fileList.add(map['id_photo']);
       fileList.add(map['id_card1']);
@@ -59,21 +70,32 @@ class _register2 extends State<register2> {
       fileList.add(map['title_certi']);
       doctor['files'] = fileList;
 
+      List<int> types = new List();
+      types.add(1);
+      types.add(2);
+      types.add(3);
+      types.add(4);
+      types.add(5);
+      types.add(6);
+      doctor['types'] = "1,2,3,4,5,6";
+
+      print(doctor.toString());
 
       FormData formData = FormData.fromMap(doctor);
 
-      print(doctor);
-      print(formData.toString());
-
-      request(url,context, FormData: formData, contentType: 'multipart/form-data')
-          .then((value) {
-        print('response:' + json.decode(value.toString()));
+      request(url,context, FormData: formData, contentType: 'multipart/form-data').then((value) {
+        Map data = json.decode(value.toString());
+        print(data.toString());
+        if(data['status_code'] == 1){
+          SharedPreferenceUtil.setString('userId', data['userId'].toString()).then((value){
+            SharedPreferenceUtil.setString('name', data['name']).then((value){
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+            });
+          });
+        }
       });
 
-//      Navigator.push(context,
-//          MaterialPageRoute(builder: (context) => login.Login()));
     });
-
   }
 
   void _selectFile(String imageflag) async {
@@ -164,7 +186,7 @@ class _register2 extends State<register2> {
                         fontSize: 15, color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none),
                 onChanged: (value) {
-                  id_number = value;
+                  hospital = value;
                 },
               ),
               Divider(
@@ -178,7 +200,7 @@ class _register2 extends State<register2> {
                         fontSize: 15, color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none),
                 onChanged: (value) {
-                  id_number = value;
+                  Hospitalclass = value;
                 },
               ),
               Divider(

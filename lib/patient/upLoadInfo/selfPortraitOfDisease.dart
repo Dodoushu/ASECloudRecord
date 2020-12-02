@@ -104,8 +104,8 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
     } else {
       var bodymap = Map<String, dynamic>();
       String phoneNum;
-      SharedPreferenceUtil.getString('phoneNum').then((value) async {
-        bodymap['phone_num'] = value;
+      SharedPreferenceUtil.getString('userId').then((value) async {
+        bodymap['userId'] = value;
         bodymap['files'] = selectedFiles;
         bodymap['date'] = date.year.toString() +
             '-' +
@@ -113,6 +113,8 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
             '-' +
             date.day.toString();
         bodymap['picture_type'] = 3;
+        bodymap['information'] = introduction;
+
         var url = "http://39.100.100.198:8082/UploadFiles/DiseasePicture";
         var formData = FormData.fromMap(bodymap);
         await request(url, context,

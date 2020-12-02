@@ -129,9 +129,9 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
       var drugMethod = List<Map>();
       var outPatientRecords = Map();
       String phoneNum;
-      SharedPreferenceUtil.getString('phoneNum').then((value) async {
+      SharedPreferenceUtil.getString('userId').then((value) async {
         phoneNum = value;
-        bodymap['phone_num'] = phoneNum;
+        bodymap['userId'] = phoneNum;
         outPatientRecords['date'] = date.year.toString() +
             '-' +
             date.month.toString() +

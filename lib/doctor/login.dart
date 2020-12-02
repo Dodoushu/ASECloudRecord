@@ -113,11 +113,9 @@ class _Login extends State<Login> {
           if (data['status_code'] == 4) {
             showAlertDialog_Login(titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
           } else if (data['status_code'] == 0) {
-            print("++++++++");
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => MainPage()),
-                    (route) => false);
+            SharedPreferenceUtil.setString('user_id', data['userId']).then((value){
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+            });
           } else if (data['status_code'] == 1 || data['status_code'] == 2) {
             showAlertDialog(context,
                 titleText: '登陆失败', contentText: '请检查账号密码', flag: 0);

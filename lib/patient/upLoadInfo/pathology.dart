@@ -73,9 +73,9 @@ class _Pathology extends State<Pathology> {
       var bodymap = Map();
       var map2 = Map();
       String phoneNum;
-      SharedPreferenceUtil.getString('phoneNum').then((value) async {
+      SharedPreferenceUtil.getString('userId').then((value) async {
         phoneNum = value;
-        bodymap['phone_num'] = phoneNum;
+        bodymap['userId'] = phoneNum;
         map2['examine'] = content;
         bodymap['examine'] = map2;
         print(bodymap);

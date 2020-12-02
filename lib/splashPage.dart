@@ -35,8 +35,9 @@ import 'patient/MainFunctionPage.dart' as patientMain;
 import 'doctor/MainFunctionPage.dart' as doctorMain;
 import 'showAlertDialogClass.dart';
 import 'package:flutter/services.dart';
-
+import 'login.dart';
 import 'package:helloworld/select.dart';
+
 //import 'package:flutter_demo/view/HomePage.dart';
 import 'patient/BottomNavigationBar.dart';
 
@@ -50,6 +51,7 @@ class SplashPage extends StatefulWidget {
 class _SplashPage extends State<SplashPage> {
   //flag
   bool isStartHomePage = false;
+
 //页面初始化状态的方法
   @override
   void initState() {
@@ -61,13 +63,12 @@ class _SplashPage extends State<SplashPage> {
   void countDown() {
     //设置倒计时三秒后执行跳转方法
     var duration = new Duration(seconds: 1);
-    new Future.delayed(duration, (){
-      SharedPreferenceUtil.containsKey('lisence').then((value){
-        if(value==false){
+    new Future.delayed(duration, () {
+      SharedPreferenceUtil.containsKey('lisence').then((value) {
+        if (value == false) {
           UserLicense(context);
           print('1');
-        }
-        else if(value==true){
+        } else if (value == true) {
           print('2');
           goToHomePage(context);
         }
@@ -75,13 +76,13 @@ class _SplashPage extends State<SplashPage> {
     });
   }
 
-  UserLicense(BuildContext context, {titleText: '请设置标题', contentText: '请设置内容', bottonText: '确定', flag: 0}) {
-
+  UserLicense(BuildContext context,
+      {titleText: '请设置标题', contentText: '请设置内容', bottonText: '确定', flag: 0}) {
     //设置按钮
     Widget agree = FlatButton(
       child: Text('同意'),
       onPressed: () {
-        SharedPreferenceUtil.setString('lisence', '1').then((value){
+        SharedPreferenceUtil.setString('lisence', '1').then((value) {
           goToHomePage(context);
         });
       },
@@ -99,10 +100,7 @@ class _SplashPage extends State<SplashPage> {
     AlertDialog alert = AlertDialog(
       title: Text('用户协议'),
       content: Text('协议内容协议内容协议内容协议内容协议内容协议内容协议内容协议内容协议内容'),
-      actions: [
-        agree,
-        disagree
-      ],
+      actions: [agree, disagree],
     );
 
     //显示对话框
@@ -116,88 +114,12 @@ class _SplashPage extends State<SplashPage> {
 
   void goToHomePage(BuildContext context) {
     print('gotohomepage');
-    SharedPreferenceUtil.containsKey('token').then((value) {
-        if (value == false) {
-        print('value == false');
-        isStartHomePage = true;
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => select()),
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Login()),
             (route) => false);
-      } else {
-        String token;
-        Future<bool> result =
-            SharedPreferenceUtil.getString('token').then((value) {
-          token = value;
-          String phoneNum;
-          SharedPreferenceUtil.getString('phoneNum').then((value) {
-            phoneNum = value;
-            var sign = Map();
-            var bodymap = Map();
-//          sign['phone_num']=phoneNum;
-//          bodymap['token']=token;
-//          bodymap['sign']=sign;
-            sign['phone_num'] = phoneNum;
-            bodymap['token'] = token;
-            bodymap['sign'] = sign;
-            String url = 'http://39.100.100.198:8082/sign';
-            var result;
-
-            request(url,context, FormData: bodymap).then((value) {
-              result = json.decode(value.toString());
-              print(result);
-
-//              //token不合法
-//              if (result['status_code'] == 3) {
-//                SharedPreferenceUtil.remove('token').then((value) {
-//                  isStartHomePage = true;
-//                  Navigator.pushAndRemoveUntil(
-//                      context,
-//                      MaterialPageRoute(builder: (context) => select()),
-//                      (route) => false);
-//                });
-//              }
-
-              //token合法
-              if (result['status_code'] == 0) {
-                if (result['user_type'] == 0) {
-                  isStartHomePage = false;
-                  SharedPreferenceUtil.setString('name', result['name']).then((value) {
-                    isStartHomePage = true;
-                  });
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavigationWidget()), (route) => false);
-                } else if (result['user_type'] == 3) {
-                  isStartHomePage = true;
-                  SharedPreferenceUtil.setString('name', result['name'])
-                      .then((value) {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => doctorMain.MainPage()),
-                        (route) => false);
-                  });
-                }
-                ;
-              }
-              if (!isStartHomePage) {
-                //跳转至身份选择页面 且销毁当前页面
-//      Navigator.of(context).pushAndRemoveUntil(new MaterialPageRoute(builder: (context)=>new select()), (Route<dynamic> rout)=>false);
-                isStartHomePage = true;
-                Navigator.pushAndRemoveUntil(context,
-                    MaterialPageRoute(builder: (context) => select()), (route) => false);
-              }
-            });
-          });
-        });
-      }
-
-
-
-    });
 
     //如果页面还未跳转过则跳转至选择页面
-
-
   }
 
   @override

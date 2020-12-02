@@ -21,9 +21,9 @@ Future request(url, BuildContext context, {FormData, String contentType = 'appli
     print("################################################");
     response = await dio.post(url, data: FormData);
     print('************************************************');
-    print(response.toString());
+//    print(response.toString());
     if (response.statusCode == 200) {
-      print(response.statusCode.toString());
+      print(response.statusCode);
       print('http成功');
     //        Loading.complete();
       Navigator.of(context).pop();      //成功，退出loading动画

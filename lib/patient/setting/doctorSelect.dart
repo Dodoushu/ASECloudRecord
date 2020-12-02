@@ -278,9 +278,9 @@ class _doctorSelectState extends State<doctorSelect> {
                               commitlist.clear();
                             }
                             print(commitlist);
-                            SharedPreferenceUtil.getString('phoneNum').then((value) async{
+                            SharedPreferenceUtil.getString('userId').then((value) async{
                               Map map = Map();
-                              map['phone_num'] =value;
+                              map['userId'] =value;
                               map['add_doctor_id'] = commitlist;
                               var url = "http://39.100.100.198:8082/selectPAD";
                               await request(url,context, FormData: map).then((value){

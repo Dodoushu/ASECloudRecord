@@ -146,10 +146,10 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
       var bodymap = Map();
       var admissionNote = Map();
       String phoneNum;
-      SharedPreferenceUtil.getString('phoneNum').then((value) async {
+      SharedPreferenceUtil.getString('userId').then((value) async {
         phoneNum = value;
 //      admissionNote['phone_num'] = phoneNum;
-        bodymap['phone_num'] = phoneNum;
+        bodymap['userId'] = phoneNum;
         admissionNote['s_date'] = startDate.year.toString() +
             '-' +
             startDate.month.toString() +

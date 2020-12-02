@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'setting/ChangePassword.dart';
@@ -8,6 +7,7 @@ import 'package:helloworld/select.dart';
 import 'package:helloworld/http_service.dart';
 import 'dart:convert';
 import 'dart:core';
+import 'dart:developer';
 
 void main() {
   runApp(new MaterialApp(
@@ -67,25 +67,41 @@ bool onlyuser;
 class _SettingState extends State<Setting> {
 
   void getlist() async{
-    SharedPreferenceUtil.getString('phoneNum').then((value) async{
+    SharedPreferenceUtil.getString('userId').then((value) async{
       Map<String, dynamic> data = Map();
       var url = "http://39.100.100.198:8082/selectAllDoctor";
-      data['phone_num'] = value;
+      data['userId'] = 83;
       var formData = data;
       print(data);
       await request(url,context, FormData: formData).then((value) {
+
+        Map data = json.decode(value.toString());
+        log('response:' + data.toString());
+
+        List selectedList = new List();
+        if(data['selected_doctor_id']!=null){
+          for(int id in data['selected_doctor_id']){
+            selectedList.add(id);
+          }
+        }
+
+
+
         doctorlist.clear();
         selectedDoctor.clear();
         unSelectedDoctor.clear();
-        data = json.decode(value.toString());
+
         for(Map temp in data['doctors']){
+
           Map doctor = {};
           doctor['id'] = temp['id'];
           doctor['name'] = temp['name'];
           doctor['info'] = temp['id_num'];
-          print(data['selected_doctor_id'].runtimeType);
-          print(temp['id'].runtimeType);
-          if(data['selected_doctor_id'].contains(temp['id'])){
+          doctor['hospital'] = temp['hospital'];
+          doctor['department'] = temp['department'];
+          doctor['pictureAddress'] = temp['address']==null? temp['address'][0]['doctor_addr_info']:null;
+
+          if(selectedList.contains(temp['id'])){
             doctor['select'] = true;
             selectedDoctor.add(doctor);
           }else{

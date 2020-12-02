@@ -165,7 +165,7 @@ class _ImageReview extends State<ImageReview> {
     } else {
       var bodymap = Map<String, dynamic>();
       String phoneNum;
-      SharedPreferenceUtil.getString('phoneNum').then((value) async {
+      SharedPreferenceUtil.getString('userId').then((value) async {
         phoneNum = value;
         bodymap['files'] = selectedFiles;
         bodymap['date'] = date.year.toString() +
@@ -175,7 +175,7 @@ class _ImageReview extends State<ImageReview> {
             date.day.toString();
         bodymap['items'] = laboratoryType;
         bodymap['result'] = conclusion;
-        bodymap['phone_num'] = phoneNum;
+        bodymap['userId'] = phoneNum;
         print(bodymap);
         var url = "http://39.100.100.198:8082/UploadFiles/ImageExamination";
         var formData = FormData.fromMap(bodymap);

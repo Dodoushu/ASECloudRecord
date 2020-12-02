@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -6,7 +5,11 @@ import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:flutter/gestures.dart';
-
+import 'package:helloworld/patient/BottomNavigationBar.dart';
+import 'doctor/MainFunctionPage.dart';
+import 'package:helloworld/patient/register2.dart' as patient_register2;
+import 'package:helloworld/doctor/register2.dart' as doctor_register2;
+import 'package:helloworld/select.dart' as register_select;
 
 void main() => runApp(new MaterialApp(home: new Login()));
 
@@ -37,15 +40,17 @@ class _Login extends State<Login> {
   bool havePhoneNumber = false;
   String prePhoneNumber;
 
+  List<bool> select = [true, false];
+
   TextEditingController _controller = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
     //开启倒计时
-    SharedPreferenceUtil.containsKey('prePhoneNumber').then((value){
-      if(value == true){
-        SharedPreferenceUtil.getString('prePhoneNumber').then((value){
+    SharedPreferenceUtil.containsKey('prePhoneNumber').then((value) {
+      if (value == true) {
+        SharedPreferenceUtil.getString('prePhoneNumber').then((value) {
           setState(() {
             prePhoneNumber = value;
             havePhoneNumber = true;
@@ -57,7 +62,8 @@ class _Login extends State<Login> {
     });
   }
 
-  showAlertDialog_Login({titleText: '请设置标题', contentText: '请设置内容', bottonText: '确定'}) {
+  showAlertDialog_register2_patient(
+      {titleText: '请设置标题', contentText: '请设置内容', bottonText: '确定'}) {
     //设置按钮
     Widget okButton = FlatButton(
       child: Text(bottonText),
@@ -65,7 +71,7 @@ class _Login extends State<Login> {
         Navigator.of(context).pop();
         Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => register2()),
+            MaterialPageRoute(builder: (context) => patient_register2.register2()),
                 (route) => false);
       },
     );
@@ -87,8 +93,40 @@ class _Login extends State<Login> {
       },
     );
   }
-  void login() async {
 
+  showAlertDialog_register2_doctor(
+      {titleText: '请设置标题', contentText: '请设置内容', bottonText: '确定'}) {
+    //设置按钮
+    Widget okButton = FlatButton(
+      child: Text(bottonText),
+      onPressed: () {
+        Navigator.of(context).pop();
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => doctor_register2.register2()),
+                (route) => false);
+      },
+    );
+
+    //设置对话框
+    AlertDialog alert = AlertDialog(
+      title: Text(titleText),
+      content: Text(contentText),
+      actions: [
+        okButton,
+      ],
+    );
+
+    //显示对话框
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void login() async {
 //    //演示时去掉验证功能
 //    Navigator.pushAndRemoveUntil(
 //        context,
@@ -106,42 +144,62 @@ class _Login extends State<Login> {
       var sign = Map();
       sign['phone_num'] = userName;
       sign['pass_word'] = password;
+      if (select[0] == true) {
+        sign['user_type'] = '0';
+      }
+      if (select[1] == true) {
+        sign['user_type'] = '1';
+      }
       var bodymap = Map();
       bodymap['sign'] = sign;
       var url = "http://39.100.100.198:8082/sign";
       var formData = bodymap;
       print(formData);
-      await request(url,context, FormData: formData).then((value) {
-          Map data = json.decode(value.toString());
-          print(data);
-          if (data['status_code'] == 4) {
-            showAlertDialog_Login(titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
-            //跳转填写个人信息
-          } else if (data['status_code'] == 0) {
-            SharedPreferenceUtil.setString('prePhoneNumber', userName.toString()).then((value){
-              SharedPreferenceUtil.setString('phoneNum', userName.toString())
+      await request(url, context, FormData: formData).then((value) {
+        Map data = json.decode(value.toString());
+        print(data);
+        //登陆成功
+        SharedPreferenceUtil.setString('userId', data['id'].toString())
+            .then((value) {
+          SharedPreferenceUtil.setString('prePhoneNumber', userName.toString())
+              .then((value) {
+            SharedPreferenceUtil.setString('phoneNum', userName.toString())
+                .then((value) {
+              SharedPreferenceUtil.setString('name', data['name'])
                   .then((value) {
-                SharedPreferenceUtil.setString('name', data['name']).then((value) {
-                  print('username:'+data['name']);
-                  SharedPreferenceUtil.setString('token', data['token'])
-                      .then((value) {
-                    print(value);
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => BottomNavigationWidget()),
-                            (route) => false);
-                  });
+                SharedPreferenceUtil.setString('token', data['token'])
+                    .then((value) {
+                  print(value);
+                  if (sign['user_type'] == '0') {
+                    if (data['status_code'] == 4) {
+                      showAlertDialog_register2_patient(
+                          titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
+                    } else if (data['status_code'] == 0) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BottomNavigationWidget()),
+                          (route) => false);
+                    }
+                  }
+                  if (sign['user_type'] == '1') {
+                    if (data['status_code'] == 4) {
+                      showAlertDialog_register2_doctor(
+                          titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
+                    } else if (data['status_code'] == 0) {
+                      print("++++++++");
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => MainPage()),
+                          (route) => false);
+                    }
+                  }
                 });
               });
             });
-          } else if (data['status_code'] == 1 || data['status_code'] == 2) {
-            showAlertDialog(context, titleText: '登陆失败', contentText: '请检查账号密码',flag: 0);
-          } else {
-            showAlertDialog(context, titleText: '登陆失败', contentText: '未知错误',flag: 0);
-          }
-
-        }
-        );
+          });
+        });
+      });
     }
   }
 
@@ -178,7 +236,7 @@ class _Login extends State<Login> {
             height: 90,
             child: Center(
                 child: new Text(
-              '云病例患者端登录LOGO',
+              '云病例登录LOGO',
               style: TextStyle(color: Colors.white, fontSize: 30.0),
             )),
           ),
@@ -254,10 +312,50 @@ class _Login extends State<Login> {
                       },
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  new Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            select[0] = true;
+                            select[1] = false;
+                          });
+                        },
+                        child: new Row(
+                          children: [
+                            Checkbox(
+                              value: select[0],
+                            ),
+                            Text('患者登录')
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            select[0] = false;
+                            select[1] = true;
+                          });
+                        },
+                        child: new Row(
+                          children: [
+                            Checkbox(
+                              value: select[1],
+                            ),
+                            Text('医生登录')
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                   new Container(
                     padding: EdgeInsets.all(0),
                     height: 50.0,
-                    margin: EdgeInsets.only(top: 40.0),
+                    margin: EdgeInsets.only(top: 10.0),
                     child: new SizedBox.expand(
                       child: new RaisedButton(
                         elevation: 20,
@@ -293,7 +391,7 @@ class _Login extends State<Login> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => reg1.Login()),
+                                  builder: (context) => register_select.select()),
                             );
                           },
                           child: Text(
@@ -310,38 +408,38 @@ class _Login extends State<Login> {
                     padding: EdgeInsets.only(top: 15),
                     child: Center(
                         child: Text.rich(
-                          // 文字跨度（`TextSpan`）组件，不可变的文本范围。
+                      // 文字跨度（`TextSpan`）组件，不可变的文本范围。
+                      TextSpan(
+                        // 文本（`text`）属性，跨度中包含的文本。
+                        text: '登录即同意',
+                        // 样式（`style`）属性，应用于文本和子组件的样式。
+                        style: _lowProfileStyle,
+                        children: [
                           TextSpan(
-                            // 文本（`text`）属性，跨度中包含的文本。
-                            text: '登录即同意',
-                            // 样式（`style`）属性，应用于文本和子组件的样式。
-                            style: _lowProfileStyle,
-                            children: [
-                              TextSpan(
-                                // 识别（`recognizer`）属性，一个手势识别器，它将接收触及此文本范围的事件。
-                                // 手势（`gestures`）库的点击手势识别器（`TapGestureRecognizer`）类，识别点击手势。
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    print('点击了“服务条款”');
-                                  },
-                                text: '“服务条款”',
-                                style: _highProfileStyle,
-                              ),
-                              TextSpan(
-                                text: '和',
-                                style: _lowProfileStyle,
-                              ),
-                              TextSpan(
-                                recognizer: TapGestureRecognizer()
-                                  ..onTap = () {
-                                    print('点击了“隐私政策”');
-                                  },
-                                text: '“隐私政策”',
-                                style: _highProfileStyle,
-                              ),
-                            ],
+                            // 识别（`recognizer`）属性，一个手势识别器，它将接收触及此文本范围的事件。
+                            // 手势（`gestures`）库的点击手势识别器（`TapGestureRecognizer`）类，识别点击手势。
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                print('点击了“服务条款”');
+                              },
+                            text: '“服务条款”',
+                            style: _highProfileStyle,
                           ),
-                        )),
+                          TextSpan(
+                            text: '和',
+                            style: _lowProfileStyle,
+                          ),
+                          TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                print('点击了“隐私政策”');
+                              },
+                            text: '“隐私政策”',
+                            style: _highProfileStyle,
+                          ),
+                        ],
+                      ),
+                    )),
                   ),
                 ],
               ),

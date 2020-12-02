@@ -101,10 +101,10 @@ class _register2 extends State<register2> {
     var bodymap = Map();
     var patient = Map();
     String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum').then((value){
+    SharedPreferenceUtil.getString('userId').then((value){
 
       phoneNum = value;
-      bodymap['phone_num']=phoneNum;
+      bodymap['userId']=phoneNum;
       patient['name']=name;
       SharedPreferenceUtil.setString("name", name).then((value) async{
         patient['sex']=int.parse(sex);

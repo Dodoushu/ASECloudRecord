@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:flutter/services.dart';
+import 'package:helloworld/http_service.dart';
 import 'register2.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
+import 'dart:convert';
 
 void main() => runApp(MyApp());
 
@@ -37,20 +39,36 @@ class _register1 extends State<register1> {
     bodymap['phone_num'] = phoneNumber;
     bodymap['pass_word'] = password;
     bodymap['ver_code'] = '111111';
-    bodymap['user_type'] = 0;
-      var url = "http://39.100.100.198:8082";
-      var formData = bodymap;
-      print(formData);
+    bodymap['user_type'] = '1';
+    List<int> types = new List();
+    bodymap['types'] = types;
+    var url = "http://39.100.100.198:8082/register";
+    var bodymap2 = Map();
+    bodymap2['register'] = bodymap;
+    var formData = bodymap2;
+    print(formData);
+    await request(url, context, FormData: formData).then((value){
+      Map data = json.decode(value.toString());
+      print('response:' + data['status_code'].toString());
+      if(data['status_code']==1){
+        SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value){
+          SharedPreferenceUtil.setString('userId', data['userId'].toString()).then((value){
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
+          });
+        });
+      }else {
+          showAlertDialog(context, titleText: '注册失败', contentText: '');
+      }
+    });
 //      await request(url,FormData: formData).then((value) {
 //        var data = json.decode(value.toString());
 //        print(data);
 //        if(data['status_code']==1){
-      SharedPreferenceUtil.setString('phoneNum', phoneNumber);
-      showAlertDialog(context, titleText: '注册成功', contentText: '点击确定填写个人信息');
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => register2()),
-          (route) => false);
+
+//      SharedPreferenceUtil.setString('phoneNum', phoneNumber);
+//      showAlertDialog(context, titleText: '注册成功', contentText: '点击确定填写个人信息');
+//      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
+
 //        }else if(data['status_code']==0){
 //          showAlertDialog(context, titleText: '注册失败', contentText: '账号已存在');
 //        }else{
