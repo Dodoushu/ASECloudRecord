@@ -179,6 +179,7 @@ class _invasiveReview extends State<invasiveReview> {
       bodymap['items'] = laboratoryType;
       bodymap['result'] = conclusion;
       bodymap['userId'] = phoneNum;
+      print(bodymap);
       var url = "http://39.100.100.198:8082/UploadFiles/InvasiveInstruments";
       var formData = FormData.fromMap(bodymap);
       await request(url,context, FormData: formData,contentType: 'multipart/form-data').then((value) {

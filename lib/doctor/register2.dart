@@ -7,6 +7,7 @@ import 'package:helloworld/http_service.dart';
 import 'package:helloworld/doctor/login.dart' as login;
 import 'package:helloworld/sharedPrefrences.dart';
 import 'MainFunctionPage.dart';
+import 'package:helloworld/globalUtils.dart';
 
 void main() => runApp(new MyApp());
 
@@ -23,6 +24,7 @@ class register2 extends StatefulWidget {
 }
 
 class _register2 extends State<register2> {
+
 
   String name;         //姓名
   String id_number;    //身份证号
@@ -138,6 +140,9 @@ class _register2 extends State<register2> {
 
   @override
   Widget build(BuildContext context) {
+
+    double width_ = MediaQuery.of(context).size.width;
+
     Widget BasicInfo = new Container(
         padding: EdgeInsets.only(left: 20, right: 20, bottom: 30),
         child: Container(
@@ -208,6 +213,7 @@ class _register2 extends State<register2> {
               ),
 
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     '证件照:',
@@ -216,34 +222,36 @@ class _register2 extends State<register2> {
                       color: Color.fromARGB(255, 93, 93, 93),
                     ),
                   ),
-                  new Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFile('id_photo')},
-                        color: Colors.blue,
-                        child: new Text('选择照片',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      )),
-                  new Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFilefromCamera('id_photo')},
-                        color: Colors.blue,
-                        child: new Text('相机拍照',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      )),
+                  new Row(
+                    children: [new Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: RaisedButton(
+                          elevation: 0,
+                          onPressed: () => {_selectFile('id_photo')},
+                          color: Colors.blue,
+                          child: new Text('选择照片',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )),
+                      new Container(
+                          margin: EdgeInsets.only(left: 5),
+                          child: RaisedButton(
+                            elevation: 0,
+                            onPressed: () => {_selectFilefromCamera('id_photo')},
+                            color: Colors.blue,
+                            child: new Text('相机拍照',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                )),
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(40.0)),
+                          )),],
+                  ),
                 ],
               ),
               new Row(
@@ -255,12 +263,14 @@ class _register2 extends State<register2> {
                   ),
                 ],
               ),
-              new Text(
-                filename['id_photo'].toString(),
-                //"dasda",
-                style: TextStyle(fontSize: 19),
-              ),
+              new Center(child: onePicWidget(filename['id_photo'], width_*0.6)),
+//              new Text(
+//                filename['id_photo'].toString(),
+//                //"dasda",
+//                style: TextStyle(fontSize: 19),
+//              ),
               new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     '身份证正面照片:',
@@ -269,34 +279,36 @@ class _register2 extends State<register2> {
                       color: Color.fromARGB(255, 93, 93, 93),
                     ),
                   ),
-                  new Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFile('id_card1')},
-                        color: Colors.blue,
-                        child: new Text('选择照片',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      )),
-                  new Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFilefromCamera('id_card1')},
-                        color: Colors.blue,
-                        child: new Text('相机拍照',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      ))
+                  new Row(
+                    children: [new Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: RaisedButton(
+                          elevation: 0,
+                          onPressed: () => {_selectFile('id_card1')},
+                          color: Colors.blue,
+                          child: new Text('选择照片',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )),
+                      new Container(
+                          margin: EdgeInsets.only(left: 5),
+                          child: RaisedButton(
+                            elevation: 0,
+                            onPressed: () => {_selectFilefromCamera('id_card1')},
+                            color: Colors.blue,
+                            child: new Text('相机拍照',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                )),
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(40.0)),
+                          ))],
+                  ),
                 ],
               ),
               new Row(
@@ -308,12 +320,14 @@ class _register2 extends State<register2> {
                   ),
                 ],
               ),
-              new Text(
-                filename['id_card1'].toString(),
-                //"dasda",
-                style: TextStyle(fontSize: 19),
-              ),
+              new Center(child: onePicWidget(filename['id_card1'], width_*0.6)),
+//              new Text(
+//                filename['id_card1'].toString(),
+//                //"dasda",
+//                style: TextStyle(fontSize: 19),
+//              ),
               new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     '身份证反面照片:',
@@ -322,34 +336,36 @@ class _register2 extends State<register2> {
                       color: Color.fromARGB(255, 93, 93, 93),
                     ),
                   ),
-                  new Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFile('id_card2')},
-                        color: Colors.blue,
-                        child: new Text('选择照片',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      )),
-                  new Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFilefromCamera('id_card2')},
-                        color: Colors.blue,
-                        child: new Text('相机拍照',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      ))
+                  new Row(
+                    children: [new Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: RaisedButton(
+                          elevation: 0,
+                          onPressed: () => {_selectFile('id_card2')},
+                          color: Colors.blue,
+                          child: new Text('选择照片',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )),
+                      new Container(
+                          margin: EdgeInsets.only(left: 5),
+                          child: RaisedButton(
+                            elevation: 0,
+                            onPressed: () => {_selectFilefromCamera('id_card2')},
+                            color: Colors.blue,
+                            child: new Text('相机拍照',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                )),
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(40.0)),
+                          ))],
+                  ),
                 ],
               ),
               new Row(
@@ -361,12 +377,14 @@ class _register2 extends State<register2> {
                   ),
                 ],
               ),
-              new Text(
-                filename['id_card2'].toString(),
-                //"dasda",
-                style: TextStyle(fontSize: 19),
-              ),
+              new Center(child: onePicWidget(filename['id_card2'], width_*0.6)),
+//              new Text(
+//                filename['id_card2'].toString(),
+//                //"dasda",
+//                style: TextStyle(fontSize: 19),
+//              ),
               new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     '医师资格证:',
@@ -375,34 +393,36 @@ class _register2 extends State<register2> {
                       color: Color.fromARGB(255, 93, 93, 93),
                     ),
                   ),
-                  new Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFile('certificate')},
-                        color: Colors.blue,
-                        child: new Text('选择照片',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      )),
-                  new Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFilefromCamera('certificate')},
-                        color: Colors.blue,
-                        child: new Text('相机拍照',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      ))
+                  new Row(
+                    children: [new Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: RaisedButton(
+                          elevation: 0,
+                          onPressed: () => {_selectFile('certificate')},
+                          color: Colors.blue,
+                          child: new Text('选择照片',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )),
+                      new Container(
+                          margin: EdgeInsets.only(left: 5),
+                          child: RaisedButton(
+                            elevation: 0,
+                            onPressed: () => {_selectFilefromCamera('certificate')},
+                            color: Colors.blue,
+                            child: new Text('相机拍照',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                )),
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(40.0)),
+                          ))],
+                  ),
                 ],
               ),
               new Row(
@@ -414,12 +434,15 @@ class _register2 extends State<register2> {
                   ),
                 ],
               ),
-              new Text(
-                filename['certificate'].toString(),
-                //"dasda",
-                style: TextStyle(fontSize: 19),
-              ),
+              new Center(child: onePicWidget(filename['certificate'], width_*0.6)),
+
+//              new Text(
+//                filename['certificate'].toString(),
+//                //"dasda",
+//                style: TextStyle(fontSize: 19),
+//              ),
               new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     '医师执业证:',
@@ -428,35 +451,37 @@ class _register2 extends State<register2> {
                       color: Color.fromARGB(255, 93, 93, 93),
                     ),
                   ),
-                  new Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFile('worklicense')},
-                        color: Colors.blue,
-                        child: new Text('选择照片',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      )),
-                  new Container(
-                      margin: EdgeInsets.only(left: 5),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () =>
+                  new Row(
+                    children: [new Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: RaisedButton(
+                          elevation: 0,
+                          onPressed: () => {_selectFile('worklicense')},
+                          color: Colors.blue,
+                          child: new Text('选择照片',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )),
+                      new Container(
+                          margin: EdgeInsets.only(left: 5),
+                          child: RaisedButton(
+                            elevation: 0,
+                            onPressed: () =>
                             {_selectFilefromCamera('worklicense')},
-                        color: Colors.blue,
-                        child: new Text('相机拍照',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      ))
+                            color: Colors.blue,
+                            child: new Text('相机拍照',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                )),
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(40.0)),
+                          ))],
+                  ),
                 ],
               ),
               new Row(
@@ -468,12 +493,14 @@ class _register2 extends State<register2> {
                   ),
                 ],
               ),
-              new Text(
-                filename['worklicense'].toString(),
-                //"dasda",
-                style: TextStyle(fontSize: 19),
-              ),
+              new Center(child: onePicWidget(filename['worklicense'], width_*0.6)),
+//              new Text(
+//                filename['worklicense'].toString(),
+//                //"dasda",
+//                style: TextStyle(fontSize: 19),
+//              ),
               new Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
                     '医师职称证书:',
@@ -482,34 +509,36 @@ class _register2 extends State<register2> {
                       color: Color.fromARGB(255, 93, 93, 93),
                     ),
                   ),
-                  new Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFile('title_certi')},
-                        color: Colors.blue,
-                        child: new Text('选择照片',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      )),
-                  new Container(
-                      margin: EdgeInsets.only(left: 10),
-                      child: RaisedButton(
-                        elevation: 0,
-                        onPressed: () => {_selectFilefromCamera('title_certi')},
-                        color: Colors.blue,
-                        child: new Text('相机拍照',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                            )),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(40.0)),
-                      ))
+                  new Row(
+                    children: [new Container(
+                        margin: EdgeInsets.only(left: 10),
+                        child: RaisedButton(
+                          elevation: 0,
+                          onPressed: () => {_selectFile('title_certi')},
+                          color: Colors.blue,
+                          child: new Text('选择照片',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.white,
+                              )),
+                          shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(40.0)),
+                        )),
+                      new Container(
+                          margin: EdgeInsets.only(left: 10),
+                          child: RaisedButton(
+                            elevation: 0,
+                            onPressed: () => {_selectFilefromCamera('title_certi')},
+                            color: Colors.blue,
+                            child: new Text('相机拍照',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                )),
+                            shape: new RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(40.0)),
+                          ))],
+                  ),
                 ],
               ),
               new Row(
@@ -521,11 +550,13 @@ class _register2 extends State<register2> {
                   ),
                 ],
               ),
-              new Text(
-                filename['title_certi'].toString(),
-                //"dasda",
-                style: TextStyle(fontSize: 19),
-              ),
+              new Center(child: onePicWidget(filename['title_certi'], width_*0.6)),
+//              new Text(
+//                filename['title_certi'].toString(),
+//                //"dasda",
+//                style: TextStyle(fontSize: 19),
+//              ),
+              new SizedBox(height: 15,),
               Divider(
                 thickness: 2,
               ),

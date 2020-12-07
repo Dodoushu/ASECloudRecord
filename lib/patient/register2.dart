@@ -3,6 +3,7 @@ import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
 import 'MainFunctionPage.dart';
+import 'package:intl/intl.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 
 void main() => runApp(MaterialApp(home: register2(),
@@ -86,6 +87,26 @@ class _register2 extends State<register2> {
 
   //_disMissCallBack(Function func){  func();  }
 
+
+  DateTime startDate = DateTime.now();
+  Future<void> _selectstartDate() async //异步
+  {
+    final DateTime selectdate = await showDatePicker(
+      //等待异步处理的结果
+      //等待返回
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+    );
+    if (selectdate == null) return; //点击DatePicker的cancel
+
+    setState(() {
+      //点击DatePicker的OK
+      startDate = selectdate;
+    });
+  }
+
   var data;
   void submit() async{
 
@@ -107,6 +128,13 @@ class _register2 extends State<register2> {
       bodymap['userId']=phoneNum;
       patient['name']=name;
       SharedPreferenceUtil.setString("name", name).then((value) async{
+
+        patient['birthday'] = startDate.year.toString() +
+            '-' +
+            startDate.month.toString() +
+            '-' +
+            startDate.day.toString();
+
         patient['sex']=int.parse(sex);
         patient['race']=nation;
         patient['birthplace']=birthplace;
@@ -214,6 +242,27 @@ class _register2 extends State<register2> {
                     nation = value;
                   },
                 ),
+                Divider(
+                  thickness: 2,
+                ),
+                InkWell(
+                  onTap: _selectstartDate,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        '出生日期:',
+                        style: TextStyle(fontSize: 19),
+                      ),
+                      Text(
+//                  date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString(),
+                        DateFormat.yMd().format(startDate),
+                        style: TextStyle(fontSize: 19),
+                      ),
+                    ],
+                  ),
+                ),
+
                 Divider(
                   thickness: 2,
                 ),

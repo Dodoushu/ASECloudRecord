@@ -185,15 +185,15 @@ class _outpatientMedical extends State<outpatientMedical> {
       phoneNum = value;
       bodymap['userId'] = phoneNum;
       bodymap['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
-      bodymap['department_treatment'] = office;
+      bodymap['department'] = office;
       bodymap['hospital'] = hospital;
       bodymap['disease_info'] = recordcontent;
       bodymap['doctor_name'] = doctorname;
-      print(bodymap);
-      var url = "http://39.100.100.198:8082/outpatient";
-//      var formData = FormData.fromMap(bodymap);
-      var formData = bodymap;
-      await request(url, context,FormData: formData).then((value) {
+      bodymap['files'] = selectedFiles;
+      var url = "http://39.100.100.198:8082/outPatient";
+      var formData = FormData.fromMap(bodymap);
+//      var formData = bodymap;
+      await request(url, context,FormData: formData, contentType: 'multipart/form-data').then((value) {
           var data = json.decode(value.toString());
           print(data);
           if(data['status_code'] == 1){
@@ -358,6 +358,7 @@ class _outpatientMedical extends State<outpatientMedical> {
                     ),
                   ],
                 ),
+                smallPicGridView(displayPath)
               ],
             )
           ],

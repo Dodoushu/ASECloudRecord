@@ -34,30 +34,35 @@ class _register1 extends State<register1> {
     //读取当前的Form状态
     var loginForm = loginKey.currentState;
     //验证Form表单
-    if (loginForm.validate()) {
+
     var bodymap = Map();
-    bodymap['phone_num'] = phoneNumber;
-    bodymap['pass_word'] = password;
-    bodymap['ver_code'] = '111111';
-    bodymap['user_type'] = '1';
+    var register = Map();
+    register['phone_num'] = phoneNumber;
+    register['pass_word'] = password;
+    register['ver_code'] = '111111';
+    register['user_type'] = 1;
+    bodymap['register'] = register;
     List<int> types = new List();
-    bodymap['types'] = types;
     var url = "http://39.100.100.198:8082/register";
-    var bodymap2 = Map();
-    bodymap2['register'] = bodymap;
-    var formData = bodymap2;
+//    var bodymap2 = Map();
+//    bodymap2['register'] = bodymap;
+    var formData = bodymap;
     print(formData);
-    await request(url, context, FormData: formData).then((value){
+    await request(url, context, FormData: formData).then((value) {
       Map data = json.decode(value.toString());
       print('response:' + data['status_code'].toString());
-      if(data['status_code']==1){
-        SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value){
-          SharedPreferenceUtil.setString('userId', data['userId'].toString()).then((value){
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
+      if (data['status_code'] == 1) {
+        SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value) {
+          SharedPreferenceUtil.setString('userId', data['userId'].toString())
+              .then((value) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => register2()),
+                (route) => false);
           });
         });
-      }else {
-          showAlertDialog(context, titleText: '注册失败', contentText: '');
+      } else {
+        showAlertDialog(context, titleText: '注册失败', contentText: '');
       }
     });
 //      await request(url,FormData: formData).then((value) {
@@ -75,7 +80,6 @@ class _register1 extends State<register1> {
 //          showAlertDialog(context, titleText: '注册失败', contentText: '未知错误');
 //        }
 //      });
-    }
   }
 
   void showPassWord() {
@@ -243,74 +247,74 @@ class _register1 extends State<register1> {
                       },
                     ),
                   ),
-                  Container(
-                    color: Colors.white,
-                    padding: EdgeInsets.only(left: 0, right: 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      textBaseline: TextBaseline.ideographic,
-                      children: <Widget>[
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: 0, right: 0, top: 0),
-                            child: TextFormField(
-                                maxLines: 1,
-                                onSaved: (value) {},
-                                controller: mController,
-                                textAlign: TextAlign.left,
-                                inputFormatters: [
-                                  WhitelistingTextInputFormatter.digitsOnly,
-                                  LengthLimitingTextInputFormatter(6)
-                                ],
-                                decoration: InputDecoration(
-                                  labelText: '请输入验证码',
-                                  labelStyle: new TextStyle(
-                                      fontSize: 15.0,
-                                      color: Color.fromARGB(255, 93, 93, 93)),
-                                  border: InputBorder.none,
-                                ),
-                                onChanged: (value) {
-                                  verificationCode = value;
-                                }),
-                          ),
-                        ),
-                        Container(
-                          width: 120,
-                          child: FlatButton(
-                            disabledColor: Colors.grey.withOpacity(0.1),
-                            //按钮禁用时的颜色
-                            disabledTextColor: Colors.white,
-                            //按钮禁用时的文本颜色
-                            textColor: isButtonEnable
-                                ? Colors.white
-                                : Colors.black.withOpacity(0.2),
-                            //文本颜色
-                            color: isButtonEnable
-                                ? Color(0xff44c5fe)
-                                : Colors.grey.withOpacity(0.1),
-                            //按钮的颜色
-                            splashColor: isButtonEnable
-                                ? Colors.white.withOpacity(0.1)
-                                : Colors.transparent,
-                            shape: StadiumBorder(side: BorderSide.none),
-                            onPressed: () {
-                              setState(() {
-                                _buttonClickListen();
-                              });
-                            },
-//                        child: Text('重新发送 (${secondSy})'),
-                            child: Text(
-                              '$buttonText',
-                              style: TextStyle(
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+//                  Container(
+//                    color: Colors.white,
+//                    padding: EdgeInsets.only(left: 0, right: 0),
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                      crossAxisAlignment: CrossAxisAlignment.center,
+//                      textBaseline: TextBaseline.ideographic,
+//                      children: <Widget>[
+//                        Expanded(
+//                          child: Padding(
+//                            padding: EdgeInsets.only(left: 0, right: 0, top: 0),
+//                            child: TextFormField(
+//                                maxLines: 1,
+//                                onSaved: (value) {},
+//                                controller: mController,
+//                                textAlign: TextAlign.left,
+//                                inputFormatters: [
+//                                  WhitelistingTextInputFormatter.digitsOnly,
+//                                  LengthLimitingTextInputFormatter(6)
+//                                ],
+//                                decoration: InputDecoration(
+//                                  labelText: '请输入验证码',
+//                                  labelStyle: new TextStyle(
+//                                      fontSize: 15.0,
+//                                      color: Color.fromARGB(255, 93, 93, 93)),
+//                                  border: InputBorder.none,
+//                                ),
+//                                onChanged: (value) {
+//                                  verificationCode = value;
+//                                }),
+//                          ),
+//                        ),
+//                        Container(
+//                          width: 120,
+//                          child: FlatButton(
+//                            disabledColor: Colors.grey.withOpacity(0.1),
+//                            //按钮禁用时的颜色
+//                            disabledTextColor: Colors.white,
+//                            //按钮禁用时的文本颜色
+//                            textColor: isButtonEnable
+//                                ? Colors.white
+//                                : Colors.black.withOpacity(0.2),
+//                            //文本颜色
+//                            color: isButtonEnable
+//                                ? Color(0xff44c5fe)
+//                                : Colors.grey.withOpacity(0.1),
+//                            //按钮的颜色
+//                            splashColor: isButtonEnable
+//                                ? Colors.white.withOpacity(0.1)
+//                                : Colors.transparent,
+//                            shape: StadiumBorder(side: BorderSide.none),
+//                            onPressed: () {
+//                              setState(() {
+//                                _buttonClickListen();
+//                              });
+//                            },
+////                        child: Text('重新发送 (${secondSy})'),
+//                            child: Text(
+//                              '$buttonText',
+//                              style: TextStyle(
+//                                fontSize: 13,
+//                              ),
+//                            ),
+//                          ),
+//                        ),
+//                      ],
+//                    ),
+//                  ),
                   new Container(
                     padding: EdgeInsets.all(0),
                     height: 50.0,
@@ -331,23 +335,23 @@ class _register1 extends State<register1> {
                       ),
                     ),
                   ),
-                  new Container(
-                    //margin: EdgeInsets.only(top: 30.0),
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 30.0),
-                    child: new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        new Container(
-                          child: Text(
-                            '收不到验证码？',
-                            style: TextStyle(
-                                fontSize: 15.0,
-                                color: Color.fromARGB(255, 53, 53, 53)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+//                  new Container(
+//                    //margin: EdgeInsets.only(top: 30.0),
+//                    padding: EdgeInsets.only(left: 8.0, right: 8.0, top: 30.0),
+//                    child: new Row(
+//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                      children: <Widget>[
+//                        new Container(
+//                          child: Text(
+//                            '收不到验证码？',
+//                            style: TextStyle(
+//                                fontSize: 15.0,
+//                                color: Color.fromARGB(255, 53, 53, 53)),
+//                          ),
+//                        ),
+//                      ],
+//                    ),
+//                  ),
                 ],
               ),
             ),

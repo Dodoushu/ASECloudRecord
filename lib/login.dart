@@ -37,28 +37,47 @@ class _Login extends State<Login> {
   String password;
   bool isShowPassWord = false;
 
-  bool havePhoneNumber = false;
+  bool ishavephoneNumber = false;
   String prePhoneNumber;
+  bool ifremeberpwd = false;
+  bool remberPwd = false;
 
   List<bool> select = [true, false];
 
   TextEditingController _controller = new TextEditingController();
+  TextEditingController _pwdcontroller = new TextEditingController();
 
   @override
   void initState() {
     super.initState();
     //开启倒计时
     SharedPreferenceUtil.containsKey('prePhoneNumber').then((value) {
-      if (value == true) {
-        SharedPreferenceUtil.getString('prePhoneNumber').then((value) {
-          setState(() {
-            prePhoneNumber = value;
-            havePhoneNumber = true;
-            userName = value;
-            _controller.text = value;
-          });
+      ishavephoneNumber = value;
+        SharedPreferenceUtil.getBool('ifRemberPwd').then((value){
+          ifremeberpwd = value;
+          if(ishavephoneNumber == true){
+            SharedPreferenceUtil.getString('prePhoneNumber').then((value) {
+              prePhoneNumber = value;
+              if(ifremeberpwd == false){
+                setState(() {
+                  userName = prePhoneNumber;
+                  _controller.text = prePhoneNumber;
+                  remberPwd = false;
+                });
+              }else {
+                SharedPreferenceUtil.getString('prePwd').then((value){
+                  setState(() {
+                    userName = prePhoneNumber;
+                    _controller.text = prePhoneNumber;
+                    password = value;
+                    _pwdcontroller.text = value;
+                    remberPwd = true;
+                  });
+                });
+              }
+            });
+          }
         });
-      }
     });
   }
 
@@ -159,7 +178,7 @@ class _Login extends State<Login> {
         Map data = json.decode(value.toString());
         print(data);
         //登陆成功
-        SharedPreferenceUtil.setString('userId', data['id'].toString())
+        SharedPreferenceUtil.setString('userId', data['userId'].toString())
             .then((value) {
           SharedPreferenceUtil.setString('prePhoneNumber', userName.toString())
               .then((value) {
@@ -167,33 +186,35 @@ class _Login extends State<Login> {
                 .then((value) {
               SharedPreferenceUtil.setString('name', data['name'])
                   .then((value) {
-                SharedPreferenceUtil.setString('token', data['token'])
+                SharedPreferenceUtil.setString('prePwd', password)
                     .then((value) {
-                  print(value);
-                  if (sign['user_type'] == '0') {
-                    if (data['status_code'] == 4) {
-                      showAlertDialog_register2_patient(
-                          titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
-                    } else if (data['status_code'] == 0) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => BottomNavigationWidget()),
-                          (route) => false);
+                  SharedPreferenceUtil.setBool('ifRemberPwd', remberPwd).then((value){
+                    print(value);
+                    if (sign['user_type'] == '0') {
+                      if (data['status_code'] == 4) {
+                        showAlertDialog_register2_patient(
+                            titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
+                      } else if (data['status_code'] == 0) {
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BottomNavigationWidget()),
+                                (route) => false);
+                      }
                     }
-                  }
-                  if (sign['user_type'] == '1') {
-                    if (data['status_code'] == 4) {
-                      showAlertDialog_register2_doctor(
-                          titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
-                    } else if (data['status_code'] == 0) {
-                      print("++++++++");
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => MainPage()),
-                          (route) => false);
+                    if (sign['user_type'] == '1') {
+                      if (data['status_code'] == 4) {
+                        showAlertDialog_register2_doctor(
+                            titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
+                      } else if (data['status_code'] == 0) {
+                        print("++++++++");
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(builder: (context) => MainPage()),
+                                (route) => false);
+                      }
                     }
-                  }
+                  });
                 });
               });
             });
@@ -291,6 +312,7 @@ class _Login extends State<Login> {
                                 color: Color.fromARGB(255, 240, 240, 240),
                                 width: 1.0))),
                     child: new TextFormField(
+                      controller: _pwdcontroller,
                       decoration: new InputDecoration(
                           labelText: '请输入密码',
                           labelStyle: new TextStyle(
@@ -347,6 +369,21 @@ class _Login extends State<Login> {
                               value: select[1],
                             ),
                             Text('医生登录')
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          setState(() {
+                            remberPwd = !remberPwd;
+                          });
+                        },
+                        child: new Row(
+                          children: [
+                            Checkbox(
+                              value: remberPwd,
+                            ),
+                            Text('记住密码')
                           ],
                         ),
                       )

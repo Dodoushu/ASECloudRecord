@@ -114,6 +114,7 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
             date.day.toString();
         bodymap['picture_type'] = 3;
         bodymap['information'] = introduction;
+        print(bodymap);
 
         var url = "http://39.100.100.198:8082/UploadFiles/DiseasePicture";
         var formData = FormData.fromMap(bodymap);

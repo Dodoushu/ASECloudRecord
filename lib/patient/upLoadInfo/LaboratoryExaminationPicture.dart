@@ -184,8 +184,7 @@ class _laboratoryExaminationPicture
         var url =
             "http://39.100.100.198:8082/UploadFiles/LaboratoryExamination";
         var formData = FormData.fromMap(bodymap);
-        await request(url, context,
-                FormData: formData, contentType: 'multipart/form-data')
+        await request(url, context, FormData: formData, contentType: 'multipart/form-data')
             .then((value) {
           var data = json.decode(value.toString());
           print(data);
