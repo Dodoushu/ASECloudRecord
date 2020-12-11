@@ -190,7 +190,8 @@ class _outpatientMedical extends State<outpatientMedical> {
       bodymap['disease_info'] = recordcontent;
       bodymap['doctor_name'] = doctorname;
       bodymap['files'] = selectedFiles;
-      var url = "http://39.100.100.198:8082/outPatient";
+      print(bodymap);
+      var url = "http://39.100.100.198:8082/UploadFiles/outPatient";
       var formData = FormData.fromMap(bodymap);
 //      var formData = bodymap;
       await request(url, context,FormData: formData, contentType: 'multipart/form-data').then((value) {

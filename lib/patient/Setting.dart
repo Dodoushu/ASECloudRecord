@@ -237,7 +237,9 @@ class _SettingState extends State<Setting> {
           onPressed: (){
             SharedPreferenceUtil.remove('token').then((value){
               SharedPreferenceUtil.remove('name').then((value){
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => select()), (route) => false);
+                SharedPreferenceUtil.remove('userId').then((value){
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => select()), (route) => false);
+                });
               });
             });
           },

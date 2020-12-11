@@ -59,7 +59,7 @@ class MainPage extends StatelessWidget {
             children: <Widget>[
               new Container(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Text('******* 医生，您好',
+                  child: Text('医生，您好',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 25,
@@ -123,7 +123,7 @@ class MainPage extends StatelessWidget {
                                     },
                                     child: Container(
                                         child: Text(
-                                          '医生录入',
+                                          '医生录入(暂不可用)',
                                           style: TextStyle(fontSize: 18),
                                         )),
                                   )

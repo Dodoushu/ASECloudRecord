@@ -108,9 +108,9 @@ class _medicalReport extends State<medicalReport> {
     else{
     var bodymap = Map<String,dynamic>();
     String phoneNum;
-    SharedPreferenceUtil.getString('phoneNum').then((value) async{
+    SharedPreferenceUtil.getString('userId').then((value) async{
       phoneNum = value;
-      bodymap['phone_num'] = phoneNum;
+      bodymap['userId'] = phoneNum;
       bodymap['files'] = selectedFiles;
       bodymap['hospital'] = hospital;
       bodymap['report_info'] = reportAbstract;
