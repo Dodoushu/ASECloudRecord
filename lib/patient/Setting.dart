@@ -3,11 +3,12 @@ import 'package:helloworld/sharedPrefrences.dart';
 import 'setting/ChangePassword.dart';
 import 'setting/ChangePhoneNumber.dart';
 import 'setting/doctorSelect.dart';
-import 'package:helloworld/select.dart';
+import 'package:helloworld/login.dart';
 import 'package:helloworld/http_service.dart';
 import 'dart:convert';
 import 'dart:core';
 import 'dart:developer';
+import 'setting/Search.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -130,11 +131,6 @@ class _SettingState extends State<Setting> {
 
       });
     });
-
-
-
-//                Navigator.push(context,
-//                    MaterialPageRoute(builder: (context) => doctorSelect()));
   }
 
   @override
@@ -238,7 +234,7 @@ class _SettingState extends State<Setting> {
             SharedPreferenceUtil.remove('token').then((value){
               SharedPreferenceUtil.remove('name').then((value){
                 SharedPreferenceUtil.remove('userId').then((value){
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => select()), (route) => false);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login()), (route) => false);
                 });
               });
             });
@@ -256,50 +252,19 @@ class _SettingState extends State<Setting> {
       ),
     );
 
-//    Widget ChangeDoctor = new Container(
-//        padding: EdgeInsets.only(left: 10, right: 5),
-//        child: SizedBox(
-//            height: 60,
-//            width: 390,
-//            child: InkWell(
-//              onTap: () {
-//                Navigator.push(context,
-//                    MaterialPageRoute(builder: (context) => ChangePhNum()));
-//              },
-//              child: new Card(
-//                  shape: RoundedRectangleBorder(
-//                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
-//                      side: BorderSide(width: 0.5)),
-//                  child: Container(
-//                      padding: EdgeInsets.only(left: 10,right: 10),
-//                      child:Row(
-//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                      children: <Widget>[
-//                        Container(
-//                          alignment: Alignment.centerLeft,
-//                          padding: EdgeInsets.only(left: 10),
-//                          child: Text(
-//                            '修改医生权限',
-//                            style: TextStyle(fontSize: 18),
-//                          ),
-//                        ),
-//                        Container(
-////                          padding: EdgeInsets.only(left: 230),
-//                          child: new Icon(
-//                            Icons.arrow_forward_ios,
-//                            size: 26,
-//                          ),
-//                        ),
-//                      ]))),
-//            )));
-
     Widget ChangeDoctor = new Container(
         padding: EdgeInsets.only(top: 0, left: 10, right: 5),
         child: SizedBox(
             height: 60,
             width: 400,
             child: InkWell(
-              onTap: getlist,
+              onTap: (){
+//                Navigator.push(context, MaterialPageRoute(builder: (context){
+//                  return new doctorSelect(onlyuser: onlyuser, doctorlist: doctorlist, selectedDoctor: selectedDoctor, unSelectedDoctor: unSelectedDoctor);
+//                }));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => Search()));
+              },
               child: Card(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10.0)),

@@ -106,14 +106,14 @@ class _laboratory1 extends State<laboratory1> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('日期',style: new TextStyle(fontSize: 18,),),
-                            Text(map['date']==null?'null':map['date'],style: new TextStyle(fontSize: 18,),),
+                            Text(map['date']==null?'无':map['date'],style: new TextStyle(fontSize: 18,),),
                           ],
                         ),
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('类目',style: new TextStyle(fontSize: 18,),),
-                            Text('null',style: new TextStyle(fontSize: 18,),),
+                            Text('无',style: new TextStyle(fontSize: 18,),),
                           ],
                         ),
 

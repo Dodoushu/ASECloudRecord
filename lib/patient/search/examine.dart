@@ -54,7 +54,7 @@ class _examineState extends State<examine> {
                             style: new TextStyle(fontSize: 18),
                           ),
                           Text(
-                            temp['examine_info'],
+                            temp['examine_info'] == null ? '无' : temp['examine_info'],
                             style: new TextStyle(fontSize: 18),
                           ),
                         ],

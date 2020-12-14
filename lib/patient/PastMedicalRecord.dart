@@ -65,12 +65,7 @@ class PastRecord extends StatelessWidget {
       String disease_info;
       String token;
       SharedPreferenceUtil.containsKey('token').then((value) {
-//        if (value == false) {
-//          Navigator.pushAndRemoveUntil(
-//              context, MaterialPageRoute(builder: (context) => Login()), (
-//              route) => false);
-//        }
-        SharedPreferenceUtil.getString('phoneNum').then((value) {
+        SharedPreferenceUtil.getString('userId').then((value) {
           phone_num = value;
           SharedPreferenceUtil.getString('token').then((value) {
             token = value;
@@ -82,20 +77,11 @@ class PastRecord extends StatelessWidget {
               disease_info = value;
               var bodymap = Map();
               var patientDiseaseInfo = Map();
-              bodymap['phone_num'] = phone_num;
-              bodymap['token'] = token;
+              bodymap['userId'] = phone_num;
               bodymap['patientDiseaseInfo'] = patientDiseaseInfo;
               patientDiseaseInfo['disease_type'] = disease_type.toString();
               patientDiseaseInfo['disease_info'] = disease_info;
               print(bodymap);
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return new NetLoadingDialog(
-                      //  dismissDialog: _disMissCallBack,
-                    );
-                  }
-              );
               await request(url,context, FormData: bodymap).then((value) {
                 Map data = json.decode(value.toString());
                 print(data);

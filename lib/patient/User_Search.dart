@@ -130,32 +130,30 @@ class SearchPage extends StatelessWidget {
                                         onTap: () async {
                                           var bodymap = Map();
                                           String phoneNum;
-                                          SharedPreferenceUtil.getString('userId').then((value) async {
+                                          SharedPreferenceUtil.getString('userId')
+                                              .then((value) async {
                                             phoneNum = value;
                                             bodymap['userId'] = phoneNum;
                                             print(
                                                 '*******************************************************');
                                             print(bodymap);
                                             var url =
-                                                "http://39.100.100.198:8082/Select/outPatientRecords";
+                                                "http://39.100.100.198:8082/Select/outPatient";
                                             var formData = bodymap;
                                             await request(url, context,
-                                                    FormData: formData)
+                                                FormData: formData)
                                                 .then((value) {
-                                              var data =
-                                                  json.decode(value.toString());
-                                              log(data['outPatientRecords']
-                                                  .toString());
+                                              var data = json.decode(value.toString());
+                                              print('结果'+data['outPatients'].toString());
 
                                               var url = new List();
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          outPatientRecords(
-                                                            contentlist: data[
-                                                                'outPatientRecords'],
-                                                          )));
+                                                      builder: (context) => outPatients(
+                                                        contentlist:
+                                                        data['outPatients'],
+                                                      )));
                                             });
                                           });
                                         },
@@ -205,51 +203,33 @@ class SearchPage extends StatelessWidget {
                                               .then((value) async {
                                             phoneNum = value;
                                             bodymap['userId'] = phoneNum;
-                                            print(
-                                                '*******************************************************');
-                                            print(bodymap);
-                                            var url =
-                                                "http://39.100.100.198:8082/Select/AllPicture";
+                                            print('查询所有图片发送'+bodymap.toString());
+                                            var url = "http://39.100.100.198:8082/Select/AllPicture";
                                             var formData = bodymap;
-                                            await request(url, context,
-                                                    FormData: formData)
-                                                .then((value) {
-                                              var data =
-                                                  json.decode(value.toString());
+                                            await request(url, context, FormData: formData).then((value) {
+                                              var data = json.decode(value.toString());
+                                              print('查询所有图片返回'+data.toString());
                                               var url = new List();
-                                              for (var value
-                                                  in data['textInfo']) {
+//                                              for (var value in data['textInfo']) {
+//                                                url.addAll(value['address']);
+//                                              }
+                                              for (var value in data['diseasePictures']) {
                                                 url.addAll(value['address']);
-//                                      log(value['address'].toString());
                                               }
-                                              for (var value
-                                                  in data['diseasePictures']) {
+                                              for (var value in data['laboratoryPictures']) {
                                                 url.addAll(value['address']);
-//                                      log(value['address'].toString());
                                               }
-                                              for (var value in data[
-                                                  'laboratoryPictures']) {
+                                              for (var value in data['imagePictures']) {
                                                 url.addAll(value['address']);
-//                                      log(value['address'].toString());
                                               }
-                                              for (var value
-                                                  in data['imagePictures']) {
+                                              for (var value in data['instrumentPictures']) {
                                                 url.addAll(value['address']);
-//                                      log(value['address'].toString());
-                                              }
-                                              for (var value in data[
-                                                  'instrumentPictures']) {
-                                                url.addAll(value['address']);
-//                                      log(value['address'].toString());
                                               }
                                               log(url.toString());
                                               var urls = List<String>();
                                               for (value in url) {
-                                                urls.add('http://' +
-                                                    value.toString());
+                                                urls.add('http://' + value.toString());
                                               }
-//                                    print(data);
-//                                    log(data['textInfo'].toString());
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
@@ -302,120 +282,13 @@ class SearchPage extends StatelessWidget {
                             ),
                             new Divider(),
 
-
-
-//                            InkWell(
-//                              onTap: () async {
-//                                var bodymap = Map();
-//                                String phoneNum;
-//                                SharedPreferenceUtil.getString('phoneNum')
-//                                    .then((value) async {
-//                                  phoneNum = value;
-////                                  bodymap['phone_num'] = phoneNum;
-//                                  bodymap['phone_num'] = '12121314';
-//                                  print(
-//                                      '*******************************************************');
-//                                  print(bodymap);
-//                                  var url =
-//                                      "http://39.100.100.198:8082/Select/outPatientRecords";
-//                                  var formData = bodymap;
-//                                  await request(url, context,
-//                                          FormData: formData)
-//                                      .then((value) {
-//                                    var data = json.decode(value.toString());
-//                                    log(data['outPatientRecords'].toString());
-//
-//                                    var url = new List();
-//                                    Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                            builder: (context) =>
-//                                                outPatientRecords(
-//                                                  contentlist:
-//                                                      data['outPatientRecords'],
-//                                                )));
-//                                  });
-//                                });
-//                              },
-//                              child: _widgetBuild.create(
-//                                  '门诊记录查询',
-//                                  Icons.record_voice_over,
-//                                  Colors.deepPurpleAccent),
-//                            ),
-//                            InkWell(
-//                              onTap: () async {
-//                                var bodymap = Map();
-//                                String phoneNum;
-//                                SharedPreferenceUtil.getString('phoneNum')
-//                                    .then((value) async {
-//                                  phoneNum = value;
-//                                  bodymap['phone_num'] = phoneNum;
-//                                  print(
-//                                      '*******************************************************');
-//                                  print(bodymap);
-//                                  var url =
-//                                      "http://39.100.100.198:8082/Select/AllPicture";
-//                                  var formData = bodymap;
-//                                  await request(url, context,
-//                                          FormData: formData)
-//                                      .then((value) {
-//                                    var data = json.decode(value.toString());
-//                                    var url = new List();
-//                                    for (var value in data['textInfo']) {
-//                                      url.addAll(value['address']);
-////                                      log(value['address'].toString());
-//                                    }
-//                                    for (var value in data['diseasePictures']) {
-//                                      url.addAll(value['address']);
-////                                      log(value['address'].toString());
-//                                    }
-//                                    for (var value
-//                                        in data['laboratoryPictures']) {
-//                                      url.addAll(value['address']);
-////                                      log(value['address'].toString());
-//                                    }
-//                                    for (var value in data['imagePictures']) {
-//                                      url.addAll(value['address']);
-////                                      log(value['address'].toString());
-//                                    }
-//                                    for (var value
-//                                        in data['instrumentPictures']) {
-//                                      url.addAll(value['address']);
-////                                      log(value['address'].toString());
-//                                    }
-//                                    log(url.toString());
-//                                    var urls = List<String>();
-//                                    for (value in url) {
-//                                      urls.add('http://' + value.toString());
-//                                    }
-////                                    print(data);
-////                                    log(data['textInfo'].toString());
-//                                    Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                            builder: (context) => PictureView(
-//                                                  urls: urls,
-//                                                )));
-////                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
-//                                  });
-//                                });
-//                              },
-//                              child: _widgetBuild.create("全部图片浏览",
-//                                  Icons.photo_library, Colors.amberAccent),
-//                            ),
-
-
-
                             InkWell(
                               onTap: () async {
-
-                                var bodymap = Map();
-                                SharedPreferenceUtil.getString('userId')
-                                    .then((value) async {
+                                SharedPreferenceUtil.getString('userId').then((value) async {
+                                  var bodymap = Map();
                                   bodymap['userId'] = value;
-                                  print(bodymap);
-                                  var url =
-                                      "http://39.100.100.198:8082/Select/ReportPicture";
+                                  print('健康体检报告发送：'+bodymap.toString());
+                                  var url = "http://39.100.100.198:8082/Select/ReportPicture";
                                   var formData = bodymap;
                                   await request(url, context, FormData: formData).then((value) {
                                     var data = json.decode(value.toString());
@@ -426,48 +299,6 @@ class SearchPage extends StatelessWidget {
                                             builder: (context) => report1(list: data['reports'],)));
                                   });
                                 });
-
-
-
-
-//                                var bodymap = Map();
-//                                String phoneNum;
-//                                SharedPreferenceUtil.getString('phoneNum')
-//                                    .then((value) async {
-//                                  phoneNum = value;
-//                                  bodymap['phone_num'] = phoneNum;
-//                                  print(
-//                                      '*******************************************************');
-//                                  print(bodymap);
-//                                  var url =
-//                                      "http://39.100.100.198:8082/Select/ReportPicture";
-//                                  var formData = bodymap;
-//                                  await request(url, context,
-//                                          FormData: formData)
-//                                      .then((value) {
-//                                    print(value);
-//                                    var data = json.decode(value.toString());
-//                                    var url = new List();
-//                                    for (var value in data['textInfo']) {
-//                                      url.addAll(value['address']);
-////                                      log(value['address'].toString());
-//                                    }
-//                                    log(url.toString());
-//                                    var urls = List<String>();
-//                                    for (value in url) {
-//                                      urls.add('http://' + value.toString());
-//                                    }
-////                                    print(data);
-////                                    log(data['textInfo'].toString());
-//                                    Navigator.push(
-//                                        context,
-//                                        MaterialPageRoute(
-//                                            builder: (context) => PictureView(
-//                                                  urls: urls,
-//                                                )));
-////                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
-//                                  });
-//                                });
                               },
                               child: _widgetBuild.create(
                                   "健康体检报告图片查询", Icons.inbox, Colors.deepPurple),
@@ -642,47 +473,6 @@ class SearchPage extends StatelessWidget {
                                               builder: (context) => invasive1(list: data['instrumentPictures'],)));
                                     });
                                   });
-
-
-//                                  var bodymap = Map();
-//                                  String phoneNum;
-//                                  SharedPreferenceUtil.getString('phoneNum')
-//                                      .then((value) async {
-//                                    phoneNum = value;
-//                                    bodymap['phone_num'] = phoneNum;
-//                                    print(
-//                                        '*******************************************************');
-//                                    print(bodymap);
-//                                    var url =
-//                                        "http://39.100.100.198:8082/Select/InstrumentPicture";
-//                                    var formData = bodymap;
-//                                    await request(url, context,
-//                                            FormData: formData)
-//                                        .then((value) {
-//                                      print(value);
-//                                      var data = json.decode(value.toString());
-//                                      var url = new List();
-//                                      for (var value
-//                                          in data['instrumentPictures']) {
-//                                        url.addAll(value['address']);
-////                                      log(value['address'].toString());
-//                                      }
-//                                      log(url.toString());
-//                                      var urls = List<String>();
-//                                      for (value in url) {
-//                                        urls.add('http://' + value.toString());
-//                                      }
-////                                    print(data);
-////                                    log(data['textInfo'].toString());
-//                                      Navigator.push(
-//                                          context,
-//                                          MaterialPageRoute(
-//                                              builder: (context) => PictureView(
-//                                                    urls: urls,
-//                                                  )));
-////                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
-//                                    });
-//                                  });
                                 },
                                 child: _widgetBuild.create("侵入型器械检查图片查询",
                                     Icons.description, Colors.lightGreen)),
@@ -755,29 +545,31 @@ class SearchPage extends StatelessWidget {
                               onTap: () async {
                                 var bodymap = Map();
                                 String phoneNum;
-                                SharedPreferenceUtil.getString('userId')
-                                    .then((value) async {
+                                SharedPreferenceUtil.getString('userId').then((value) async {
                                   phoneNum = value;
                                   bodymap['userId'] = phoneNum;
                                   print(
                                       '*******************************************************');
                                   print(bodymap);
                                   var url =
-                                      "http://39.100.100.198:8082/Select/outPatient";
+                                      "http://39.100.100.198:8082/Select/outPatientRecords";
                                   var formData = bodymap;
                                   await request(url, context,
-                                          FormData: formData)
+                                      FormData: formData)
                                       .then((value) {
-                                    var data = json.decode(value.toString());
-                                    log(data['outPatients'].toString());
+                                    var data =
+                                    json.decode(value.toString());
+                                    log(data['outPatientRecords']
+                                        .toString());
 
                                     var url = new List();
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => outPatients(
-                                                  contentlist:
-                                                      data['outPatients'],
+                                            builder: (context) =>
+                                                outPatientRecords(
+                                                  contentlist: data[
+                                                  'outPatientRecords'],
                                                 )));
                                   });
                                 });

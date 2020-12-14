@@ -282,6 +282,7 @@ class _doctorSelectState extends State<doctorSelect> {
                               Map map = Map();
                               map['userId'] =value;
                               map['add_doctor_id'] = commitlist;
+                              print(map);
                               var url = "http://39.100.100.198:8082/selectPAD";
                               await request(url,context, FormData: map).then((value){
                                 var data = value.toString();

@@ -72,7 +72,7 @@ class _outPatientsState extends State<outPatients> {
                             style: new TextStyle(fontSize: 18),
                           ),
                           Text(
-                            temp['department_treatment'],
+                            temp['department'],
                             style: new TextStyle(fontSize: 18),
                           ),
                         ],
