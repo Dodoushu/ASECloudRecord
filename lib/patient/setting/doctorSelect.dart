@@ -278,7 +278,7 @@ class _doctorSelectState extends State<doctorSelect> {
                               commitlist.clear();
                             }
                             print(commitlist);
-                            SharedPreferenceUtil.getString('userId').then((value) async{
+                            SharedPreferenceUtil.getString('userId').then(( value) async{
                               Map map = Map();
                               map['userId'] =value;
                               map['add_doctor_id'] = commitlist;

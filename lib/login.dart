@@ -207,11 +207,9 @@ class _Login extends State<Login> {
                         showAlertDialog_register2_doctor(
                             titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
                       } else if (data['status_code'] == 0) {
-                        print("++++++++");
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(builder: (context) => MainPage()),
-                                (route) => false);
+                        SharedPreferenceUtil.setString('doctorUserId', data['doctor']['id'].toString()).then((value){
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+                        });
                       }
                     }
                   });
