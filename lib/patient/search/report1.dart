@@ -37,18 +37,20 @@ class _report1 extends State<report1> {
       for(Map map in list){
         Widget itemCard = InkWell(
           onTap: ()async{
-            var bodymap = Map();
-            Map report = Map();
-            report['id'] = map['id'];
-            bodymap['report'] = report;
-            var url = "http://39.100.100.198:8082/watchPatientSomeInfo";
-            var formData = bodymap;
-            await request(url, context, FormData: formData).then((value) {
-              var data = json.decode(value.toString());
-              log(data.toString());
-              Navigator.push(context, MaterialPageRoute(builder: (context) => medicalReport(id: data['reports'][0],)));
-
-            });
+            print(map);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => medicalReport(id: map,)));
+//            var bodymap = Map();
+//            Map report = Map();
+//            report['id'] = map['id'];
+//            bodymap['report'] = report;
+//            var url = "http://39.100.100.198:8082/watchPatientSomeInfo";
+//            var formData = bodymap;
+//            await request(url, context, FormData: formData).then((value) {
+//              var data = json.decode(value.toString());
+//              log(data.toString());
+//              Navigator.push(context, MaterialPageRoute(builder: (context) => medicalReport(id: data['reports'][0],)));
+//
+//            });
 
           },
           child: new Container(

@@ -29,7 +29,7 @@ List<Widget> buildCheckboxListTile() {
   ];
   List<bool> valueList = [];
   valueList.add(false);
-  for (Map obj in doctorlist){
+  for (Map obj in doctorlist) {
     valueList.add(false);
   }
   var CheckoxListTitleList = List<CheckboxListTile>();
@@ -66,46 +66,43 @@ List unSelectedDoctor = [];
 bool onlyuser;
 
 class _SettingState extends State<Setting> {
-
-  void getlist() async{
-    SharedPreferenceUtil.getString('userId').then((value) async{
+  void getlist() async {
+    SharedPreferenceUtil.getString('userId').then((value) async {
       Map<String, dynamic> data = Map();
       var url = "http://39.100.100.198:8082/selectAllDoctor";
       data['userId'] = 83;
       var formData = data;
       print(data);
-      await request(url,context, FormData: formData).then((value) {
-
+      await request(url, context, FormData: formData).then((value) {
         Map data = json.decode(value.toString());
         log('response:' + data.toString());
 
         List selectedList = new List();
-        if(data['selected_doctor_id']!=null){
-          for(int id in data['selected_doctor_id']){
+        if (data['selected_doctor_id'] != null) {
+          for (int id in data['selected_doctor_id']) {
             selectedList.add(id);
           }
         }
-
-
 
         doctorlist.clear();
         selectedDoctor.clear();
         unSelectedDoctor.clear();
 
-        for(Map temp in data['doctors']){
-
+        for (Map temp in data['doctors']) {
           Map doctor = {};
           doctor['id'] = temp['id'];
           doctor['name'] = temp['name'];
           doctor['info'] = temp['id_num'];
           doctor['hospital'] = temp['hospital'];
           doctor['department'] = temp['department'];
-          doctor['pictureAddress'] = temp['address']==null? temp['address'][0]['doctor_addr_info']:null;
+          doctor['pictureAddress'] = temp['address'] == null
+              ? temp['address'][0]['doctor_addr_info']
+              : null;
 
-          if(selectedList.contains(temp['id'])){
+          if (selectedList.contains(temp['id'])) {
             doctor['select'] = true;
             selectedDoctor.add(doctor);
-          }else{
+          } else {
             doctor['select'] = false;
             unSelectedDoctor.add(doctor);
           }
@@ -117,18 +114,21 @@ class _SettingState extends State<Setting> {
 //        print(selectedDoctor);
 //        print('unSelectedDoctor');
 //        print(unSelectedDoctor);
-        if(selectedDoctor.length == 0){
+        if (selectedDoctor.length == 0) {
           onlyuser = true;
-        }else{
+        } else {
           onlyuser = false;
         }
 
         print(selectedDoctor);
 
-        Navigator.push(context, MaterialPageRoute(builder: (context){
-          return new doctorSelect(onlyuser: onlyuser, doctorlist: doctorlist, selectedDoctor: selectedDoctor, unSelectedDoctor: unSelectedDoctor);
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return new doctorSelect(
+              onlyuser: onlyuser,
+              doctorlist: doctorlist,
+              selectedDoctor: selectedDoctor,
+              unSelectedDoctor: unSelectedDoctor);
         }));
-
       });
     });
   }
@@ -226,15 +226,18 @@ class _SettingState extends State<Setting> {
     Widget logout = Container(
       padding: EdgeInsets.all(0),
       height: 50.0,
-      margin: EdgeInsets.only(left: 20.0,right: 20.0,top: 20),
+      margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 20),
       child: new SizedBox.expand(
         child: new RaisedButton(
           elevation: 20,
-          onPressed: (){
-            SharedPreferenceUtil.remove('token').then((value){
-              SharedPreferenceUtil.remove('name').then((value){
-                SharedPreferenceUtil.remove('userId').then((value){
-                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login()), (route) => false);
+          onPressed: () {
+            SharedPreferenceUtil.remove('token').then((value) {
+              SharedPreferenceUtil.remove('name').then((value) {
+                SharedPreferenceUtil.remove('userId').then((value) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                      (route) => false);
                 });
               });
             });
@@ -243,8 +246,7 @@ class _SettingState extends State<Setting> {
           child: new Text(
             '注销',
             style: TextStyle(
-                fontSize: 14.0,
-                color: Color.fromARGB(255, 255, 255, 255)),
+                fontSize: 14.0, color: Color.fromARGB(255, 255, 255, 255)),
           ),
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(40.0)),
@@ -258,12 +260,66 @@ class _SettingState extends State<Setting> {
             height: 60,
             width: 400,
             child: InkWell(
-              onTap: (){
-//                Navigator.push(context, MaterialPageRoute(builder: (context){
-//                  return new doctorSelect(onlyuser: onlyuser, doctorlist: doctorlist, selectedDoctor: selectedDoctor, unSelectedDoctor: unSelectedDoctor);
-//                }));
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Search()));
+              onTap: () {
+                SharedPreferenceUtil.getString('userId').then((value) async {
+                  Map<String, dynamic> data = Map();
+                  var url = "http://39.100.100.198:8082/selectAllDoctor";
+                  Map<String, dynamic> doctor = Map();
+                  data['userId'] = value;
+                  doctor['name'] = null;
+                  doctor['hospital'] = null;
+                  doctor['department'] = null;
+                  data['doctor'] = doctor;
+                  var formData = data;
+                  print(data);
+                  await request(url, context, FormData: formData).then((value) {
+                    Map data = json.decode(value.toString());
+                    List selectedList = new List();
+                    if (data['selected_doctor_id'] != null) {
+                      for (int id in data['selected_doctor_id']) {
+                        selectedList.add(id);
+                      }
+                    }
+                    doctorlist.clear();
+                    selectedDoctor.clear();
+                    unSelectedDoctor.clear();
+                    for (Map temp in data['doctors']) {
+                      Map doctor = {};
+                      doctor['id'] = temp['id'];
+                      doctor['name'] = temp['name'];
+                      doctor['info'] = temp['id_num'];
+                      doctor['hospital'] = temp['hospital'];
+                      doctor['department'] = temp['department'];
+                      doctor['pictureAddress'] =
+                          temp['address'] == null ? temp['address'] : null;
+                      if (selectedList.contains(temp['id'])) {
+                        doctor['select'] = true;
+                        selectedDoctor.add(doctor);
+                      } else {
+                        doctor['select'] = false;
+                        unSelectedDoctor.add(doctor);
+                      }
+                      doctorlist.add(doctor);
+                    }
+                    if (selectedDoctor.length == 0) {
+                      onlyuser = true;
+                    } else {
+                      onlyuser = false;
+                    }
+                    print(selectedDoctor);
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return new doctorSelect(
+                          onlyuser: onlyuser,
+                          doctorlist: doctorlist,
+                          selectedDoctor: selectedDoctor,
+                          unSelectedDoctor: unSelectedDoctor);
+                    }));
+                  });
+                });
+
+//                Navigator.push(context,
+//                    MaterialPageRoute(builder: (context) => Search()));
               },
               child: Card(
                   shape: RoundedRectangleBorder(
@@ -303,7 +359,7 @@ class _SettingState extends State<Setting> {
 //        leading: new Icon(Icons.arrow_back_ios,size: 25,),
       ),
       body: new ListView(
-        children: <Widget>[ChangePspt, ChangePhonenum, ChangeDoctor,logout],
+        children: <Widget>[ChangePspt, ChangePhonenum, ChangeDoctor, logout],
       ),
     );
   }

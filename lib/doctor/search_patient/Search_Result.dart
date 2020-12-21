@@ -5,9 +5,9 @@ import 'dart:convert';
 import 'package:helloworld/patient/pictureGridview.dart';
 import 'dart:developer';
 
-import 'laboratory1.dart';
-import 'report1.dart';
-import 'invasive1.dart';
+import 'package:helloworld/patient/search/invasive1.dart';
+import 'package:helloworld/patient/search/report1.dart';
+import 'package:helloworld/patient/search/laboratory1.dart';
 
 
 
@@ -74,7 +74,9 @@ class WidgetBuild {
 
 class SearchPage extends StatelessWidget {
 
-  SearchPage(this.patientId);
+  SearchPage(String patientId){
+    this.patientId = patientId;
+  }
 
   String patientId;
 
@@ -113,21 +115,17 @@ class SearchPage extends StatelessWidget {
                               onTap: () async {
 
                                 var bodymap = Map();
-                                SharedPreferenceUtil.getString('userId')
-                                    .then((value) async {
-                                  bodymap['userId'] = patientId;
-                                  print(bodymap);
-                                  var url =
-                                      "http://39.100.100.198:8082/Select/ReportPicture";
-                                  var formData = bodymap;
-                                  await request(url, context, FormData: formData).then((value) {
-                                    var data = json.decode(value.toString());
-                                    log(data.toString());
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => report1(list: data['reports'],)));
-                                  });
+                                bodymap['userId'] = patientId;
+                                print('健康体检报告发送：'+bodymap.toString());
+                                var url = "http://39.100.100.198:8082/Select/ReportPicture";
+                                var formData = bodymap;
+                                await request(url, context, FormData: formData).then((value) {
+                                  var data = json.decode(value.toString());
+                                  log(data.toString());
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => report1(list: data['reports'],)));
                                 });
                               },
                               child: _widgetBuild.create(

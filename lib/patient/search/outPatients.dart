@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'outPatientsDetailed.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -34,9 +34,7 @@ class _outPatientsState extends State<outPatients> {
       List<Widget> returnList = new List<Widget>();
       for (Map temp in contentlist) {
         Widget contentCard = Container(
-          padding: EdgeInsets.only(
-            top: 7, bottom: 3
-          ),
+            padding: EdgeInsets.only(top: 7, bottom: 3),
             child: new Card(
               margin: EdgeInsets.only(
                 right: width_ * 0.03,
@@ -44,12 +42,16 @@ class _outPatientsState extends State<outPatients> {
               ),
               child: Container(
                   margin: EdgeInsets.only(
-                    right: width_ * 0.03,
-                    left: width_ * 0.03,
+                      right: width_ * 0.03,
+                      left: width_ * 0.03,
                       top: 15,
-                      bottom: 15
-                  ),
-                  child: Column(
+                      bottom: 15),
+                  child: InkWell(
+                    onTap: (){
+                      print(temp);
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => outPatientDetailed(id: temp,)));
+                    },
+                      child: Column(
                     children: <Widget>[
                       new Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -117,7 +119,7 @@ class _outPatientsState extends State<outPatients> {
                         ],
                       ),
                     ],
-                  )),
+                  ))),
             ));
         returnList.add(contentCard);
       }

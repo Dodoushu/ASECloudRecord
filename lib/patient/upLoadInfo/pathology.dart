@@ -85,7 +85,7 @@ class _Pathology extends State<Pathology> {
           var data = json.decode(value.toString());
           print(data);
           if(data['status_code'] == 1) {
-            showAlertDialog(context, titleText: '', contentText: '操作成功', flag: 1);
+            showAlertDialog(context, titleText: '上传成功', contentText: '', flag: 1);
           }
           else {
             showAlertDialog(context, titleText: '上传失败', contentText: '请稍后重试',flag: 0);

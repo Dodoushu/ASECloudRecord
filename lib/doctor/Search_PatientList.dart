@@ -54,38 +54,11 @@ class _Search_PatientListState extends State<Search_PatientList> {
       for(Map temp in contentlist){
         Widget contentCard = new InkWell(
             onTap: (){
-
+              print(temp);
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SearchPage(temp['id'].toString())));
-
-//              var bodymap = Map();
-//              String userId;
-//              SharedPreferenceUtil.getString('userId')
-//                  .then((value) async {
-//                userId = value;
-//                bodymap['userId'] = '6';
-//                Map patient = new Map();
-//                bodymap['patient'] = patient;
-//                patient['user_id'] = temp['id'];
-//                print(bodymap);
-//                var url =
-//                    "http://39.100.100.198:8082/watchPatientInfo";
-//                var formData = bodymap;
-//                await request(url,context, FormData: formData)
-//                    .then((value) {
-//                  var data = json.decode(value.toString());
-//                  log(data.toString());
-//
-//                  var url = new List();
-//                  Navigator.push(
-//                      context,
-//                      MaterialPageRoute(
-//                          builder: (context) => outPatientRecords(contentlist: data['outPatientRecords'],)));
-//
-//                });
-//              });
+                      builder: (context) => SearchPage(temp['user_id'].toString())));
             },
             child:new Container(
           width: width_,
@@ -105,17 +78,17 @@ class _Search_PatientListState extends State<Search_PatientList> {
                     new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(width: 90,padding: EdgeInsets.only(right: 10),child:Text(temp['name']==null?'null':temp['name'],style: contentStyle,),),
-                        Container(width: 30,padding: EdgeInsets.only(right: 10),child:Text(returnSex(temp['sex']),style: contentStyle,),),
-                        Container(width: 50,padding: EdgeInsets.only(right: 10),child:Text(returnAge(temp['birthday']).toString()+'岁',style: contentStyle,),),
-                        Container(width: 110,padding: EdgeInsets.only(right: 10),child:Text(temp['birthday']==null?'null':temp['birthday'],style: contentStyle,))
+                        Container(width: 120,padding: EdgeInsets.only(right: 10),child:Text(temp['name']==null?'不详':temp['name'],style: contentStyle,),),
+                        Container(width: 70,padding: EdgeInsets.only(right: 10),child:Text(returnSex(temp['sex'])+'   ',style: contentStyle,),),
+                        Container(width: 90,padding: EdgeInsets.only(right: 10),child:Text(returnAge(temp['birthday']).toString()+'岁',style: contentStyle,),),
+//                        Container(width: 110,padding: EdgeInsets.only(right: 10),child:Text(temp['birthday']==null?'不详':temp['birthday'],style: contentStyle,))
                       ],
                     ),
                     new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('身份证号：'+temp['id_num'],style: contentStyle,),
-                        Text('')
+                        Text('出生日期：',style: contentStyle,),
+                        Text(temp['birthday']==null?'不详':temp['birthday'],style: contentStyle,)
                       ],
                     ),
                   ],

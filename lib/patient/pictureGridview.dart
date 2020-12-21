@@ -33,6 +33,7 @@ class BigPhoto extends StatelessWidget{
     );
   }
 }
+
 class PictureView extends StatelessWidget{
 
   final List urls;

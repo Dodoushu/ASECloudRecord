@@ -189,9 +189,9 @@ class _laboratoryExaminationPicture
           var data = json.decode(value.toString());
           print(data);
           if (value.statusCode == 200) {
-            showAlertDialog(context, contentText: '操作成功', flag: 1);
+            showAlertDialog(context, titleText: '上传成功', contentText: '', flag: 1);
           } else {
-            showAlertDialog(context, contentText: '操作失败', flag: 1);
+            showAlertDialog(context, titleText: '上传失败', contentText: '操作失败', flag: 1);
           }
         });
       });

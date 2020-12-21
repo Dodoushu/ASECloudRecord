@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'MainFunctionPage.dart';
 import 'package:intl/intl.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
+import 'package:helloworld/patient/BottomNavigationBar.dart';
 
 void main() => runApp(MaterialApp(home: register2(),
   routes: <String, WidgetBuilder> {
@@ -152,7 +153,7 @@ class _register2 extends State<register2> {
 
           var data = json.decode(value.toString());
           if(data['status_code']==1){
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavigationWidget()), (route) => false);
           }else if(data['status_code']==0){
             showAlertDialog(context,titleText: 'failed',contentText: '身份信息证已存在，请重试',flag: 0);
           }else if(data['status_code']==2){

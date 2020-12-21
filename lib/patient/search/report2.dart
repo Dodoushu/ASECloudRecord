@@ -128,7 +128,7 @@ class _medicalReport extends State<medicalReport> {
                     ),
                   ],
                 ),
-                smallPicGridView(id['address'])
+                smallPicGridViewNet(id['address'])
               ],
             )
           ],
@@ -138,12 +138,6 @@ class _medicalReport extends State<medicalReport> {
 
     returnlist.add(basicInfo);
     return returnlist;
-
-
-
-
-
-
 
   }
 

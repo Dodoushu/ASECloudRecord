@@ -210,7 +210,7 @@ class Search extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'yi查询',
+          '查询',
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         centerTitle: true,
