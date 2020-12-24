@@ -10,8 +10,8 @@ import 'package:helloworld/patient/search/examine.dart';
 import 'package:helloworld/patient/search/admission.dart';
 import 'package:helloworld/patient/search/outPatientsRecords.dart';
 
-import 'search/report1.dart';
-import 'search/laboratory1.dart';
+import 'package:helloworld/patient/search/report1.dart';
+import 'package:helloworld/patient/search/laboratory1.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -583,6 +583,8 @@ class SearchPage extends StatelessWidget {
         )
       ],
     );
+
+
     return new Scaffold(
       appBar: new AppBar(
         title: Text(

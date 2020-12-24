@@ -6,18 +6,21 @@ import 'MainFunctionPage.dart';
 import 'package:intl/intl.dart';
 import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:helloworld/patient/BottomNavigationBar.dart';
+//import 'package:address_picker/address_picker.dart';
+import 'package:city_pickers/city_pickers.dart';
 
-void main() => runApp(MaterialApp(home: register2(),
-  routes: <String, WidgetBuilder> {
-    // 这里可以定义静态路由，不能传递参数
-    '/dialog': (BuildContext context) => new NetLoadingDialog(),
-  },));
+void main() => runApp(MaterialApp(
+      home: register2(),
+      routes: <String, WidgetBuilder>{
+        // 这里可以定义静态路由，不能传递参数
+        '/dialog': (BuildContext context) => new NetLoadingDialog(),
+      },
+    ));
 
 class register2 extends StatefulWidget {
   @override
   State createState() => new _register2();
 }
-
 
 class _register2 extends State<register2> {
   GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
@@ -29,8 +32,8 @@ class _register2 extends State<register2> {
   String birthplace;
   String ID;
 
-  int formerResidenceNumber;   //暂时没用到
-  int ICENumber;            //暂时没用到
+  int formerResidenceNumber; //暂时没用到
+  int ICENumber; //暂时没用到
 
   String mailAddress;
   String address;
@@ -44,20 +47,28 @@ class _register2 extends State<register2> {
 
   String lebalContent = '请选择性别';
   Map labelmap = {
-    '0':'男',
-    '1':'女',
+    '0': '男',
+    '1': '女',
   };
 
+  Result addressResult = new Result(
+      provinceId: '110000',
+      provinceName: "北京市",
+      cityName: '北京城区',
+      cityId: '110100',
+      areaName: '东城区',
+      areaId: '110101');
+//  Result addressResult = new Result('110000', '110100', '110101', '北京市', '北京城区', '东城区');
 
-  List<DropdownMenuItem> getListData(){
-    List<DropdownMenuItem> items=new List();
-    DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
-      child:new Text('男'),
+  List<DropdownMenuItem> getListData() {
+    List<DropdownMenuItem> items = new List();
+    DropdownMenuItem dropdownMenuItem1 = new DropdownMenuItem(
+      child: new Text('男'),
       value: '0',
     );
     items.add(dropdownMenuItem1);
-    DropdownMenuItem dropdownMenuItem2=new DropdownMenuItem(
-      child:new Text('女'),
+    DropdownMenuItem dropdownMenuItem2 = new DropdownMenuItem(
+      child: new Text('女'),
       value: '1',
     );
     items.add(dropdownMenuItem2);
@@ -88,7 +99,6 @@ class _register2 extends State<register2> {
 
   //_disMissCallBack(Function func){  func();  }
 
-
   DateTime startDate = DateTime.now();
   Future<void> _selectstartDate() async //异步
   {
@@ -109,8 +119,7 @@ class _register2 extends State<register2> {
   }
 
   var data;
-  void submit() async{
-
+  void submit() async {
 //    print(name);
 //    var loginForm = loginKey.currentState;
 //    //验证Form表单
@@ -123,46 +132,52 @@ class _register2 extends State<register2> {
     var bodymap = Map();
     var patient = Map();
     String phoneNum;
-    SharedPreferenceUtil.getString('userId').then((value){
-
+    SharedPreferenceUtil.getString('userId').then((value) {
       phoneNum = value;
-      bodymap['userId']=phoneNum;
-      patient['name']=name;
-      SharedPreferenceUtil.setString("name", name).then((value) async{
-
+      bodymap['userId'] = phoneNum;
+      patient['name'] = name;
+      SharedPreferenceUtil.setString("name", name).then((value) async {
         patient['birthday'] = startDate.year.toString() +
             '-' +
             startDate.month.toString() +
             '-' +
             startDate.day.toString();
 
-        patient['sex']=int.parse(sex);
-        patient['race']=nation;
-        patient['birthplace']=birthplace;
-        patient['id_num']=ID;
-        patient['postal_addr']=mailAddress;
-        patient['now_addr']=address;
-        patient['pre_addr1']=FR1;
-        patient['emerge']=[{'name':ICE1name,'phone_num':ICE1phone},{'name':ICE2name,'phone_num':ICE2phone}];
-        bodymap['patient']=patient;
+        patient['sex'] = int.parse(sex);
+        patient['race'] = nation;
+        patient['birthplace'] = addressResult.provinceName+addressResult.cityName+addressResult.areaName+birthplace;
+        patient['id_num'] = ID;
+        patient['postal_addr'] = mailAddress;
+        patient['now_addr'] = address;
+        patient['pre_addr1'] = FR1;
+        patient['emerge'] = [
+          {'name': ICE1name, 'phone_num': ICE1phone},
+          {'name': ICE2name, 'phone_num': ICE2phone}
+        ];
+        bodymap['patient'] = patient;
         print(bodymap);
         var url = "http://39.100.100.198:8082/patient";
         var formData = bodymap;
 
-        await request(url,context,FormData: formData).then((value) {
-
+        await request(url, context, FormData: formData).then((value) {
           var data = json.decode(value.toString());
-          if(data['status_code']==1){
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => BottomNavigationWidget()), (route) => false);
-          }else if(data['status_code']==0){
-            showAlertDialog(context,titleText: 'failed',contentText: '身份信息证已存在，请重试',flag: 0);
-          }else if(data['status_code']==2){
-            showAlertDialog(context,titleText: 'failed',contentText: '必填信息不全，请重试',flag: 0);
-        }});
+          if (data['status_code'] == 1) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BottomNavigationWidget()),
+                (route) => false);
+          } else if (data['status_code'] == 0) {
+            showAlertDialog(context,
+                titleText: 'failed', contentText: '身份信息证已存在，请重试', flag: 0);
+          } else if (data['status_code'] == 2) {
+            showAlertDialog(context,
+                titleText: 'failed', contentText: '必填信息不全，请重试', flag: 0);
+          }
+        });
       });
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -200,7 +215,6 @@ class _register2 extends State<register2> {
                 Divider(
                   thickness: 2,
                 ),
-
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -210,25 +224,25 @@ class _register2 extends State<register2> {
                     ),
                     new DropdownButton(
                       items: getListData(),
-                      hint:new Text(lebalContent),//当没有默认值的时候可以设置的提示
-                      onChanged: (value){//下拉菜单item点击之后的回调
+                      hint: new Text(lebalContent), //当没有默认值的时候可以设置的提示
+                      onChanged: (value) {
+                        //下拉菜单item点击之后的回调
                         sex = value;
                         print(sex);
                         setState(() {
                           lebalContent = labelmap[value];
                         });
                       },
-                      elevation: 24,//设置阴影的高度
-                      style: new TextStyle(//设置文本框里面文字的样式
+                      elevation: 24, //设置阴影的高度
+                      style: new TextStyle(
+                          //设置文本框里面文字的样式
                           color: Colors.black,
-                          fontSize: 15
-                      ),
+                          fontSize: 15),
 //              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
-                      iconSize: 50.0,//设置三角标icon的大小
+                      iconSize: 50.0, //设置三角标icon的大小
                     ),
                   ],
                 ),
-
                 Divider(
                   thickness: 2,
                 ),
@@ -263,18 +277,45 @@ class _register2 extends State<register2> {
                     ],
                   ),
                 ),
-
                 Divider(
                   thickness: 2,
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '出生地:',
+                      style: TextStyle(fontSize: 19),
+                    ),
+                    Container(),
+                  ],
+                ),
+                InkWell(
+                    onTap: () async {
+                      addressResult = await CityPickers.showCityPicker(
+                          context: context, locationCode: '110000');
+                      print(addressResult.toString());
+                      setState(() {});
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(addressResult.provinceName, style: TextStyle(fontSize: 18)),
+                          Text(addressResult.cityName, style: TextStyle(fontSize: 18)),
+                          Text(addressResult.areaName, style: TextStyle(fontSize: 18))
+                        ],
+                      ),
+                    )),
                 TextField(
                   decoration: new InputDecoration(
-                    labelText: '请输入您的出生地',
+                    labelText: '请输入详细地址',
                     labelStyle: new TextStyle(
                         fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none,
                   ),
-                  maxLines: 4,
+                  maxLines: 3,
                   onChanged: (value) {
                     birthplace = value;
                   },
@@ -490,60 +531,57 @@ class _register2 extends State<register2> {
       child: new SizedBox.expand(
         child: new RaisedButton(
           elevation: 0,
-          onPressed: (){
-
+          onPressed: () {
             print("summit begin");
             submit();
             //_disMissCallBack(Dismiss);
             print("summit end");
-
           },
-          
-
-            color: Colors.blue,
-            child: new Text(
+          color: Colors.blue,
+          child: new Text(
             '确定',
             style: TextStyle(
-            fontSize: 14.0, color: Color.fromARGB(255, 255, 255, 255)),
-            ),
-            shape: new RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(40.0)),
-            ),
-            ),
-            );
+                fontSize: 14.0, color: Color.fromARGB(255, 255, 255, 255)),
+          ),
+          shape: new RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(40.0)),
+        ),
+      ),
+    );
 
     return Scaffold(
         appBar: AppBar(
-            title: Text(
+          title: Text(
             '用户注册',
             style: TextStyle(color: Colors.black),
-            ),
-            leading: new Icon(Icons.arrow_back_ios,size: 25,),
-            centerTitle: true,
-//            backgroundColor: Colors.white,
           ),
-          body:
-          new ListView(
-            children: <Widget>[
-              new Container(
-                padding: EdgeInsets.only(top: 0.0, bottom: 20.0),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                ),
-                width: double.infinity,
-                height: 90,
-                child: Center(
-                    child: new Text(
-                  '基础信息填写',
-                  style: TextStyle(color: Colors.white, fontSize: 30.0),
-                )),
+          leading: new Icon(
+            Icons.arrow_back_ios,
+            size: 25,
+          ),
+          centerTitle: true,
+//            backgroundColor: Colors.white,
+        ),
+        body: new ListView(
+          children: <Widget>[
+            new Container(
+              padding: EdgeInsets.only(top: 0.0, bottom: 20.0),
+              decoration: BoxDecoration(
+                color: Colors.blue,
               ),
-              basicInfo,
-              dividerline,
-              contact,
-              ok,
-            ],
-          ));
-
+              width: double.infinity,
+              height: 90,
+              child: Center(
+                  child: new Text(
+                '基础信息填写',
+                style: TextStyle(color: Colors.white, fontSize: 30.0),
+              )),
+            ),
+            basicInfo,
+            dividerline,
+            contact,
+            ok,
+          ],
+        ));
   }
 }

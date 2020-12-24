@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
@@ -191,6 +193,7 @@ class _outpatientMedical extends State<outpatientMedical> {
       bodymap['doctor_name'] = doctorname;
       bodymap['files'] = selectedFiles;
       print(bodymap);
+      print(selectedFiles[0].toString());
       var url = "http://39.100.100.198:8082/UploadFiles/outPatient";
       var formData = FormData.fromMap(bodymap);
 //      var formData = bodymap;
