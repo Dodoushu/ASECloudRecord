@@ -19,61 +19,61 @@ class Search extends StatelessWidget {
   String month;
   String day;
 
+  @override
+  Widget build(BuildContext context) {
+    void submit() async {
+      var bodymap = Map();
+      String userId;
+      SharedPreferenceUtil.getString('doctorUserId').then((value) async {
+        userId = value;
+        bodymap['userId'] = userId;
+        Map watchPatientsInfo = new Map();
+        watchPatientsInfo['name'] = name;
+        watchPatientsInfo['id_num'] = ID_num;
+        watchPatientsInfo['phone_num'] = phone_num;
+        bodymap['watchPatientsInfo'] = watchPatientsInfo;
+        var url = "http://39.100.100.198:8082/selectDAP";
+        var formData = bodymap;
+        print(bodymap);
+        await request(url, context, FormData: formData).then((value) {
+          var data = json.decode(value.toString());
+          log(data.toString());
+          List datalist = data['patients'];
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Search_PatientList(
+                        contentlist: datalist,
+                      )));
 
-
-            @override
-            Widget build(BuildContext context) {
-            void submit() async {
-            var bodymap = Map();
-            String userId;
-            SharedPreferenceUtil.getString('doctorUserId')
-                .then((value) async {
-            userId = value;
-            bodymap['userId'] = userId;
-            Map watchPatientsInfo = new Map();
-            watchPatientsInfo['name'] = name;
-            watchPatientsInfo['id_num'] = ID_num;
-            watchPatientsInfo['phone_num'] = phone_num;
-            bodymap['watchPatientsInfo'] = watchPatientsInfo;
-            var url =
-            "http://39.100.100.198:8082/selectDAP";
-            var formData = bodymap;
-            print(bodymap);
-            await request(url,context, FormData: formData)
-                .then((value) {
-            var data = json.decode(value.toString());
-            log(data.toString());
-            List datalist = data['patients'];
-            Navigator.push(context, MaterialPageRoute(builder: (context) => Search_PatientList(contentlist: datalist,)));
-
-            List testData = [
+          List testData = [
             {
-            'name':'zhangsan',
-            'sex':0,
-            'birthday':'1976-06-03',
-            'phone_num':'12121314',
-            'id':'123467'
+              'name': 'zhangsan',
+              'sex': 0,
+              'birthday': '1976-06-03',
+              'phone_num': '12121314',
+              'id': '123467'
             },
             {
-            'name':'zhangsan',
-            'sex':0,
-            'birthday':'1976-06-03',
-              'phone_num':'12121314',
-              'id':'123467'
+              'name': 'zhangsan',
+              'sex': 0,
+              'birthday': '1976-06-03',
+              'phone_num': '12121314',
+              'id': '123467'
             },
             {
-              'name':'zhangsan',
-              'sex':0,
-              'birthday':'1976-06-03',
-              'phone_num':'12121314',
-              'id':'123467'
+              'name': 'zhangsan',
+              'sex': 0,
+              'birthday': '1976-06-03',
+              'phone_num': '12121314',
+              'id': '123467'
             },
             {
-              'name':'zhangsan',
-              'sex':0,
-              'birthday':'1976-06-03',
-              'phone_num':'12121314',
-              'id':'123467'
+              'name': 'zhangsan',
+              'sex': 0,
+              'birthday': '1976-06-03',
+              'phone_num': '12121314',
+              'id': '123467'
             },
           ];
 

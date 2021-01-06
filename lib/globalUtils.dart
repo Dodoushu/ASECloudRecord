@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:photo_view/photo_view.dart';
+import 'package:city_pickers/city_pickers.dart';
 
 Widget smallPicGridView(List list) {
   List piclist = list;
@@ -45,9 +46,13 @@ Widget onePicWidget(String filePath, double width) {
   if (Path != null) {
     Widget widget = new Center(
         child: Container(
-          width: width,
-           child: new Image(image: FileImage(File(Path)), fit: BoxFit.cover,),) //这句可以完成中心裁剪,
-    );
+      width: width,
+      child: new Image(
+        image: FileImage(File(Path)),
+        fit: BoxFit.cover,
+      ),
+    ) //这句可以完成中心裁剪,
+        );
 
 //    Container(child: new Image(image: FileImage(File(piclist[index])), fit: BoxFit.cover,), //这句可以完成中心裁剪
     return widget;
@@ -70,18 +75,23 @@ Widget smallPicGridViewNet(List list) {
           mainAxisSpacing: 4, //
           crossAxisSpacing: 8, //缩略图间距
           childAspectRatio: 1.0 //显示区域宽高相等
-      ),
+          ),
       itemCount: piclist.length,
       itemBuilder: (context, index) {
         return new GestureDetector(
           child: Container(
             child: new Image.network(
-              'http://'+piclist[index],
+              'http://' + piclist[index],
               fit: BoxFit.cover,
             ), //这句可以完成中心裁剪
           ),
           onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => BigPhotoNet(url: 'http://'+piclist[index],)));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => BigPhotoNet(
+                          url: 'http://' + piclist[index],
+                        )));
           },
         );
       },
@@ -94,23 +104,45 @@ Widget smallPicGridViewNet(List list) {
   }
 }
 
-class BigPhotoNet extends StatelessWidget{
+class BigPhotoNet extends StatelessWidget {
   final String url;
-  BigPhotoNet({Key key, @required this.url}): super(key:key);
+  BigPhotoNet({Key key, @required this.url}) : super(key: key);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return new Scaffold(
-      body:  new GestureDetector(
+      body: new GestureDetector(
         child: Container(
           child: PhotoView(
             imageProvider: new NetworkImage(url),
           ),
         ),
-        onTap:(){
+        onTap: () {
           Navigator.pop(context);
         },
       ),
     );
   }
+}
+
+Map cityPickerResultToMap(Result result) {
+  Map map = new Map();
+  map['provinceName'] = result.provinceName;
+  map['provinceId'] = result.provinceId;
+  map['cityName'] = result.cityName;
+  map['cityId'] = result.cityId;
+  map['areaName'] = result.areaName;
+  map['areaId'] = result.areaId;
+  return map;
+}
+
+Result mapToCityPickerResult(Map map) {
+  Result result = new Result(
+      provinceId: map['provinceId'],
+      provinceName: map['provinceName'],
+      cityId: map['cityId'],
+      cityName: map['cityName'],
+      areaId: map['cityId'],
+      areaName: map['areaName']);
+  return result;
 }

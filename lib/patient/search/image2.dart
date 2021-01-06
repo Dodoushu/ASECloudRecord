@@ -10,19 +10,19 @@ import 'package:intl/intl.dart';
 import 'package:helloworld/globalUtils.dart';
 
 
-class medicalReport extends StatefulWidget {
-  medicalReport({Key key, @required var id}): super(key:key){
+class image2 extends StatefulWidget {
+  image2({Key key, @required var id}): super(key:key){
     this.id = id;
   }
   var id;
 
   @override
-  State createState() => new _medicalReport(id: id);
+  State createState() => new _image2(id: id);
 }
 
-class _medicalReport extends State<medicalReport> {
+class _image2 extends State<image2> {
 
-  _medicalReport({@required var id}){
+  _image2({@required var id}){
     this.id = id;
     print(id);
   }
@@ -48,7 +48,7 @@ class _medicalReport extends State<medicalReport> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    '体检日期:',
+                    '检查日期:',
                     style: TextStyle(fontSize: 19),
                   ),
                   Text(
@@ -63,45 +63,12 @@ class _medicalReport extends State<medicalReport> {
             ),
             Column(
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      '体检机构:',
-                      style: TextStyle(fontSize: 19),
-                    ),
-                    Text(
-                      id['hospital'],
-                      style: TextStyle(fontSize: 19),
-                    ),
-                  ],
-                ),
-                Divider(
-                  thickness: 2,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      '主要结论或诊断:',
-                      style: TextStyle(fontSize: 19),
-                    ),
-                    Container(width: 10,),
-                    Flexible(child:Text(
-                      id['report_info'],
-                      style: TextStyle(fontSize: 19),
-                    ),)
-                  ],
-                ),
-                Divider(
-                  thickness: 2,
-                ),
                 new Column(
                   children: [
                     new Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('体检摘要:',style: TextStyle(fontSize: 19),),
+                        Text('检查结论',style: TextStyle(fontSize: 19),),
                         Container(),
                       ],
                     ),
@@ -148,7 +115,7 @@ class _medicalReport extends State<medicalReport> {
             color: Colors.black, //修改颜色
           ),
           title: Text(
-            '体检报告',
+            '影像检查',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -166,7 +133,7 @@ class _medicalReport extends State<medicalReport> {
               height: 90,
               child: Center(
                   child: new Text(
-                    '体检报告查询',
+                    '影像检查查询',
                     style: TextStyle(color: Colors.white, fontSize: 30.0),
                   )),
             ),

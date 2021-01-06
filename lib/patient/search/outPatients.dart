@@ -32,6 +32,7 @@ class _outPatientsState extends State<outPatients> {
 
     List<Widget> contentCardBuilder() {
       List<Widget> returnList = new List<Widget>();
+      contentlist.sort((a, b) => b['date'].compareTo(a['date']));
       for (Map temp in contentlist) {
         Widget contentCard = Container(
             padding: EdgeInsets.only(top: 7, bottom: 3),
@@ -105,19 +106,19 @@ class _outPatientsState extends State<outPatients> {
                           ),
                         ],
                       ),
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '病例内容：',
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                          Text(
-                            temp['disease_info'],
-                            style: new TextStyle(fontSize: 18),
-                          ),
-                        ],
-                      ),
+//                      new Row(
+//                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                        children: [
+//                          Text(
+//                            '病例内容：',
+//                            style: new TextStyle(fontSize: 18),
+//                          ),
+//                          Text(
+//                            temp['disease_info'],
+//                            style: new TextStyle(fontSize: 18),
+//                          ),
+//                        ],
+//                      ),
                     ],
                   ))),
             ));

@@ -54,15 +54,15 @@ class _Login extends State<Login> {
         var data = json.decode(value.toString());
         print(data);
         if (data['status_code'] == 1) {
-          SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value){
-            SharedPreferenceUtil.setString('userId', data['userId'].toString()).then((value){
+          SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value) {
+            SharedPreferenceUtil.setString('userId', data['userId'].toString())
+                .then((value) {
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(builder: (context) => register2()),
-                      (route) => false);
+                  (route) => false);
             });
           });
-
         } else if (data['status_code'] == 0) {
           showAlertDialog(context,
               titleText: '注册失败', contentText: '账号已存在', flag: 0);
@@ -176,24 +176,20 @@ class _Login extends State<Login> {
                             fontSize: 15.0,
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
-                        // suffixIcon: new IconButton(
-                        //   icon: new Icon(
-                        //     Icons.close,
-                        //     color: Color.fromARGB(255, 126, 126, 126),
-                        //   ),
-                        //   onPressed: () {
-
-                        //   },
-                        // ),
                       ),
                       keyboardType: TextInputType.phone,
                       onChanged: (value) {
                         phoneNumber = value;
                       },
-                      validator: (phone) {
-                        // if(phone.length == 0){
-                        //   return '请输入手机号';
-                        // }
+                      validator: (value) {
+                        RegExp exp = RegExp(
+                            r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
+                        bool matched = exp.hasMatch(value);
+                        if (matched == false) {
+                          return '请输入正确手机号';
+                        } else {
+                          return null;
+                        }
                       },
                       onFieldSubmitted: (value) {},
                     ),
@@ -239,15 +235,6 @@ class _Login extends State<Login> {
                             fontSize: 15.0,
                             color: Color.fromARGB(255, 93, 93, 93)),
                         border: InputBorder.none,
-//                            suffixIcon: new IconButton(
-//                              icon: new Icon(
-//                                isShowPassWord
-//                                    ? Icons.visibility
-//                                    : Icons.visibility_off,
-//                                color: Color.fromARGB(255, 126, 126, 126),
-//                              ),
-//                              onPressed: showPassWord,
-//                            )
                       ),
                       obscureText: !isShowPassWord,
                       validator: (value) {

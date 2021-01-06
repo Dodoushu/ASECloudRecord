@@ -1,10 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'dart:convert';
 import 'package:helloworld/showAlertDialogClass.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(MaterialApp(
       home: Pathology(),
@@ -76,7 +75,8 @@ class _Pathology extends State<Pathology> {
       SharedPreferenceUtil.getString('userId').then((value) async {
         phoneNum = value;
         bodymap['userId'] = phoneNum;
-        map2['examine'] = content;
+        map2['examine_info'] = content;
+        map2['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
         bodymap['examine'] = map2;
         print(bodymap);
         var url = "http://39.100.100.198:8082/diseaseExamine";
@@ -105,6 +105,23 @@ class _Pathology extends State<Pathology> {
           children: <Widget>[
             Column(
               children: <Widget>[
+                InkWell(
+                  onTap: _selectDate,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        '体检日期:',
+                        style: TextStyle(fontSize: 19),
+                      ),
+                      Text(
+//                  date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString(),
+                        DateFormat.yMd().format(date),
+                        style: TextStyle(fontSize: 19),
+                      ),
+                    ],
+                  ),
+                ),
                 Divider(
                   thickness: 2,
                 ),
@@ -174,7 +191,7 @@ class _Pathology extends State<Pathology> {
               height: 90,
               child: Center(
                   child: new Text(
-                '病理学检查结果上传',
+                '病理学检查上传',
                 style: TextStyle(color: Colors.white, fontSize: 30.0),
               )),
             ),

@@ -13,6 +13,7 @@ import 'report2.dart';
 class report1 extends StatefulWidget {
   report1({Key key, @required var list}): super(key:key){
     this.list = list;
+//    list.sort((a, b) => b['date'].compareTo(a['date']));
   }
 
   @override
@@ -23,6 +24,7 @@ class report1 extends StatefulWidget {
 class _report1 extends State<report1> {
   _report1({@required var list}){
     this.list = list;
+//    list.sort((a, b) => b['date'].compareTo(a['date']));
     print(list);
   }
   var list;
@@ -31,27 +33,17 @@ class _report1 extends State<report1> {
   @override
   Widget build(BuildContext context) {
     double width_ = MediaQuery.of(context).size.width;
+
     List buildList(var list){
       print(list);
+//      list.sort((Map a, Map b) => b['date'].compareTo(a['date']));
       List<Widget> buildedList = new List();
+//      list.sort((a, b) => b['date'].compareTo(a['date']));
       for(Map map in list){
         Widget itemCard = InkWell(
           onTap: ()async{
             print(map);
             Navigator.push(context, MaterialPageRoute(builder: (context) => medicalReport(id: map,)));
-//            var bodymap = Map();
-//            Map report = Map();
-//            report['id'] = map['id'];
-//            bodymap['report'] = report;
-//            var url = "http://39.100.100.198:8082/watchPatientSomeInfo";
-//            var formData = bodymap;
-//            await request(url, context, FormData: formData).then((value) {
-//              var data = json.decode(value.toString());
-//              log(data.toString());
-//              Navigator.push(context, MaterialPageRoute(builder: (context) => medicalReport(id: data['reports'][0],)));
-//
-//            });
-
           },
           child: new Container(
             padding: EdgeInsets.only(left: 10,right: 10),
@@ -109,7 +101,7 @@ class _report1 extends State<report1> {
     return Scaffold(
         appBar: new AppBar(
           title: Text(
-            '',
+            '体检报告',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,

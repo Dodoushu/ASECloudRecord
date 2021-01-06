@@ -172,7 +172,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
           Map data = json.decode(value.toString());
           print(data);
           if(data['status_code'] == 1) {
-            showAlertDialog(context, titleText: 'success', contentText: '操作成功', flag: 1);
+            showAlertDialog(context, titleText: '上传成功', contentText: '', flag: 1);
           }
           else {
             showAlertDialog(context, titleText: '上传失败', contentText: '请稍后重试',flag: 0);
@@ -340,7 +340,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            '住院病历上传',
+            '住院病历',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -357,7 +357,7 @@ class _HospitalizedRecord extends State<HospitalizedRecord> {
               height: 90,
               child: Center(
                   child: new Text(
-                '住院病历',
+                '住院病历上传',
                 style: TextStyle(color: Colors.white, fontSize: 30.0),
               )),
             ),

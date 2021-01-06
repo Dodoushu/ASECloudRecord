@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:helloworld/patient/search/image1.dart';
 import 'package:helloworld/patient/search/invasive1.dart';
 import 'package:helloworld/sharedPrefrences.dart';
 import 'package:helloworld/http_service.dart';
@@ -12,6 +13,7 @@ import 'package:helloworld/patient/search/outPatientsRecords.dart';
 
 import 'package:helloworld/patient/search/report1.dart';
 import 'package:helloworld/patient/search/laboratory1.dart';
+import 'package:helloworld/patient/search/self1.dart';
 
 void main() {
   runApp(new MaterialApp(
@@ -293,10 +295,12 @@ class SearchPage extends StatelessWidget {
                                   await request(url, context, FormData: formData).then((value) {
                                     var data = json.decode(value.toString());
                                     log(data.toString());
+                                    List newlist = data['reports'];
+                                    newlist.sort((a, b) => b['date'].compareTo(a['date']));
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => report1(list: data['reports'],)));
+                                            builder: (context) => report1(list: newlist,)));
                                   });
                                 });
                               },
@@ -322,26 +326,11 @@ class SearchPage extends StatelessWidget {
                                         .then((value) {
                                       print(value);
                                       var data = json.decode(value.toString());
-                                      var url = new List();
-                                      for (var value
-                                          in data['diseasePictures']) {
-                                        url.addAll(value['address']);
-//                                      log(value['address'].toString());
-                                      }
-                                      log(url.toString());
-                                      var urls = List<String>();
-                                      for (value in url) {
-                                        urls.add('http://' + value.toString());
-                                      }
-//                                    print(data);
-//                                    log(data['textInfo'].toString());
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => PictureView(
-                                                    urls: urls,
-                                                  )));
-//                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
+                                      log(data.toString());
+                                      List list = data['diseasePictures'];
+                                      list.sort((a, b) => b['date'].compareTo(a['date']));
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => self1(list: list,)));
+
                                     });
                                   });
                                 },
@@ -365,47 +354,14 @@ class SearchPage extends StatelessWidget {
                                       await request(url, context, FormData: formData).then((value) {
                                         var data = json.decode(value.toString());
                                         log(data.toString());
+                                        List list = data['laboratoryPictures'];
+                                        list.sort((a, b) => b['date'].compareTo(a['date']));
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => laboratory1(list: data['laboratoryPictures'],)));
+                                                builder: (context) => laboratory1(list: list,)));
                                       });
                                     });
-
-//                                    phoneNum = value;
-//                                    bodymap['phone_num'] = phoneNum;
-//                                    print(
-//                                        '*******************************************************');
-//                                    print(bodymap);
-//                                    var url =
-//                                        "http://39.100.100.198:8082/Select/LaboratoryPicture";
-//                                    var formData = bodymap;
-//                                    await request(url, context,
-//                                            FormData: formData)
-//                                        .then((value) {
-//                                      print(value);
-//                                      var data = json.decode(value.toString());
-//                                      var url = new List();
-//                                      for (var value
-//                                          in data['laboratoryPictures']) {
-//                                        url.addAll(value['address']);
-////                                      log(value['address'].toString());
-//                                      }
-//                                      log(url.toString());
-//                                      var urls = List<String>();
-//                                      for (value in url) {
-//                                        urls.add('http://' + value.toString());
-//                                      }
-////                                    print(data);
-////                                    log(data['textInfo'].toString());
-//                                      Navigator.push(
-//                                          context,
-//                                          MaterialPageRoute(
-//                                              builder: (context) => PictureView(
-//                                                    urls: urls,
-//                                                  )));
-////                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
-//                                    });
                                   });
                                 },
                                 child: _widgetBuild.create(
@@ -429,25 +385,14 @@ class SearchPage extends StatelessWidget {
                                         .then((value) {
                                       print(value);
                                       var data = json.decode(value.toString());
-                                      var url = new List();
-                                      for (var value in data['imagePictures']) {
-                                        url.addAll(value['address']);
-//                                      log(value['address'].toString());
-                                      }
-                                      log(url.toString());
-                                      var urls = List<String>();
-                                      for (value in url) {
-                                        urls.add('http://' + value.toString());
-                                      }
-//                                    print(data);
-//                                    log(data['textInfo'].toString());
+                                      List list = data['imagePictures'];
+                                      list.sort((a, b) => b['date'].compareTo(a['date']));
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => PictureView(
-                                                    urls: urls,
+                                              builder: (context) => image1(
+                                                    list: list,
                                                   )));
-//                                    showAlertDialog(context,titleText: '',contentText: data['textInfo'][0]['address'].toString());
                                     });
                                   });
                                 },
@@ -467,10 +412,12 @@ class SearchPage extends StatelessWidget {
                                     await request(url, context, FormData: formData).then((value) {
                                       var data = json.decode(value.toString());
                                       log(data.toString());
+                                      List list = data['instrumentPictures'];
+                                      list.sort((a, b) => b['date'].compareTo(a['date']));
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) => invasive1(list: data['instrumentPictures'],)));
+                                              builder: (context) => invasive1(list: list,)));
                                     });
                                   });
                                 },
@@ -495,13 +442,14 @@ class SearchPage extends StatelessWidget {
                                       .then((value) {
                                     var data = json.decode(value.toString());
                                     print(data['admissionNotes']);
-
+                                    List list = data['admissionNotes'];
+                                    list.sort((a, b) => b['s_date'].compareTo(a['s_date']));
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => admission(
                                                   contentlist:
-                                                      data['admissionNotes'],
+                                                      list,
                                                 )));
                                   });
                                 });
@@ -528,12 +476,13 @@ class SearchPage extends StatelessWidget {
                                       .then((value) {
                                     var data = json.decode(value.toString());
                                     print(data['examines']);
-
+                                    List list = data['examines'];
+//                                    list.sort((a, b) => b['date'].compareTo(a['date']));
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => examine(
-                                                  contentlist: data['examines'],
+                                                  contentlist: list,
                                                 )));
                                   });
                                 });

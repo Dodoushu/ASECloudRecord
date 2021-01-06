@@ -10,19 +10,19 @@ import 'package:intl/intl.dart';
 import 'package:helloworld/globalUtils.dart';
 
 
-class medicalReport extends StatefulWidget {
-  medicalReport({Key key, @required var id}): super(key:key){
+class self2 extends StatefulWidget {
+  self2({Key key, @required var id}): super(key:key){
     this.id = id;
   }
   var id;
 
   @override
-  State createState() => new _medicalReport(id: id);
+  _self2 createState() => new _self2(id: id);
 }
 
-class _medicalReport extends State<medicalReport> {
+class _self2 extends State<self2> {
 
-  _medicalReport({@required var id}){
+  _self2({@required var id}){
     this.id = id;
     print(id);
   }
@@ -48,7 +48,7 @@ class _medicalReport extends State<medicalReport> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   Text(
-                    '体检日期:',
+                    '拍照日期:',
                     style: TextStyle(fontSize: 19),
                   ),
                   Text(
@@ -67,54 +67,17 @@ class _medicalReport extends State<medicalReport> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Text(
-                      '体检机构:',
+                      '病症自拍简介:',
                       style: TextStyle(fontSize: 19),
                     ),
-                    Text(
-                      id['hospital'],
-                      style: TextStyle(fontSize: 19),
-                    ),
-                  ],
-                ),
-                Divider(
-                  thickness: 2,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Text(
-                      '主要结论或诊断:',
-                      style: TextStyle(fontSize: 19),
-                    ),
+                    // 使用flexible解决自动换行问题
                     Container(width: 10,),
                     Flexible(child:Text(
-                      id['report_info'],
+//                      '无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无无',
+                      id['information'],
+                    maxLines: 100,
                       style: TextStyle(fontSize: 19),
                     ),)
-                  ],
-                ),
-                Divider(
-                  thickness: 2,
-                ),
-                new Column(
-                  children: [
-                    new Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('体检摘要:',style: TextStyle(fontSize: 19),),
-                        Container(),
-                      ],
-                    ),
-                    new Text(id['result'],
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                          fontSize: 19,
-                          letterSpacing: 1,
-                          wordSpacing: 2,
-                          height: 1.2,
-                          fontWeight: FontWeight.w600
-                      ),
-                    ),
                   ],
                 ),
                 Divider(
@@ -148,7 +111,7 @@ class _medicalReport extends State<medicalReport> {
             color: Colors.black, //修改颜色
           ),
           title: Text(
-            '体检报告',
+            '病症自拍',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -166,7 +129,7 @@ class _medicalReport extends State<medicalReport> {
               height: 90,
               child: Center(
                   child: new Text(
-                    '体检报告查询',
+                    '病症自拍查询',
                     style: TextStyle(color: Colors.white, fontSize: 30.0),
                   )),
             ),

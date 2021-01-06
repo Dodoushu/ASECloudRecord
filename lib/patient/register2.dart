@@ -8,6 +8,7 @@ import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:helloworld/patient/BottomNavigationBar.dart';
 //import 'package:address_picker/address_picker.dart';
 import 'package:city_pickers/city_pickers.dart';
+import 'package:helloworld/globalUtils.dart';
 
 void main() => runApp(MaterialApp(
       home: register2(),
@@ -23,27 +24,40 @@ class register2 extends StatefulWidget {
 }
 
 class _register2 extends State<register2> {
-  GlobalKey<FormState> loginKey = new GlobalKey<FormState>();
+  GlobalKey<FormState> registerKey = new GlobalKey<FormState>();
 
   Function Dismiss;
   String name;
+  static final TextEditingController nameController = new TextEditingController();
   String sex;
+  static final TextEditingController sexController = new TextEditingController();
   String nation;
+  static final TextEditingController nationController = new TextEditingController();
   String birthplace;
+  static final TextEditingController birthplaceController = new TextEditingController();
   String ID;
+  static final TextEditingController idController = new TextEditingController();
 
   int formerResidenceNumber; //暂时没用到
   int ICENumber; //暂时没用到
 
   String mailAddress;
+  static final TextEditingController mailaddressController = new TextEditingController();
   String address;
+  static final TextEditingController addressController = new TextEditingController();
 
   String FR1;
+  static final TextEditingController fr1Controller = new TextEditingController();
   String FR2;
+  static final TextEditingController fr2Controller = new TextEditingController();
   String ICE1name;
+  static final TextEditingController ICE1nameController = new TextEditingController();
   String ICE1phone;
+  static final TextEditingController ICE1phoneController = new TextEditingController();
   String ICE2name;
+  static final TextEditingController ICE2nameController = new TextEditingController();
   String ICE2phone;
+  static final TextEditingController ICE2phoneController = new TextEditingController();
 
   String lebalContent = '请选择性别';
   Map labelmap = {
@@ -51,7 +65,23 @@ class _register2 extends State<register2> {
     '1': '女',
   };
 
-  Result addressResult = new Result(
+  Result birthAddressResult = new Result(
+      provinceId: '110000',
+      provinceName: "北京市",
+      cityName: '北京城区',
+      cityId: '110100',
+      areaName: '东城区',
+      areaId: '110101');
+
+  Result nowAddressResult = new Result(
+      provinceId: '110000',
+      provinceName: "北京市",
+      cityName: '北京城区',
+      cityId: '110100',
+      areaName: '东城区',
+      areaId: '110101');
+
+  Result mailAddressResult = new Result(
       provinceId: '110000',
       provinceName: "北京市",
       cityName: '北京城区',
@@ -75,30 +105,6 @@ class _register2 extends State<register2> {
     return items;
   }
 
-//  void frplus() {
-//    if (formerResidenceNumber == null) {
-//      formerResidenceNumber = 1;
-//    }
-//    if (formerResidenceNumber <= 3) {
-//      setState(() {
-//        formerResidenceNumber++;
-//      });
-//    }
-//  }
-//
-//  void INplus() {
-//    if (ICENumber == null) {
-//      ICENumber = 1;
-//    }
-//    if (ICENumber <= 3) {
-//      setState(() {
-//        ICENumber++;
-//      });
-//    }
-//  }
-
-  //_disMissCallBack(Function func){  func();  }
-
   DateTime startDate = DateTime.now();
   Future<void> _selectstartDate() async //异步
   {
@@ -120,63 +126,76 @@ class _register2 extends State<register2> {
 
   var data;
   void submit() async {
-//    print(name);
-//    var loginForm = loginKey.currentState;
-//    //验证Form表单
-//    if(loginForm.validate()){
-//      print(name);
-//    }
-    //func();
-    //_disMissCallBack(Dismiss);
-    print("back already");
-    var bodymap = Map();
-    var patient = Map();
-    String phoneNum;
-    SharedPreferenceUtil.getString('userId').then((value) {
-      phoneNum = value;
-      bodymap['userId'] = phoneNum;
-      patient['name'] = name;
-      SharedPreferenceUtil.setString("name", name).then((value) async {
-        patient['birthday'] = startDate.year.toString() +
-            '-' +
-            startDate.month.toString() +
-            '-' +
-            startDate.day.toString();
+    var loginForm = registerKey.currentState;
+    //验证Form表单
+    if (loginForm.validate()) {
+      var bodymap = Map();
+      var patient = Map();
+      String phoneNum;
+      SharedPreferenceUtil.getString('userId').then((value) {
+        phoneNum = value;
+        bodymap['userId'] = phoneNum;
+        patient['name'] = name;
+        SharedPreferenceUtil.setString("name", name).then((value) async {
+          patient['birthday'] = startDate.year.toString() +
+              '-' +
+              startDate.month.toString() +
+              '-' +
+              startDate.day.toString();
 
-        patient['sex'] = int.parse(sex);
-        patient['race'] = nation;
-        patient['birthplace'] = addressResult.provinceName+addressResult.cityName+addressResult.areaName+birthplace;
-        patient['id_num'] = ID;
-        patient['postal_addr'] = mailAddress;
-        patient['now_addr'] = address;
-        patient['pre_addr1'] = FR1;
-        patient['emerge'] = [
-          {'name': ICE1name, 'phone_num': ICE1phone},
-          {'name': ICE2name, 'phone_num': ICE2phone}
-        ];
-        bodymap['patient'] = patient;
-        print(bodymap);
-        var url = "http://39.100.100.198:8082/patient";
-        var formData = bodymap;
+          patient['sex'] = int.parse(sex);
+          patient['race'] = nation;
+          patient['birthplace'] = birthAddressResult.provinceName +
+              ' ' +
+              birthAddressResult.cityName +
+              ' ' +
+              birthAddressResult.areaName +
+              ' ' +
+              birthplace;
+          patient['id_num'] = ID;
+          patient['postal_addr'] = mailAddressResult.provinceName +
+              ' ' +
+              mailAddressResult.cityName +
+              ' ' +
+              mailAddressResult.areaName +
+              ' ' +
+              mailAddress;
+          patient['now_addr'] = nowAddressResult.provinceName +
+              ' ' +
+              nowAddressResult.cityName +
+              ' ' +
+              nowAddressResult.areaName +
+              ' ' +
+              address;
+          patient['pre_addr1'] = FR1;
+          patient['emerge'] = [
+            {'name': ICE1name, 'phone_num': ICE1phone},
+            {'name': ICE2name, 'phone_num': ICE2phone}
+          ];
+          bodymap['patient'] = patient;
+          print(bodymap);
+          var url = "http://39.100.100.198:8082/patient";
+          var formData = bodymap;
 
-        await request(url, context, FormData: formData).then((value) {
-          var data = json.decode(value.toString());
-          if (data['status_code'] == 1) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => BottomNavigationWidget()),
-                (route) => false);
-          } else if (data['status_code'] == 0) {
-            showAlertDialog(context,
-                titleText: 'failed', contentText: '身份信息证已存在，请重试', flag: 0);
-          } else if (data['status_code'] == 2) {
-            showAlertDialog(context,
-                titleText: 'failed', contentText: '必填信息不全，请重试', flag: 0);
-          }
+          await request(url, context, FormData: formData).then((value) {
+            var data = json.decode(value.toString());
+            if (data['status_code'] == 1) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BottomNavigationWidget()),
+                  (route) => false);
+            } else if (data['status_code'] == 0) {
+              showAlertDialog(context,
+                  titleText: 'failed', contentText: '身份信息证已存在，请重试', flag: 0);
+            } else if (data['status_code'] == 2) {
+              showAlertDialog(context,
+                  titleText: 'failed', contentText: '必填信息不全，请重试', flag: 0);
+            }
+          });
         });
       });
-    });
+    }
   }
 
   @override
@@ -202,10 +221,12 @@ class _register2 extends State<register2> {
             Column(
               children: <Widget>[
                 TextField(
+                  controller: nameController,
                   decoration: new InputDecoration(
                     labelText: '请输入您的姓名',
                     labelStyle: new TextStyle(
-                        fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                        fontSize: 15.0,
+                        color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none,
                   ),
                   onChanged: (value) {
@@ -235,7 +256,7 @@ class _register2 extends State<register2> {
                       },
                       elevation: 24, //设置阴影的高度
                       style: new TextStyle(
-                          //设置文本框里面文字的样式
+                        //设置文本框里面文字的样式
                           color: Colors.black,
                           fontSize: 15),
 //              isDense: false,//减少按钮的高度。默认情况下，此按钮的高度与其菜单项的高度相同。如果isDense为true，则按钮的高度减少约一半。 这个当按钮嵌入添加的容器中时，非常有用
@@ -247,10 +268,12 @@ class _register2 extends State<register2> {
                   thickness: 2,
                 ),
                 TextField(
+                  controller: nationController,
                   decoration: new InputDecoration(
                     labelText: '请输入您的民族',
                     labelStyle: new TextStyle(
-                        fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                        fontSize: 15.0,
+                        color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none,
                   ),
                   onChanged: (value) {
@@ -292,27 +315,36 @@ class _register2 extends State<register2> {
                 ),
                 InkWell(
                     onTap: () async {
-                      addressResult = await CityPickers.showCityPicker(
-                          context: context, locationCode: '110000');
-                      print(addressResult.toString());
-                      setState(() {});
+                      Result result = await CityPickers.showCityPicker(
+                          context: context);
+                      if (result != null) {
+                        birthAddressResult = result;
+                        print(birthAddressResult.toString());
+                        setState(() {});
+                      }
                     },
                     child: Container(
                       margin: EdgeInsets.all(10),
                       child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(addressResult.provinceName, style: TextStyle(fontSize: 18)),
-                          Text(addressResult.cityName, style: TextStyle(fontSize: 18)),
-                          Text(addressResult.areaName, style: TextStyle(fontSize: 18))
+                          Text(birthAddressResult.provinceName,
+                              style: TextStyle(fontSize: 18)),
+                          Text(birthAddressResult.cityName,
+                              style: TextStyle(fontSize: 18)),
+                          Text(birthAddressResult.areaName,
+                              style: TextStyle(fontSize: 18))
                         ],
                       ),
                     )),
                 TextField(
+                  controller: birthplaceController,
                   decoration: new InputDecoration(
                     labelText: '请输入详细地址',
                     labelStyle: new TextStyle(
-                        fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
+                        fontSize: 15.0,
+                        color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none,
                   ),
                   maxLines: 3,
@@ -323,17 +355,33 @@ class _register2 extends State<register2> {
                 Divider(
                   thickness: 2,
                 ),
-                TextField(
-                  decoration: new InputDecoration(
-                    labelText: '请输入您的身份证号',
-                    labelStyle: new TextStyle(
-                        fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    ID = value;
-                  },
-                ),
+                Form(
+                    key: registerKey,
+                    child: TextFormField(
+                      controller: idController,
+                      autovalidate: true,
+                      decoration: new InputDecoration(
+                        labelText: '请输入您的身份证号',
+                        labelStyle: new TextStyle(
+                            fontSize: 15.0,
+                            color: Color.fromARGB(255, 93, 93, 93)),
+                        border: InputBorder.none,
+                      ),
+                      validator: (value) {
+                        RegExp cardReg = RegExp(
+                            r'^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|X)$');
+                        if (value == null ||
+                            value.isEmpty ||
+                            !cardReg.hasMatch(value)) {
+                          return '请输入有效身份证号';
+                        } else {
+                          return null;
+                        }
+                      },
+                      onChanged: (value) {
+                        ID = value;
+                      },
+                    )),
                 Divider(
                   thickness: 2,
                 ),
@@ -367,29 +415,101 @@ class _register2 extends State<register2> {
             ),
             Column(
               children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '通讯地址:',
+                      style: TextStyle(fontSize: 19),
+                    ),
+                    Container(),
+                  ],
+                ),
+                InkWell(
+                    onTap: () async {
+                      Result result2 =
+                          await CityPickers.showCityPicker(context: context);
+                      if (result2 != null) {
+                        mailAddressResult = result2;
+                        print(mailAddressResult.toString());
+                        setState(() {});
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(mailAddressResult.provinceName,
+                              style: TextStyle(fontSize: 18)),
+                          Text(mailAddressResult.cityName,
+                              style: TextStyle(fontSize: 18)),
+                          Text(mailAddressResult.areaName,
+                              style: TextStyle(fontSize: 18))
+                        ],
+                      ),
+                    )),
                 TextField(
+                  controller: mailaddressController,
                   decoration: new InputDecoration(
-                    labelText: '请输入您的通讯地址',
+                    labelText: '请输入详细地址',
                     labelStyle: new TextStyle(
                         fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none,
                   ),
-                  maxLines: 5,
+                  maxLines: 3,
                   onChanged: (value) {
                     mailAddress = value;
                   },
                 ),
+
                 Divider(
                   thickness: 2,
                 ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      '现居住地:',
+                      style: TextStyle(fontSize: 19),
+                    ),
+                    Container(),
+                  ],
+                ),
+                InkWell(
+                    onTap: () async {
+                      Result result3 =
+                          await CityPickers.showCityPicker(context: context);
+                      if (result3 != null) {
+                        nowAddressResult = result3;
+                        print(nowAddressResult.toString());
+                        setState(() {});
+                      }
+                    },
+                    child: Container(
+                      margin: EdgeInsets.all(10),
+                      child: new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(nowAddressResult.provinceName,
+                              style: TextStyle(fontSize: 18)),
+                          Text(nowAddressResult.cityName,
+                              style: TextStyle(fontSize: 18)),
+                          Text(nowAddressResult.areaName,
+                              style: TextStyle(fontSize: 18))
+                        ],
+                      ),
+                    )),
                 TextField(
+                  controller: addressController,
                   decoration: new InputDecoration(
-                    labelText: '请输入您的现居住地',
+                    labelText: '请输入详细地址',
                     labelStyle: new TextStyle(
                         fontSize: 15.0, color: Color.fromARGB(255, 93, 93, 93)),
                     border: InputBorder.none,
                   ),
-                  maxLines: 5,
+                  maxLines: 3,
                   onChanged: (value) {
                     address = value;
                   },
@@ -406,10 +526,6 @@ class _register2 extends State<register2> {
                         '曾居住地',
                         style: TextStyle(fontSize: 18),
                       ),
-//                      IconButton(
-//                        icon: Icon(Icons.add),
-//                        onPressed: frplus,
-//                      )
                     ],
                   ),
                 ),
@@ -417,6 +533,7 @@ class _register2 extends State<register2> {
                   thickness: 2,
                 ),
                 TextField(
+                  controller: fr1Controller,
                   decoration: new InputDecoration(
                     labelText: '请输入您的曾居住地1',
                     labelStyle: new TextStyle(
@@ -467,6 +584,7 @@ class _register2 extends State<register2> {
               thickness: 2,
             ),
             TextField(
+              controller: ICE1nameController,
               decoration: new InputDecoration(
                 labelText: '请输入您的紧急联系人1姓名',
                 labelStyle: new TextStyle(
@@ -481,6 +599,7 @@ class _register2 extends State<register2> {
               thickness: 2,
             ),
             TextField(
+              controller: ICE1phoneController,
               decoration: new InputDecoration(
                 labelText: '请输入您的紧急联系人1电话',
                 labelStyle: new TextStyle(
@@ -489,12 +608,13 @@ class _register2 extends State<register2> {
               ),
               onChanged: (value) {
                 ICE1phone = value;
-              },
+              }, 
             ),
             Divider(
               thickness: 2,
             ),
             TextField(
+              controller: ICE2nameController,
               decoration: new InputDecoration(
                 labelText: '请输入您的紧急联系人2姓名',
                 labelStyle: new TextStyle(
@@ -509,6 +629,7 @@ class _register2 extends State<register2> {
               thickness: 2,
             ),
             TextField(
+              controller: ICE2phoneController,
               decoration: new InputDecoration(
                 labelText: '请输入您的紧急联系人2电话',
                 labelStyle: new TextStyle(
@@ -549,7 +670,12 @@ class _register2 extends State<register2> {
       ),
     );
 
-    return Scaffold(
+    return Theme(
+      data: Theme.of(context).copyWith(
+          primaryColor:Colors.blue,
+          backgroundColor: Colors.black12
+      ),
+        child: Scaffold(
         appBar: AppBar(
           title: Text(
             '用户注册',
@@ -582,6 +708,6 @@ class _register2 extends State<register2> {
             contact,
             ok,
           ],
-        ));
+        )));
   }
 }

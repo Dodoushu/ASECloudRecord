@@ -9,6 +9,7 @@ import 'package:helloworld/patient/search/admission.dart';
 import 'package:helloworld/patient/search/outPatientsRecords.dart';
 import 'report2.dart';
 import 'package:helloworld/patient/pictureGridview.dart';
+import 'laboratory2.dart';
 
 
 class laboratory1 extends StatefulWidget {
@@ -49,34 +50,14 @@ class _laboratory1 extends State<laboratory1> {
         Widget itemCard = InkWell(
           onTap: ()async{
 
-            List urls = new List();
-
-            for (String value in map['address']) {
-              urls.add('http://' +
-                  value.toString());
-            }
-
+            print(map);
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        PictureView(
-                          urls: urls,
+                        laboratory2(
+                          id: map,
                         )));
-
-//            var bodymap = Map();
-//            Map report = Map();
-//            report['id'] = map['id'];
-//            bodymap['report'] = report;
-//            var url = "http://39.100.100.198:8082/watchPatientSomeInfo";
-//            var formData = bodymap;
-//            await request(url, context, FormData: formData).then((value) {
-//              var data = json.decode(value.toString());
-//              log(data.toString());
-//              Navigator.push(context, MaterialPageRoute(builder: (context) => medicalReport(id: data['reports'][0],)));
-//
-//            });
-
           },
           child: new Container(
             padding: EdgeInsets.only(left: 10,right: 10),
@@ -134,7 +115,7 @@ class _laboratory1 extends State<laboratory1> {
     return Scaffold(
         appBar: new AppBar(
           title: Text(
-            '',
+            '化验检查',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,

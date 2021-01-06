@@ -110,12 +110,13 @@ class _medicalReport extends State<medicalReport> {
     String phoneNum;
     SharedPreferenceUtil.getString('userId').then((value) async{
       phoneNum = value;
-      bodymap['userId'] = phoneNum;
+      bodymap['userId'] = value;
       bodymap['files'] = selectedFiles;
       bodymap['hospital'] = hospital;
       bodymap['report_info'] = reportAbstract;
       bodymap['result'] = conclusion;
       bodymap['date'] = date.year.toString()+'-'+date.month.toString()+'-'+date.day.toString();
+      print(bodymap);
       var url = "http://39.100.100.198:8082/UploadFiles/MedicalExaminationReport";
       FormData formData = FormData.fromMap(bodymap);
       await request(url, context,FormData: formData,contentType: 'multipart/form-data').then((value) {
@@ -312,7 +313,7 @@ class _medicalReport extends State<medicalReport> {
               height: 90,
               child: Center(
                   child: new Text(
-                '体检记录上传',
+                '健康体检记录上传',
                 style: TextStyle(color: Colors.white, fontSize: 30.0),
               )),
             ),

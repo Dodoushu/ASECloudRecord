@@ -8,13 +8,6 @@ import 'package:helloworld/showAlertDialogClass.dart';
 import 'package:intl/intl.dart';
 import 'package:helloworld/PickFileMethod.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:helloworld/PickFileMethod.dart';
-import 'package:helloworld/http_service.dart';
-import 'package:helloworld/sharedPrefrences.dart';
-import 'dart:convert';
-import 'package:helloworld/showAlertDialogClass.dart';
-import 'package:intl/intl.dart';
 import 'package:helloworld/globalUtils.dart';
 
 void main() => runApp(MaterialApp(
@@ -398,7 +391,7 @@ class _outpatientMedical extends State<outpatientMedical> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            '门诊病历上传',
+            '门诊病历',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -415,7 +408,7 @@ class _outpatientMedical extends State<outpatientMedical> {
               height: 90,
               child: Center(
                   child: new Text(
-                    '门诊病历',
+                    '门诊病历上传',
                     style: TextStyle(color: Colors.white, fontSize: 30.0),
                   )),
             ),

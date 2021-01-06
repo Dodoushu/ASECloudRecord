@@ -338,7 +338,7 @@ class _outPatientRecordsState extends State<outPatientRecordsDetailed> {
     return Scaffold(
       appBar: new AppBar(
         title: Text(
-          '门诊病历查询',
+          '门诊详细记录',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,

@@ -468,7 +468,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            '门诊就诊记录上传',
+            '门诊就诊记录',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -485,7 +485,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
               height: 90,
               child: Center(
                   child: new Text(
-                '门诊就诊记录',
+                '门诊就诊记录上传',
                 style: TextStyle(color: Colors.white, fontSize: 30.0),
               )),
             ),

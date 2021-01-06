@@ -50,13 +50,26 @@ class _examineState extends State<examine> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '检查内容：',
+                            '检查日期：',
                             style: new TextStyle(fontSize: 18),
                           ),
                           Text(
-                            temp['examine_info'] == null ? '无' : temp['examine_info'],
+                            temp['date'] == null ? '无' : temp['date'],
                             style: new TextStyle(fontSize: 18),
                           ),
+                        ],
+                      ),
+                      new Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '检查内容：',
+                            style: new TextStyle(fontSize: 18),
+                          ),
+                          Flexible(child:Text(
+                            temp['examine_info'] == null ? '无' : temp['examine_info'],
+                            style: new TextStyle(fontSize: 18),
+                          ),)
                         ],
                       ),
                     ],

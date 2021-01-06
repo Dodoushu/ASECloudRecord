@@ -87,13 +87,13 @@ class PastRecord extends StatelessWidget {
                 print(data);
                 if (data['status_code'] == 1) {
                   showAlertDialog(context,
-                      titleText: 'success', contentText: '上传成功',flag: 0);
+                      titleText: '上传成功', contentText: '',flag: 0);
                 } else if (data['status_code'] == 0) {
                   showAlertDialog(context,
-                      titleText: 'failed', contentText: '上传失败',flag: 0);
+                      titleText: '', contentText: '上传失败',flag: 0);
                 } else {
                   showAlertDialog(context,
-                      titleText: 'failed', contentText: '未知错误',flag: 0);
+                      titleText: '', contentText: '未知错误',flag: 0);
                 }
               });
             });

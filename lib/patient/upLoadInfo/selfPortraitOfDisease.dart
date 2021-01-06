@@ -265,7 +265,7 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            '病症自拍上传',
+            '病症自拍',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -282,7 +282,7 @@ class _SelfPortraitOfDisease extends State<SelfPortraitOfDisease> {
               height: 90,
               child: Center(
                   child: new Text(
-                '自拍照片选择',
+                '病症自拍照片上传',
                 style: TextStyle(color: Colors.white, fontSize: 30.0),
               )),
             ),

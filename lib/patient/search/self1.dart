@@ -1,44 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:helloworld/sharedPrefrences.dart';
-import 'package:helloworld/http_service.dart';
-import 'dart:convert';
-import 'dart:developer';
-import 'package:helloworld/patient/search/outPatients.dart';
-import 'package:helloworld/patient/search/examine.dart';
-import 'package:helloworld/patient/search/admission.dart';
-import 'package:helloworld/patient/search/outPatientsRecords.dart';
 import 'report2.dart';
-import 'package:helloworld/patient/pictureGridview.dart';
-import 'invasive2.dart';
+import 'self2.dart';
 
 
-class invasive1 extends StatefulWidget {
-  invasive1({Key key, @required var list}): super(key:key){
+class self1 extends StatefulWidget {
+  self1({Key key, @required var list}): super(key:key){
     this.list = list;
   }
 
   @override
-  _invasive1 createState() => new _invasive1(list: list);
+  _self1 createState() => new _self1(list: list);
   var list;
 }
 
-class _invasive1 extends State<invasive1> {
-  _invasive1({@required var list}){
+class _self1 extends State<self1> {
+  _self1({@required var list}){
     this.list = list;
-    log(list.toString());
+    print(list);
   }
   var list;
 
-  Map labelmap = {
-    '1': '血液检查',
-    '2': '尿液检查',
-    '3': '粪便检查',
-    '4': '精液检查',
-    '5': '胸水检查',
-    '6': '腹水检查',
-    '7': '脑脊液检查',
-    '8': '其他化验检查',
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -49,21 +30,8 @@ class _invasive1 extends State<invasive1> {
       for(Map map in list){
         Widget itemCard = InkWell(
           onTap: ()async{
-
-            List urls = new List();
-
-            for (String value in map['address']) {
-              urls.add('http://' +
-                  value.toString());
-            }
-
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        invasive2(
-                          id: map,
-                        )));
+            print(map);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => self2(id: map,)));
           },
           child: new Container(
             padding: EdgeInsets.only(left: 10,right: 10),
@@ -93,17 +61,9 @@ class _invasive1 extends State<invasive1> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('日期',style: new TextStyle(fontSize: 18,),),
-                            Text(map['date']==null?'无':map['date'],style: new TextStyle(fontSize: 18,),),
+                            Text(map['date']==null?'null':map['date'],style: new TextStyle(fontSize: 18,),),
                           ],
                         ),
-                        new Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('类目',style: new TextStyle(fontSize: 18,),),
-                            Text('无',style: new TextStyle(fontSize: 18,),),
-                          ],
-                        ),
-
                       ],
                     ),
                   ),
@@ -121,14 +81,14 @@ class _invasive1 extends State<invasive1> {
     return Scaffold(
         appBar: new AppBar(
           title: Text(
-            '侵入式检查',
+            '病症自拍',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
         ),
-        body: ListView(
-          children: buildList(list),
-        )
+      body: ListView(
+        children: buildList(list),
+      )
     );
   }
 }

@@ -118,10 +118,11 @@ class _outPatientDetailed extends State<outPatientDetailed> {
                         '病例内容:',
                         style: TextStyle(fontSize: 19),
                       ),
-                      Text(
+                      Container(width: 10,),
+                      Flexible(child: Text(
                         id['disease_info'],
                         style: TextStyle(fontSize: 19),
-                      ),
+                      ),)
                     ],
                   ),
                   Divider(
@@ -155,7 +156,7 @@ class _outPatientDetailed extends State<outPatientDetailed> {
             color: Colors.black, //修改颜色
           ),
           title: Text(
-            '健康体检记录',
+            '门诊病历',
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
@@ -173,7 +174,7 @@ class _outPatientDetailed extends State<outPatientDetailed> {
               height: 90,
               child: Center(
                   child: new Text(
-                    '体检记录',
+                    '门诊病历查询',
                     style: TextStyle(color: Colors.white, fontSize: 30.0),
                   )),
             ),

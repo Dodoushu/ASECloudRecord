@@ -378,7 +378,7 @@ class _invasiveReview extends State<invasiveReview> {
               height: 90,
               child: Center(
                   child: new Text(
-                    '侵入型器械检查结果上传',
+                    '侵入型器械上传',
                     style: TextStyle(color: Colors.white, fontSize: 30.0),
                   )),
             ),

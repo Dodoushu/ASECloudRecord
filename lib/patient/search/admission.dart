@@ -116,10 +116,10 @@ class _admissionState extends State<admission> {
                             '住院病历内容：',
                             style: new TextStyle(fontSize: 18),
                           ),
-                          Text(
+                          Flexible(child:Text(
                             temp['admission_info'],
                             style: new TextStyle(fontSize: 18),
-                          ),
+                          ),)
                         ],
                       ),
                     ],

@@ -200,6 +200,8 @@ class _Login extends State<Login> {
                             MaterialPageRoute(
                                 builder: (context) => BottomNavigationWidget()),
                                 (route) => false);
+                      }else {
+                        showAlertDialog(context, titleText: '登陆失败', contentText: '请检查用户名密码以及登陆身份',flag: 0);
                       }
                     }
                     if (sign['user_type'] == '1') {
@@ -210,6 +212,8 @@ class _Login extends State<Login> {
                         SharedPreferenceUtil.setString('doctorUserId', data['doctor']['id'].toString()).then((value){
                           Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
                         });
+                      }else {
+                        showAlertDialog(context, titleText: '登陆失败', contentText: '请检查用户名密码以及登陆身份',flag: 0);
                       }
                     }
                   });
