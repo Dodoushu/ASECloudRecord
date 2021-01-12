@@ -138,12 +138,13 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
             '-' +
             date.day.toString();
         outPatientRecords['department_treatment'] = office;
-        outPatientRecords['hospit al'] = hospital;
+        outPatientRecords['hospital'] = hospital;
         outPatientRecords['disease_info'] = recordcontent;
         outPatientRecords['doctor_name'] = doctorname;
         outPatientRecords['treat_info'] = recordcontent;
         outPatientRecords['treating_info'] = conclusion;
         outPatientRecords['treat_methods'] = nonDrugMethod;
+        outPatientRecords['treat_items'] = examItem;
         tempdrugMethod['medicine_name'] = medicine_name;
         tempdrugMethod['medicine_method'] = medicine_method;
         tempdrugMethod['time'] = time;
@@ -153,7 +154,7 @@ class _outpatientVisitRecords extends State<outpatientVisitRecords> {
             'medicine_name': medicine_name,
             'medicine_method': medicine_method,
             'time': time
-          }
+          },
         ];
         bodymap['outPatientRecords'] = outPatientRecords;
         print(bodymap);

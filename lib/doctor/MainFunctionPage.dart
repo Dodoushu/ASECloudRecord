@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'Search.dart';
+import 'package:helloworld/globalUtils.dart';
+import 'package:helloworld/sharedPrefrences.dart';
+import 'package:helloworld/login.dart';
 void main() {
   runApp(new MaterialApp(
     title: '患者主功能页',
@@ -37,9 +40,32 @@ void main() {
 //  }
 //}
 
-class MainPage extends StatelessWidget {
-  //实例化
+String name;
+
+class MainPage extends StatefulWidget {
   @override
+  State createState() => new _MainPage();
+}
+
+class _MainPage extends State<MainPage> {
+
+  @override
+  void initState() {
+
+    // TODO: implement initState
+    super.initState();
+
+    SharedPreferenceUtil.getString('doctorName').then((value) {
+      print(value+'，您好');
+      name = value;
+      print(name+'，您好');
+      setState(() {
+        name = value;
+      });
+    });
+    Future.delayed(Duration(seconds: 2),(){
+    });
+  }
   Widget build(BuildContext context) {
     //背景蓝框及第一个功能选择条
     Widget stack = new Stack(alignment: Alignment.topCenter, children: <Widget>[
@@ -59,7 +85,7 @@ class MainPage extends StatelessWidget {
             children: <Widget>[
               new Container(
                   padding: const EdgeInsets.only(top: 20),
-                  child: Text('医生，您好',
+                  child: Text(name+'医生，您好',
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 25,
@@ -219,6 +245,35 @@ class MainPage extends StatelessWidget {
 
     return new Scaffold(
       appBar: new AppBar(
+        actions: <Widget>[
+          Center(
+              child: Container(
+                  margin: EdgeInsets.only(top: 15, bottom: 15, right: 15),
+                  child: InkWell(
+                    onTap: () {
+
+                      SharedPreferenceUtil.remove('doctorUserId').then((value) {
+                        SharedPreferenceUtil.remove('doctorName').then((value) {
+                          SharedPreferenceUtil.remove('userId').then((value) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(builder: (context) => Login()),
+                                    (route) => false);
+                          });
+                        });
+                      });
+
+                    },
+                    child: new Text(
+                      '注销',
+                      style: new TextStyle(
+//                    color: Colors.,
+//                    fontWeight: FontWeight.,
+                        fontSize: 18,
+                      ),
+                    ),
+                  )))
+        ],
         title: Text(
           '主页',
           style: TextStyle(color: Colors.black),

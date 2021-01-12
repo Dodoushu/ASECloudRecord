@@ -10,6 +10,7 @@ import 'doctor/MainFunctionPage.dart';
 import 'package:helloworld/patient/register2.dart' as patient_register2;
 import 'package:helloworld/doctor/register2.dart' as doctor_register2;
 import 'package:helloworld/select.dart' as register_select;
+import 'package:helloworld/doctor/BottomNavigationBar.dart' as doctorBottom;
 
 void main() => runApp(new MaterialApp(home: new Login()));
 
@@ -210,7 +211,9 @@ class _Login extends State<Login> {
                             titleText: '个人信息尚未录入', contentText: '请点击确定开始录入信息');
                       } else if (data['status_code'] == 0) {
                         SharedPreferenceUtil.setString('doctorUserId', data['doctor']['id'].toString()).then((value){
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+                          SharedPreferenceUtil.setString('doctorName', data['doctor']['name'].toString()).then((value){
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+                          });
                         });
                       }else {
                         showAlertDialog(context, titleText: '登陆失败', contentText: '请检查用户名密码以及登陆身份',flag: 0);

@@ -30,6 +30,7 @@ class _laboratory1 extends State<laboratory1> {
   var list;
 
   Map labelmap = {
+    '0': '无类目',
     '1': '血液检查',
     '2': '尿液检查',
     '3': '粪便检查',
@@ -88,13 +89,15 @@ class _laboratory1 extends State<laboratory1> {
                           children: [
                             Text('日期',style: new TextStyle(fontSize: 18,),),
                             Text(map['date']==null?'无':map['date'],style: new TextStyle(fontSize: 18,),),
+
                           ],
                         ),
                         new Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('类目',style: new TextStyle(fontSize: 18,),),
-                            Text('无',style: new TextStyle(fontSize: 18,),),
+//                            Text('无',style: new TextStyle(fontSize: 18,),),
+                            Text(labelmap[map['items'].toString()],style: new TextStyle(fontSize: 18,),)
                           ],
                         ),
 

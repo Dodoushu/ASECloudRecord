@@ -28,6 +28,16 @@ class _image1 extends State<image1> {
   }
   var list;
 
+  Map labelmap = {
+    '0': '无类目',
+    '1': '超声检查',
+    '2': 'X线或X线造影检查',
+    '3': 'CT检查',
+    '4': '磁共振（MRI）检查',
+    '5': '同位素（核素）检查',
+    '6': 'PET-CT检查',
+    '7': '其他影像检查',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +80,13 @@ class _image1 extends State<image1> {
                           children: [
                             Text('日期',style: new TextStyle(fontSize: 18,),),
                             Text(map['date']==null?'null':map['date'],style: new TextStyle(fontSize: 18,),),
+                          ],
+                        ),
+                        new Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('检查类目',style: new TextStyle(fontSize: 18,),),
+                            Text(labelmap[map['items']],style: new TextStyle(fontSize: 18,),),
                           ],
                         ),
                       ],

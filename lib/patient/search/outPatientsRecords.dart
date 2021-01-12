@@ -149,7 +149,7 @@ class _outPatientRecordsState extends State<outPatientRecords> {
 
     List<Widget> contentCardBuilder() {
       List<Widget> returnList = new List<Widget>();
-//      returnList.add(timeSelecter);
+      contentlist.sort((a, b) => b['date'].compareTo(a['date']));
       for (Map temp in contentlist) {
         Widget contentCard = Container(
             padding: EdgeInsets.only(top: 7, bottom: 3),

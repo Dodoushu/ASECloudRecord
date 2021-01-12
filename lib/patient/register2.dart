@@ -187,7 +187,7 @@ class _register2 extends State<register2> {
                   (route) => false);
             } else if (data['status_code'] == 0) {
               showAlertDialog(context,
-                  titleText: 'failed', contentText: '身份信息证已存在，请重试', flag: 0);
+                  titleText: 'failed', contentText: '身份证信息已存在，请重试', flag: 0);
             } else if (data['status_code'] == 2) {
               showAlertDialog(context,
                   titleText: 'failed', contentText: '必填信息不全，请重试', flag: 0);

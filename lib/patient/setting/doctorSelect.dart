@@ -36,7 +36,8 @@ void main() {
 }
 
 class doctorSelect extends StatefulWidget {
-  doctorSelect({Key key,
+  doctorSelect(
+      {Key key,
       @required this.onlyuser,
       @required this.doctorlist,
       @required this.selectedDoctor,
@@ -97,9 +98,7 @@ class _doctorSelectState extends State<doctorSelect> {
 //    {'id': 6, 'name': '张七', 'info': '其他信息', 'select': false}
 //  ];
 
-  String name = null;
-  String hospital = null;
-  String department = null;
+
 
   bool onlyuser;
   List doctorlist;
@@ -116,15 +115,12 @@ class _doctorSelectState extends State<doctorSelect> {
     }
   }
 
-  void refreshPage(){
-    setState(() {
-
-    });
+  void refreshPage() {
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-
 
     Column buildSelectedCheckboxListTile() {
       var CheckoxListTitleList = List<CheckboxListTile>();
@@ -138,7 +134,10 @@ class _doctorSelectState extends State<doctorSelect> {
             title: Text(obj['name']),
             subtitle: new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text(obj['hospital'] == null ? '医院不详' : obj['hospital']), Text(obj['department'] == null ? '科室不详' : obj['department'])],
+              children: [
+                Text(obj['hospital'] == null ? '医院不详' : obj['hospital']),
+                Text(obj['department'] == null ? '科室不详' : obj['department'])
+              ],
             ),
             value: obj['select'],
             onChanged: (bool value) {
@@ -180,7 +179,10 @@ class _doctorSelectState extends State<doctorSelect> {
             title: Text(obj['name']),
             subtitle: new Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text(obj['hospital'] == null ? '医院不详' : obj['hospital']), Text(obj['department'] == null ? '科室不详' : obj['department'])],
+              children: [
+                Text(obj['hospital'] == null ? '医院不详' : obj['hospital']),
+                Text(obj['department'] == null ? '科室不详' : obj['department'])
+              ],
             ),
             value: obj['select'],
             onChanged: (bool value) {
@@ -215,6 +217,9 @@ class _doctorSelectState extends State<doctorSelect> {
     );
 
     void screen() {
+      String name = null;
+      String hospital = null;
+      String department = null;
       int flag = 0;
       OverlayEntry infoSelect = new OverlayEntry(builder: (context) {
         return new Positioned(
@@ -319,15 +324,14 @@ class _doctorSelectState extends State<doctorSelect> {
                                   doctor['department'] = department;
                                   data['doctor'] = doctor;
                                   var formData = data;
-                                  print('1111'+data.toString());
+                                  print('1111' + data.toString());
                                   await request(url, context,
                                           FormData: formData)
                                       .then((value) {
                                     Map data = json.decode(value.toString());
                                     List selectedList = new List();
                                     if (data['selected_doctor_id'] != null) {
-                                      for (int id
-                                          in data['selected_doctor_id']) {
+                                      for (int id in data['selected_doctor_id']) {
                                         selectedList.add(id);
                                       }
                                     }
@@ -370,7 +374,8 @@ class _doctorSelectState extends State<doctorSelect> {
                                     print(unSelectedDoctor);
                                     flag = 1;
                                     refreshPage();
-                                    for(OverlayEntry temp in overlayEntryList){
+                                    for (OverlayEntry temp
+                                        in overlayEntryList) {
                                       temp.remove();
                                     }
                                   });
@@ -403,7 +408,6 @@ class _doctorSelectState extends State<doctorSelect> {
       overlayEntryList.add(infoSelect);
 
       Overlay.of(context).insertAll(overlayEntryList);
-
     }
 
     ;
@@ -476,63 +480,13 @@ class _doctorSelectState extends State<doctorSelect> {
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only(left: 10),
                                 ),
-                                Container(
-//                          padding: EdgeInsets.only(left: 230),
-//                          child: new Icon(
-//                            Icons.arrow_forward_ios,
-//                            size: 26,
-//                          ),
-                                    ),
+                                Container(),
                               ]))),
                   Container(child: text1()),
                   Container(
                     child: buildSelectedCheckboxListTile(),
                   ),
-//                  new Container(
-//                      height: 40.0,
-//                      width: 200,
-//                      margin: EdgeInsets.only(top: 15, bottom: 15),
-//                      child: new SizedBox.expand(
-//                        child: new RaisedButton(
-//                          elevation: 0,
-//                          onPressed: () {
-//                            List<int> commitlist = List();
-//                            for (Map temp in selectedDoctor) {
-//                              commitlist.add(temp['id']);
-//                            }
-//                            if (onlyuser == true) {
-//                              commitlist.clear();
-//                            }
-//                            print(commitlist);
-//                            SharedPreferenceUtil.getString('userId')
-//                                .then((value) async {
-//                              Map map = Map();
-//                              map['userId'] = value;
-//                              map['add_doctor_id'] = commitlist;
-//                              print(map);
-//                              var url = "http://39.100.100.198:8082/selectPAD";
-//                              await request(url, context, FormData: map)
-//                                  .then((value) {
-//                                var data = value.toString();
-//                                print(data);
-//                                showAlertDialog(context,
-//                                    titleText: '操作成功',
-//                                    contentText: '医生修改成功',
-//                                    flag: 0);
-//                              });
-//                            });
-//                          },
-//                          color: Colors.blue,
-//                          child: new Text(
-//                            '提交',
-//                            style: TextStyle(
-//                                fontSize: 20.0,
-//                                color: Color.fromARGB(255, 255, 255, 255)),
-//                          ),
-//                          shape: new RoundedRectangleBorder(
-//                              borderRadius: new BorderRadius.circular(15.0)),
-//                        ),
-//                      )),
+
                   Container(child: text2()),
                   Container(
                     child: buildUnSelectedCheckboxListTile(),
@@ -564,7 +518,7 @@ class _doctorSelectState extends State<doctorSelect> {
               child: Container(
                   margin: EdgeInsets.only(top: 15, bottom: 15, right: 15),
                   child: InkWell(
-                    onTap: (){
+                    onTap: () {
                       List<int> commitlist = List();
                       for (Map temp in selectedDoctor) {
                         commitlist.add(temp['id']);
@@ -582,12 +536,15 @@ class _doctorSelectState extends State<doctorSelect> {
                         var url = "http://39.100.100.198:8082/selectPAD";
                         await request(url, context, FormData: map)
                             .then((value) {
-                          var data = value.toString();
+                          Map data = json.decode(value.toString());
                           print(data);
-                          showAlertDialog(context,
-                              titleText: '操作成功',
-                              contentText: '医生修改成功',
-                              flag: 0);
+                          if(data['status_code'] == 1){
+                            showAlertDialog(context,
+                                titleText: '操作成功',
+                                contentText: '医生修改成功',
+                                flag: 0);
+                          }
+
                         });
                       });
                     },

@@ -30,15 +30,17 @@ class _invasive1 extends State<invasive1> {
   var list;
 
   Map labelmap = {
-    '1': '血液检查',
-    '2': '尿液检查',
-    '3': '粪便检查',
-    '4': '精液检查',
-    '5': '胸水检查',
-    '6': '腹水检查',
-    '7': '脑脊液检查',
-    '8': '其他化验检查',
+    '0':'无类目',
+    '1':'胃镜检查',
+    '2':'肠镜检查',
+    '3':'鼻窦镜检查',
+    '4':'支气管镜检查',
+    '5':'膀胱尿道镜检查',
+    '6':'阴道镜检查',
+    '7':'宫腔镜检查',
+    '8':'其他检查',
   };
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +49,7 @@ class _invasive1 extends State<invasive1> {
       print(list);
       List<Widget> buildedList = new List();
       for(Map map in list){
+        print(map['items']);
         Widget itemCard = InkWell(
           onTap: ()async{
 
@@ -100,7 +103,7 @@ class _invasive1 extends State<invasive1> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('类目',style: new TextStyle(fontSize: 18,),),
-                            Text('无',style: new TextStyle(fontSize: 18,),),
+                            Text(labelmap[map['items']]==null?'无类目':labelmap[map['items']],style: new TextStyle(fontSize: 18,),),
                           ],
                         ),
 

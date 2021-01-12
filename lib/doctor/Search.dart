@@ -164,51 +164,6 @@ class Search extends StatelessWidget {
                 ],
               ),
             ),
-//            Column(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: <Widget>[
-//                Text(
-//                  '身份证号',
-//                  style: TextStyle(fontSize: 20),
-//                ),
-//                TextField(
-//                  decoration: new InputDecoration(
-//                    labelStyle: new TextStyle(
-//                      fontSize: 20,
-//                      color: Color.fromARGB(255, 93, 93, 93),
-//                    ), //border: InputBorder.none,
-//                  ),
-//                  onChanged: (value) {
-//                    ID_num = value;
-//                  },
-//                )
-//              ],
-//            ),
-//            Column(
-//              crossAxisAlignment: CrossAxisAlignment.start,
-//              children: <Widget>[
-//                Text(
-//                  '出生日期：',
-//                  style: TextStyle(fontSize: 20),
-//                ),
-//                Row(
-//                  children: <Widget>[
-//                    new Container(
-//                      padding: EdgeInsets.only(left: 10),
-//                      child: _DropdownButtonYear,
-//                    ),
-//                    new Container(
-//                      padding: EdgeInsets.only(left: 20),
-//                      child: _DropdownButtonMonth,
-//                    ),
-//                    new Container(
-//                      padding: EdgeInsets.only(left: 20),
-//                      child: _DropdownButtonDay,
-//                    )
-//                  ],
-//                )
-//              ],
-//            ),
           ],
         ),
       ),

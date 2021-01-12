@@ -31,6 +31,14 @@ class _outPatientRecordsState extends State<outPatientRecordsDetailed> {
   Widget build(BuildContext context) {
     double width_ = MediaQuery.of(context).size.width;
 
+    List<Widget> buildMedicine(List list){
+      List<Widget> ans = new List();
+      for(Map temp in list){
+        ans.add(Text(temp['medicine_name']+','+temp['medicine_method']+','+temp['time'],style: contentStyle,
+            ));
+      }
+    }
+
     List<Widget> medicineListBuilder(List list){
       List<Widget> returnList = new List<Widget>();
       for (Map temp in list) {
@@ -295,19 +303,36 @@ class _outPatientRecordsState extends State<outPatientRecordsDetailed> {
                       ),
                       dividedBox,
 
-                      new Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '用药方案：',
-                            style: titleStyle,
+                      Column(
+                        children: <Widget>[
+                          new Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '用药方案：',
+                                style: titleStyle,
+                              ),
+                              Text(
+                                '',
+                                style: contentStyle,
+                              ),
+                            ],
                           ),
-                          Text(
-                            '',
-                            style: contentStyle,
-                          ),
+                          dividedBox,
+                          Container(
+                              padding: EdgeInsets.only(left: 10, right: 10),
+                              child: Container(
+                                width: width_*0.8,
+                                child: Text(
+                                  temp['treat_methods']!=null? temp['treat_methods'].toString() : '无',
+                                  style: contentStyle,
+                                  textAlign: TextAlign.left,
+                                ),
+                              )
+                          )
                         ],
                       ),
+
                       dividedBox,
                       new Container(
                         padding: EdgeInsets.only(right: 10,left: 10),

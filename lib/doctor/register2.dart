@@ -1,13 +1,15 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:helloworld/File_Method.dart';
 import 'package:helloworld/PickFileMethod.dart';
 import 'package:helloworld/http_service.dart';
-import 'package:helloworld/doctor/login.dart' as login;
 import 'package:helloworld/sharedPrefrences.dart';
 import 'MainFunctionPage.dart';
 import 'package:helloworld/globalUtils.dart';
+import 'package:helloworld/login.dart';
+import 'package:helloworld/showAlertDialogClass.dart';
 
 void main() => runApp(new MyApp());
 
@@ -48,56 +50,60 @@ class _register2 extends State<register2> {
 
   //上传表单
   void submit() {
+    if(name != null && id_number != null && specialty!= null && introduction!= null && socialwork!= null && hospital!= null
+         && Hospitalclass!= null && map['id_photo'] != null && map['id_card1'] != null && map['id_card2'] != null
+         && map['certificate'] != null && map['worklicense'] != null && map['title_certi'] != null){
+      var doctor= Map<String,dynamic>();
+      String phoneNum;
+      SharedPreferenceUtil.getString('userId').then((value){
 
-    var doctor= Map<String,dynamic>();
-    String phoneNum;
-    SharedPreferenceUtil.getString('userId').then((value){
+        var url = 'http://39.100.100.198:8082/DoctorInfo';
+        doctor['userId'] = value;
+        doctor['name'] = name;
+        doctor['id_num'] = id_number;
+        doctor['specialty'] = specialty;
+        doctor['personal_info'] = introduction;
+        doctor['social_work'] = socialwork;
+        doctor['hospital'] = hospital;
+        doctor['department'] = Hospitalclass;
 
-      var url = 'http://39.100.100.198:8082/DoctorInfo';
-      doctor['userId'] = value;
-      doctor['name'] = name;
-      doctor['id_num'] = id_number;
-      doctor['specialty'] = specialty;
-      doctor['personal_info'] = introduction;
-      doctor['social_work'] = socialwork;
-      doctor['hospital'] = hospital;
-      doctor['department'] = Hospitalclass;
+        List<MultipartFile> fileList = List();
+        fileList.add(map['id_photo']);
+        fileList.add(map['id_card1']);
+        fileList.add(map['id_card2']);
+        fileList.add(map['certificate']);
+        fileList.add(map['worklicense']);
+        fileList.add(map['title_certi']);
+        doctor['files'] = fileList;
 
-      List<MultipartFile> fileList = List();
-      fileList.add(map['id_photo']);
-      fileList.add(map['id_card1']);
-      fileList.add(map['id_card2']);
-      fileList.add(map['certificate']);
-      fileList.add(map['worklicense']);
-      fileList.add(map['title_certi']);
-      doctor['files'] = fileList;
+        List<int> types = new List();
+        types.add(1);
+        types.add(2);
+        types.add(3);
+        types.add(4);
+        types.add(5);
+        types.add(6);
+        doctor['types'] = "1,2,3,4,5,6";
 
-      List<int> types = new List();
-      types.add(1);
-      types.add(2);
-      types.add(3);
-      types.add(4);
-      types.add(5);
-      types.add(6);
-      doctor['types'] = "1,2,3,4,5,6";
+        print(doctor.toString());
 
-      print(doctor.toString());
+        FormData formData = FormData.fromMap(doctor);
 
-      FormData formData = FormData.fromMap(doctor);
-
-      request(url,context, FormData: formData, contentType: 'multipart/form-data').then((value) {
-        Map data = json.decode(value.toString());
-        print(data.toString());
-        if(data['status_code'] == 1){
-          SharedPreferenceUtil.setString('userId', data['userId'].toString()).then((value){
-            SharedPreferenceUtil.setString('name', data['name']).then((value){
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => MainPage()), (route) => false);
+        request(url,context, FormData: formData, contentType: 'multipart/form-data').then((value) {
+          Map data = json.decode(value.toString());
+          print(data.toString());
+          if(data['status_code'] == 1){
+            SharedPreferenceUtil.setString('userId', data['userId'].toString()).then((value){
+              SharedPreferenceUtil.setString('name', data['name']).then((value){
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => Login()), (route) => false);
+              });
             });
-          });
-        }
+          }
+        });
       });
-
-    });
+    }else {
+      showAlertDialog(context, titleText: '', contentText: '信息不全', flag: 0);
+    }
   }
 
   void _selectFile(String imageflag) async {
@@ -122,21 +128,6 @@ class _register2 extends State<register2> {
       });
     });
   }
-
-//  ID_Photopick() async{
-//    await file_method.file_pick().then((value) {ID_Photo = value;});
-//
-//    int FileSize = await ID_Photo.length;
-//    if(FileSize > 1024){                     //用length得到文件大小，太大了就给提示（界面上弹窗提示信息），同时清理变量ID_photo
-//      //弹窗提醒文件过大
-//      ID_Photo = null;
-//    }
-//  }     //异步函数返回的也是一个future，需要async、await的配合提取
-//  IDCard_1pick() async{await file_method.file_pick().then((value){IDCard_1 = value;});}
-//  IDCard_2pick() async{await file_method.file_pick().then((value){IDCard_2 = value;});}
-//  zi_ge_zhengpick() async{await file_method.file_pick().then((value){zi_ge_zheng = value;});}
-//  zhi_ye_zhengpick() async{await file_method.file_pick().then((value){zhi_ye_zheng = value;});}
-//  zhi_chengpick() async{await file_method.file_pick().then((value){zhi_cheng = value;});}
 
   @override
   Widget build(BuildContext context) {

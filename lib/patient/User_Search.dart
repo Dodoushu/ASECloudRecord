@@ -10,7 +10,6 @@ import 'package:helloworld/patient/search/outPatients.dart';
 import 'package:helloworld/patient/search/examine.dart';
 import 'package:helloworld/patient/search/admission.dart';
 import 'package:helloworld/patient/search/outPatientsRecords.dart';
-
 import 'package:helloworld/patient/search/report1.dart';
 import 'package:helloworld/patient/search/laboratory1.dart';
 import 'package:helloworld/patient/search/self1.dart';
@@ -283,7 +282,6 @@ class SearchPage extends StatelessWidget {
                               )),
                             ),
                             new Divider(),
-
                             InkWell(
                               onTap: () async {
                                 SharedPreferenceUtil.getString('userId').then((value) async {

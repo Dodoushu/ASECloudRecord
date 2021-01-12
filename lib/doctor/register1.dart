@@ -35,51 +35,39 @@ class _register1 extends State<register1> {
     var loginForm = loginKey.currentState;
     //验证Form表单
 
-    var bodymap = Map();
-    var register = Map();
-    register['phone_num'] = phoneNumber;
-    register['pass_word'] = password;
-    register['ver_code'] = '111111';
-    register['user_type'] = 1;
-    bodymap['register'] = register;
-    List<int> types = new List();
-    var url = "http://39.100.100.198:8082/register";
+    if(loginForm.validate()){
+      var bodymap = Map();
+      var register = Map();
+      register['phone_num'] = phoneNumber;
+      register['pass_word'] = password;
+      register['ver_code'] = '111111';
+      register['user_type'] = 1;
+      bodymap['register'] = register;
+      List<int> types = new List();
+      var url = "http://39.100.100.198:8082/register";
 //    var bodymap2 = Map();
 //    bodymap2['register'] = bodymap;
-    var formData = bodymap;
-    print(formData);
-    await request(url, context, FormData: formData).then((value) {
-      Map data = json.decode(value.toString());
-      print('response:' + data['status_code'].toString());
-      if (data['status_code'] == 1) {
-        SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value) {
-          SharedPreferenceUtil.setString('userId', data['userId'].toString())
-              .then((value) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => register2()),
-                (route) => false);
+      var formData = bodymap;
+      print(formData);
+      await request(url, context, FormData: formData).then((value) {
+        Map data = json.decode(value.toString());
+        print('response:' + data['status_code'].toString());
+        if (data['status_code'] == 1) {
+          SharedPreferenceUtil.setString('phoneNum', phoneNumber).then((value) {
+            SharedPreferenceUtil.setString('userId', data['userId'].toString())
+                .then((value) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => register2()),
+                      (route) => false);
+            });
           });
-        });
-      } else {
-        showAlertDialog(context, titleText: '注册失败', contentText: '');
-      }
-    });
-//      await request(url,FormData: formData).then((value) {
-//        var data = json.decode(value.toString());
-//        print(data);
-//        if(data['status_code']==1){
+        } else {
+          showAlertDialog(context, titleText: '注册失败', contentText: '账号可能已经存在');
+        }
+      });
+    }
 
-//      SharedPreferenceUtil.setString('phoneNum', phoneNumber);
-//      showAlertDialog(context, titleText: '注册成功', contentText: '点击确定填写个人信息');
-//      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => register2()), (route) => false);
-
-//        }else if(data['status_code']==0){
-//          showAlertDialog(context, titleText: '注册失败', contentText: '账号已存在');
-//        }else{
-//          showAlertDialog(context, titleText: '注册失败', contentText: '未知错误');
-//        }
-//      });
   }
 
   void showPassWord() {
@@ -189,7 +177,16 @@ class _register1 extends State<register1> {
                       onChanged: (value) {
                         phoneNumber = value;
                       },
-                      validator: (phone) {},
+                      validator: (value) {
+                        RegExp exp = RegExp(
+                            r'^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(17[0-9])|(18[0-9])|(19[0-9]))\d{8}$');
+                        bool matched = exp.hasMatch(value);
+                        if (matched == false) {
+                          return '请输入正确手机号';
+                        } else {
+                          return null;
+                        }
+                      },
                       onFieldSubmitted: (value) {},
                     ),
                   ),
